@@ -1,5 +1,3 @@
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use newtype instead of data" #-}
 module Solution (Solution(..)) where
 import           Control.Lens (makeLenses)
 import           Finite       (Finite, unwrap)

@@ -1,8 +1,6 @@
-# aoc22
+# Advent of Code 2022 in Haskell
 
-This is a project in the most fun programming language of the world!
-
-**Haskell**
+My Haskell solutions.
 
 # License
 
