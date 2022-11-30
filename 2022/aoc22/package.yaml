@@ -1,0 +1,90 @@
+version:             0.1.0.0
+author:              "0xmycf"
+name:                "aoc22"
+github:              "0xmycf/aoc22"
+# license:             "CC-BY-NC-SA 4.0" this throws an error
+license:             "CC-BY-NC-SA-4.0"
+synopsis:            "Just a simple project"
+copyright:           "2022 0xmycf"
+homepage:            https://github.com/0xmycf/aoc22#readme
+
+extra-source-files:
+- README.md          
+
+default-extensions:
+  - TypeOperators
+  - DerivingStrategies
+  - DeriveFunctor
+  - DeriveFoldable
+  - DeriveGeneric
+  - DeriveTraversable
+  - ExplicitNamespaces
+  - FlexibleContexts
+  - LambdaCase
+  - TupleSections
+  - BlockArguments
+  - ScopedTypeVariables
+  - MultiWayIf 
+  - EmptyDataDecls
+  - FlexibleInstances
+  - BangPatterns
+  - GADTs
+  - GeneralizedNewtypeDeriving
+  - RankNTypes
+  - RecordWildCards
+  - NamedFieldPuns
+  - OverloadedStrings
+  - EmptyDataDecls
+  - OverloadedLists
+  - TypeFamilies
+  - DataKinds
+  - TemplateHaskell
+
+description:         Please see the README on GitHub at <https://github.com/0xmycf/aoc22#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- mtl
+- transformers
+- matrix
+- containers
+- parsec
+- linear
+- vector
+- text
+- split
+- lens
+# - finitary
+# - finite
+
+ghc-options:
+- -Wall
+
+library:
+  source-dirs: src
+  dependencies:
+  - directory
+
+executables:
+  aoc22-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+
+    dependencies:
+    - aoc22
+
+tests:
+  aoc22-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - aoc22
+    - QuickCheck
