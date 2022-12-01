@@ -9,12 +9,12 @@ main :: IO ()
 main = do
   day <- getArgs
   case day of
-    [x] -> showOnlyOneDay x
-    _   -> showIO registry
+    [x] -> putStrLn ("Solving only day " ++ x ++ ":\n") >> showOnlyOneDay x
+    _   -> putStrLn "Solving all days:\n"                  >> showIO registry
 
 showOnlyOneDay :: String -> IO ()
 showOnlyOneDay day = showIOS entry >>= putStrLn
   where
-  day'  = 1 + fromMaybe 0 (readMaybe day)
+  day'  = fromMaybe 1 (readMaybe day) - 1
   entry = registry ! day'
 

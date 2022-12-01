@@ -12,7 +12,7 @@ parseDayOne input = go splitted []
   splitted = lines input
   go ("":xs) tmp = tmp : go xs []
   go (x:xs) tmp  = go xs (read x : tmp)
-  go [] _        = []
+  go [] t        = [t]
 
 commonDayOne :: [[Int]] -> [Int]
 commonDayOne = fmap sum
