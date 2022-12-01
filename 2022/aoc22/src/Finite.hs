@@ -7,7 +7,6 @@
 -- Source      :  https://hackage.haskell.org/package/finite-typelits-0.1.6.0/docs/Data-Finite.html
 --------------------------------------------------------------------------------
 module Finite (Finite, finite, unwrap) where
-import           Data.Maybe   (fromMaybe)
 import           GHC.Base     (Nat)
 import           GHC.TypeLits (KnownNat, natVal)
 

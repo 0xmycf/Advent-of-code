@@ -569,3 +569,5 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux,visualstudiocode,vim,emacs,haskell,julia,java,gradle,maven,scala,kotlin,rust,clojure,node,purescript,intellij+all
 
 2020/
+input/
+day*.txt

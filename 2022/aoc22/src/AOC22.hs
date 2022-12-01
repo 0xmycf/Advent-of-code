@@ -1,14 +1,18 @@
 {-# OPTIONS_GHC -Wno-unused-imports #-}
 module AOC22 (
-  registery
+    registery
+  , showIO
   ) where
-import           Finite   (finite, unwrap)
-import           Solution (Solution (..))
+import           Control.Applicative (Applicative (liftA2))
+import           Data.Foldable       (foldrM)
+import           Days.DayOne         (day1)
+import           Finite              (finite, unwrap)
+import           Solution            (Solution (..))
 
 
 registery :: Registry
 registery = Registry
-  [
+  [ day1
   ]
 
 -- private -----------------------------------------------------------------------------------------------------------------------
@@ -18,15 +22,16 @@ path = "./input/"
 
 newtype Registry = Registry [Solution]
 
-instance Show Registry where
-  show (Registry rs) = foldr go "" rs
+showIO :: Registry -> IO ()
+showIO (Registry rs) = foldrM go "" rs >>= putStr
+  where
+  newline = "\n" :: String
+  go :: Solution -> String -> IO String
+  go val@Solution{..} acc = liftA2 ansStringBuilder solvea solveb
     where
-    newline = "\n" :: String
-    go :: Solution -> String -> String
-    go val@Solution{..} acc = acc ++ "Day " ++ (show . unwrap . Solution.day $ val) ++ ": " ++ solvea ++ ", " ++ solveb ++ newline
-      where
-      file = path ++ show ( "day" ++ (show . (+1) . unwrap . Solution.day $ val) ++ ".input")
-      parsed = common file
-      solvea = partA parsed
-      solveb = partB parsed
+    file = readFile $ path ++ ( "day" ++ (show . (+1) . unwrap . Solution.day $ val) ++ ".txt")
+    parsed = common <$> file
+    solvea = partA <$> parsed
+    solveb = partB <$> parsed
+    ansStringBuilder ansa ansb = acc ++ "Day " ++ (show . (+1) . unwrap . Solution.day $ val) ++ ": " ++ ansa ++ ", " ++ ansb ++ newline
 
