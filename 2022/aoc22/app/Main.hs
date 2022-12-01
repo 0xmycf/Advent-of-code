@@ -1,7 +1,6 @@
 module Main where
 import           AOC22              (registry, showIO, showIOS, (!))
 import           Data.Maybe         (fromMaybe)
-import           Finite             (finite)
 import           System.Environment (getArgs)
 import           Text.Read          (readMaybe)
 
@@ -16,6 +15,6 @@ main = do
 showOnlyOneDay :: String -> IO ()
 showOnlyOneDay day = showIOS entry >>= putStrLn
   where
-  day'  = fromMaybe 0 (readMaybe day)
+  day'  = 1 + fromMaybe 0 (readMaybe day)
   entry = registry ! day'
 
