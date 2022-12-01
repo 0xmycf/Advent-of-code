@@ -8,7 +8,7 @@ name:           aoc22
 version:        0.1.0.0
 synopsis:       Just a simple project
 description:    Please see the README on GitHub at <https://github.com/0xmycf/aoc22#readme>
-homepage:       https://github.com/0xmycf/aoc22#readme
+homepage:       https://github.com/0xmycf/advent-of-code#readme
 bug-reports:    https://github.com/0xmycf/aoc22/issues
 author:         0xmycf
 maintainer:     0xmycf
@@ -73,6 +73,7 @@ library
     , linear
     , matrix
     , mtl
+    , neat-interpolation
     , parsec
     , split
     , text
@@ -125,6 +126,7 @@ executable aoc22-exe
     , linear
     , matrix
     , mtl
+    , neat-interpolation
     , parsec
     , split
     , text
@@ -175,10 +177,12 @@ test-suite aoc22-test
     , aoc22
     , base >=4.7 && <5
     , containers
+    , hspec
     , lens
     , linear
     , matrix
     , mtl
+    , neat-interpolation
     , parsec
     , split
     , text

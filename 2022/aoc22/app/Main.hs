@@ -1,5 +1,6 @@
 module Main where
-import           AOC22              (registry, showIO, showIOS, (!))
+import           AOC22              (registry, solveRegistry, solveSolution,
+                                     (!))
 import           Data.Maybe         (fromMaybe)
 import           System.Environment (getArgs)
 import           Text.Read          (readMaybe)
@@ -10,10 +11,10 @@ main = do
   day <- getArgs
   case day of
     [x] -> putStrLn ("Solving only day " ++ x ++ ":\n") >> showOnlyOneDay x
-    _   -> putStrLn "Solving all days:\n"                  >> showIO registry
+    _   -> putStrLn "Solving all days:\n"               >> solveRegistry registry
 
 showOnlyOneDay :: String -> IO ()
-showOnlyOneDay day = showIOS entry >>= putStrLn
+showOnlyOneDay day = solveSolution entry >>= putStrLn
   where
   day'  = fromMaybe 1 (readMaybe day) - 1
   entry = registry ! day'

@@ -1,8 +1,8 @@
 {-# OPTIONS_GHC -Wno-unused-imports #-}
 module AOC22 (
     registry
-  , showIO
-  , showIOS
+  , solveRegistry
+  , solveSolution
   , (!)
   ) where
 import           Control.Applicative (Applicative (liftA2))
@@ -10,6 +10,7 @@ import           Data.Foldable       (foldrM)
 import           Days.DayOne         (day1)
 import           Finite              (Finite, finite, unwrap)
 import           Solution            (Solution (..))
+import           Text.Read           (Lexeme (String))
 
 
 -- | Register all days in here -------------------------------------
@@ -19,15 +20,15 @@ registry = Registry
   ]
 
 -- | Sovles and prints out all Soltutions in the provided registry
-showIO :: Registry -> IO ()
-showIO (Registry rs) = foldrM go "" rs >>= putStr
+solveRegistry :: Registry -> IO ()
+solveRegistry (Registry rs) = foldrM go "" rs >>= putStr
   where
   go :: Solution -> String -> IO String
-  go sol acc = fmap (acc ++) (showIOS sol)
+  go sol acc = fmap (acc ++) (solveSolution sol)
 
 -- | Sovles and prints out the provided Soltution
-showIOS :: Solution -> IO String
-showIOS val@Solution{..} = liftA2 ansStringBuilder solvea solveb
+solveSolution :: Solution -> IO String
+solveSolution val@Solution{..} = liftA2 ansStringBuilder solvea solveb
   where
   newline = "\n" :: String
   file = readFile $ path ++ ( "day" ++ (show . (+1) . unwrap . Solution.day $ val) ++ ".txt")
@@ -49,3 +50,4 @@ path :: FilePath
 path = "./input/"
 
 newtype Registry = Registry [Solution]
+
