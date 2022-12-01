@@ -7,12 +7,12 @@ day1 :: Solution
 day1 = Solution {day=finite 0, partA=show.partA1, partB=show.partB1, common=commonDayOne.parseDayOne}
 
 parseDayOne  :: String -> [[Int]]
-parseDayOne input = go splitted [] []
+parseDayOne input = go splitted []
   where
   splitted = lines input
-  go ("":xs) tmp acc = go xs [] (tmp : acc)
-  go (x:xs) tmp acc  = go xs (read x : tmp) acc
-  go [] _ acc        = acc
+  go ("":xs) tmp = tmp : go xs []
+  go (x:xs) tmp  = go xs (read x : tmp)
+  go [] _        = []
 
 commonDayOne :: [[Int]] -> [Int]
 commonDayOne = fmap sum

@@ -7,8 +7,8 @@
 -- Source      :  https://hackage.haskell.org/package/finite-typelits-0.1.6.0/docs/Data-Finite.html
 --------------------------------------------------------------------------------
 module Finite (Finite, finite, unwrap) where
-import           GHC.Base     (Nat)
 import           GHC.TypeLits (KnownNat, natVal)
+import           GHC.TypeNats (Nat)
 
 -- | Finite number range for Int(egers)
 -- Ex. Finite 2 <=> {0 , 1} ...
@@ -19,8 +19,7 @@ finite :: KnownNat n => Integer -> Finite n
 finite x = result
     where
     result = if x < natVal result && x >= 0
-              then Finite x
-              else error $ show x ++ " Out of bounds for " ++ show (natVal result)
+              then Finite x else error $ show x ++ " Out of bounds for " ++ show (natVal result)
 
 -- | Convert a 'Finite' into the corresponding 'Integer'.
 unwrap :: Finite n -> Integer
@@ -42,8 +41,7 @@ instance KnownNat a => Num (Finite a) where
   abs = id
   -- signum can only be 0 or 1
   signum = flip lift signum
-  fromInteger = finite
-  -- | Cannot negate a natural number
+  fromInteger = finite -- | Cannot negate a natural number
   negate f = if signum f > 0
               then error $ "Cannot negate positive number since, the inverse (+) would be out of bounds ("
                             ++ (show . negate . unwrap)f
