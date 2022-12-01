@@ -41,7 +41,8 @@ instance KnownNat a => Num (Finite a) where
   abs = id
   -- signum can only be 0 or 1
   signum = flip lift signum
-  fromInteger = finite -- | Cannot negate a natural number
+  fromInteger = finite
+  -- | Cannot negate a natural number
   negate f = if signum f > 0
               then error $ "Cannot negate positive number since, the inverse (+) would be out of bounds ("
                             ++ (show . negate . unwrap)f

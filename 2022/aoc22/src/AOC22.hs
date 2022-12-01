@@ -35,7 +35,7 @@ solveSolution val@Solution{..} = liftA2 ansStringBuilder solvea solveb
   parsed = common <$> file
   solvea = partA <$> parsed
   solveb = partB <$> parsed
-  ansStringBuilder ansa ansb = "Day " ++ (show . (+1) . unwrap . Solution.day $ val) ++ ": " ++ ansa ++ ", " ++ ansb ++ newline
+  ansStringBuilder ansa ansb = "Day " ++ (show . (+1) . unwrap . Solution.day $ val) ++ ": " ++ show ansa ++ ", " ++ show ansb ++ newline
 
 -- | Helper function to access Solutions by day
 -- if the provided int is out of bounds it will default to the first day

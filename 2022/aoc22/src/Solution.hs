@@ -2,16 +2,16 @@ module Solution (Solution(..)) where
 import           Control.Lens (makeLenses)
 import           Finite       (Finite, unwrap)
 
-data Solution = forall a. (Show a) => Solution
+data Solution = forall a o. (Show o) => Solution
                 {
                     -- | The Day indexed by 0
                     day    :: Finite 25
                 ,
                     -- | the solver for part 1
-                    partA  :: a -> String
+                    partA  :: a -> o
                 ,
                     -- | the solver for part 2
-                    partB  :: a -> String
+                    partB  :: a -> o
                 ,
                     -- | parsing and common calculations between part A and B
                     common :: String -> a
