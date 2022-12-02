@@ -15,10 +15,10 @@ main = hspec $ do
       pb `shouldBe` "45000"
 
   describe "Day Two" $ do
-    -- it "Part A -- 15" $ do
-    --   (pa, _) <- solveDay day2
-    --   pa `shouldBe` "15"
-    it "Part B -- 45000" $ do
+    it "Part A -- 15" $ do
+      (pa, _) <- solveDay day2
+      pa `shouldBe` "15"
+    it "Part B -- 12" $ do
       (_, pb) <- solveDay day2
       pb `shouldBe` "12"
 
