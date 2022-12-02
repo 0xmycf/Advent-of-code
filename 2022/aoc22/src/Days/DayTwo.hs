@@ -1,7 +1,25 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE FunctionalDependencies #-}
+{-# LANGUAGE MultiParamTypeClasses  #-}
 module Days.DayTwo (day2) where
 import           Finite   (finite)
 import           Solution (Solution (..))
+
+{-
+  First I implemented a naive solution that checks all cases, but Rock Paper Scissors
+  is just R3 = {0, 1, 2}. Which means that you can find all solutions using (+) in R3,
+  which is just simply normal (+) mod 3.
+
+  This comes in handy, since Haskell provies @fromEnum@ and @toEnum@ functions to map between
+  R3 and Move and Symbol.
+
+  For any x, "x + 1 mod 3" x gets beaten (Rock, Paper and Paper beats Rock)
+  For any x, "y = x + 2 mod 3" x beats y (Rock, Paper, Scissors and Rock beats Scissors)
+
+  Could probably make a Semigroup instance too.
+
+  I mindlessly used MultiParamTypeClasses although I dont know if that was at all neccessary
+  but it worked nicely.
+-}
 
 day2 :: Solution
 day2 = Solution {day=finite 1, partA=flip partA2 score, partB=partB2, common=commonDayTwo.parseDayTwo}
@@ -26,7 +44,7 @@ scoreSymbol Rock     = 1
 scoreSymbol Paper    = 2
 scoreSymbol Scissors = 3
 
-class Scorable a b where
+class Scorable a b | a -> b where
   score :: a -> b
 
 data Round a = Round
@@ -64,7 +82,7 @@ commonDayTwo :: [Round Move] -> [Round Move]
 commonDayTwo = id
 
 partA2 :: [Round Move] -> (Round Move -> (Int, Int)) -> Int
-partA2 rnds mapper = fst . foldr (\(a,b) (x,y) -> (a+x, b+y)) (0,0) $ (fmap mapper rnds :: [(Int, Int)])
+partA2 rnds mapper = fst . foldr (\(a,b) (x,y) -> (a+x, b+y)) (0,0) $ fmap mapper rnds
 
 partB2 :: [Round Move] -> Int
 partB2 = flip partA2 mapper
