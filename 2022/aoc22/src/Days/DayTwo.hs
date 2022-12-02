@@ -84,10 +84,18 @@ instance Scorable Move Int where
 instance (Enum b, Scorable b Int) => Scorable (Round b) (Int, Int) where
   score (Round you op) = (score you + a, score op + b)
     where
-    (a,b) = let y = fromEnum you
-                o = fromEnum op
-             in if | y == o               -> (3,3)
-                   | (y + 1) `mod` 3 == o -> (0,6)
-                   | (y + 2) `mod` 3 == o -> (6,0)
-                   | otherwise            -> error "Not in bounds of Enum"
+    (a,b) = case (fromEnum you - fromEnum op) `mod` 3 of
+              0 -> (3,3)
+              1 -> (6,0)
+              2 -> (0,6)
+              _ -> error "unreachable"
+
+{-
+  - | R | P | S
+  R | 0 | 2 | 1
+  ---------------
+  P | 1 | 0 | 2            => 0 == Draw
+  ---------------             1 == Win  for lhs
+  S | 2 | 1 | 0               2 == Loss for rhs
+-}
 
