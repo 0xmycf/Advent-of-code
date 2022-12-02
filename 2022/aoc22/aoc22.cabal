@@ -27,6 +27,7 @@ library
   exposed-modules:
       AOC22
       Days.DayOne
+      Days.DayTwo
       Finite
       Lib
       Solution

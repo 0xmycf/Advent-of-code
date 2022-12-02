@@ -8,6 +8,7 @@ module AOC22 (
 import           Control.Applicative (Applicative (liftA2))
 import           Data.Foldable       (foldrM)
 import           Days.DayOne         (day1)
+import           Days.DayTwo         (day2)
 import           Finite              (Finite, finite, unwrap)
 import           Solution            (Solution (..))
 import           Text.Read           (Lexeme (String))
@@ -17,6 +18,7 @@ import           Text.Read           (Lexeme (String))
 registry :: Registry
 registry = Registry
   [ day1
+  , day2
   ]
 
 -- | Sovles and prints out all Soltutions in the provided registry
