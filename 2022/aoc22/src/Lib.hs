@@ -7,6 +7,7 @@ import           Data.Functor.Identity (Identity)
 
 import           Data.Map              (Map)
 
+import           Data.Bifunctor        (Bifunctor, bimap)
 import           Data.List             (group, sort)
 import qualified Data.Map              as Map
 import           Linear                (V2 (V2))
@@ -76,3 +77,20 @@ getNine (V2 a b) = [V2 x y | x <- [a-1, a, a+1], y <- [b-1, b, b+1]]
 
 updiv :: Integral a => a -> a -> a
 updiv a b = if a `mod` b == 0 then a `div` b else (a `div` b) + 1
+
+groupN :: Int -> [a] -> [[a]]
+groupN _ [] = []
+groupN n l
+  | n > 0     = take n l : groupN n (drop n l)
+  | otherwise = error "Negative or zero n"
+
+-- figure out later
+--toupleN :: (Traversable t) => Int -> t a -> t (a, a, a)
+-- toupleN :: Int -> [c] -> Maybe [(c, c, c)]
+-- toupleN _ [] = Just []
+-- toupleN n (a:b:c:xs)
+--   | n > 0     = sequence ((a,b,c) : toupleN n xs)
+-- toupleN _ _ = Nothing
+
+both :: Bifunctor p => (c -> d) -> p c c -> p d d
+both f = bimap f f
