@@ -51,7 +51,7 @@ Rock, Paper, Scissors can be mapped to 0, 1, 2.
 
 With this updated version we just need to figure out what operation we apply on the 
     two inputs.
-  Because this is a (Semi)group we need a function of type `R3 x R3 -> R3` 
+  Because this is a (Semi)group[^1] we need a function of type `R3 x R3 -> R3` 
     (meaning it takes two inputs from `R3 = {0,1,2}` and produces a `R3` value).
 
   A simple pick would be `(+)` with modulos 3:
@@ -181,3 +181,15 @@ For part b
 
   I + II = full_score
 ```
+
+[^1]: The function of our choosing must actually be associative too, but `(-)` isn't.
+  That means `((-),{0,1,2})` is *not* a Semigroup.
+  Another way to look at this problem is algebraically:  
+
+  Lets name our function `(<>): R3 x R3 -> R3`
+
+    `If Rock  <> Rock  = Draw then`
+    `   Paper <> Paper = Draw and `
+    `   Sciss <> Sciss = Draw     `
+
+    `  ==> Rock <> Rock = Paper <> Paper ==> (<>) == (-) and Draw == 0`
