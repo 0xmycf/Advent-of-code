@@ -1,8 +1,9 @@
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE MultiParamTypeClasses  #-}
 module Days.DayTwo (day2) where
-import           Finite   (finite)
-import           Solution (Solution (..))
+import           Data.Bifunctor (bimap)
+import           Finite         (finite)
+import           Solution       (Solution (..))
 
 {-
   First I implemented a naive solution that checks all cases, but Rock Paper Scissors
@@ -19,18 +20,23 @@ import           Solution (Solution (..))
 
   I mindlessly used MultiParamTypeClasses although I dont know if that was at all neccessary
   but it worked nicely.
+
+  I changed this to what I worked with in the reflectoin document
+  Last git hash with old solution:
+
+    76c78ca88ee5d91754dec4f804977de16d870db2
 -}
 
 day2 :: Solution
-day2 = Solution {day=finite 1, partA=flip partA2 score, partB=partB2, common=parseDayTwo}
+day2 = Solution {day=finite 1, partA=flip partA2 scoreA, partB= partB2, common=parseDayTwo}
 
 -- | A for Rock, B for Paper, and C for Scissors
 -- X for Rock, Y for Paper, and Z for Scissors
-parseDayTwo  :: String -> [Round Move]
+parseDayTwo  :: String -> [Round]
 parseDayTwo input = splitted
   where
   splitted = toWho . words <$> lines input
-  toWho (op:you:_) = Round (read you) (read' op)
+  toWho (op:you:_) = bimap fromEnum fromEnum (read' op, read @Move you)
     where
     read' "A" = Rock
     read' "B" = Paper
@@ -38,64 +44,26 @@ parseDayTwo input = splitted
     read' _   = error "faulty string"
   toWho _          = error "faulty input"
 
-partA2 :: [Round Move] -> (Round Move -> (Int, Int)) -> Int
-partA2 rnds mapper = fst . foldr (\(a,b) (x,y) -> (a+x, b+y)) (0,0) $ fmap mapper rnds
+partA2 :: [Round] -> (Round -> Int) -> Int
+partA2 rnds mapper = sum $ fmap mapper rnds
 
-partB2 :: [Round Move] -> Int
+scoreA :: Round -> Int
+scoreA (b, a) = ((a - b + 1) `mod` 3) * 3 + (a + 1)
+
+partB2 :: [Round] -> Int
 partB2 = flip partA2 mapper
   where
-  mapper :: Round Move -> (Int, Int)
-  mapper rnd = score $ fmap toP2 rnd
-    where
-    -- | X means you need to lose,
-    --   Y means you need to end the round in a draw, and
-    --   Z means you need to win
-    toP2 :: Move -> Symbol
-    toP2 m = let o = fromEnum $ _op rnd in
-             case m of
-              X -> toEnum $ (o + 2) `mod` 3
-              Y -> _op rnd
-              Z -> toEnum $ (o + 1) `mod` 3
+  -- In my reflecion I wrote that
+  -- ((b + o ) `mod` 3) + 1 + ((o + 1) `mod` 3) * 3 solves part b,
+  -- this is not fully true: because the XYZ do not map to our DWL perfectly, we need to apply the offset -1
+  mapper :: Round -> Int
+  mapper (b, o) = ((b + o - 1) `mod` 3) + 1 + (o * 3)
 
-
-data Round a = Round
-  { _you :: a
-  , _op  :: Symbol
-  } deriving (Show, Functor)
+type Round = (Int, Int)
 
 data Move = X | Y | Z
   deriving (Show, Enum, Eq, Read)
 
-data Symbol = Rock | Paper | Scissors
+data Shape = Rock | Paper | Scissors
   deriving (Show, Enum, Eq)
-
-mToS :: Move -> Symbol
-mToS = toEnum . fromEnum
-
-class Scorable a b | a -> b where
-  score :: a -> b
-
-instance Scorable Symbol Int where
-    score = (+1) . fromEnum
-
-instance Scorable Move Int where
-  score = score . mToS
-
-instance (Enum b, Scorable b Int) => Scorable (Round b) (Int, Int) where
-  score (Round you op) = (score you + a, score op + b)
-    where
-    (a,b) = case (fromEnum you - fromEnum op) `mod` 3 of
-              0 -> (3,3)
-              1 -> (6,0)
-              2 -> (0,6)
-              _ -> error "unreachable"
-
-{-
-  - | R | P | S
-  R | 0 | 2 | 1
-  ---------------
-  P | 1 | 0 | 2            => 0 == Draw
-  ---------------             1 == Win  for lhs
-  S | 2 | 1 | 0               2 == Loss for rhs
--}
 
