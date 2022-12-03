@@ -1,0 +1,194 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.35.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           aoc19hs
+version:        0.1.0.0
+synopsis:       Solving AoC 2019
+description:    Please see the README on GitHub at <https://github.com/0xmycf/aoc22#readme>
+homepage:       https://github.com/0xmycf/advent-of-code#readme
+bug-reports:    https://github.com/0xmycf/aoc22/issues
+author:         0xmycf
+maintainer:     0xmycf
+copyright:      2022 0xmycf
+license:        CC-BY-NC-SA-4.0
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/0xmycf/aoc22
+
+library
+  exposed-modules:
+      AOC19
+      Days.Day04
+      Finite
+      Lib
+      Solution
+  other-modules:
+      Paths_aoc19hs
+  autogen-modules:
+      Paths_aoc19hs
+  hs-source-dirs:
+      src
+  default-extensions:
+      TypeOperators
+      DerivingStrategies
+      DeriveFunctor
+      DeriveFoldable
+      DeriveGeneric
+      DeriveTraversable
+      ExplicitNamespaces
+      FlexibleContexts
+      LambdaCase
+      TupleSections
+      BlockArguments
+      ScopedTypeVariables
+      MultiWayIf
+      EmptyDataDecls
+      FlexibleInstances
+      BangPatterns
+      GADTs
+      GeneralizedNewtypeDeriving
+      RankNTypes
+      RecordWildCards
+      NamedFieldPuns
+      OverloadedStrings
+      EmptyDataDecls
+      OverloadedLists
+      TypeFamilies
+      DataKinds
+      TemplateHaskell
+      TypeApplications
+  ghc-options: -Wall
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , directory
+    , lens
+    , linear
+    , matrix
+    , mtl
+    , neat-interpolation
+    , parsec
+    , split
+    , text
+    , transformers
+    , vector
+  default-language: Haskell2010
+
+executable aoc22hs-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc19hs
+  autogen-modules:
+      Paths_aoc19hs
+  hs-source-dirs:
+      app
+  default-extensions:
+      TypeOperators
+      DerivingStrategies
+      DeriveFunctor
+      DeriveFoldable
+      DeriveGeneric
+      DeriveTraversable
+      ExplicitNamespaces
+      FlexibleContexts
+      LambdaCase
+      TupleSections
+      BlockArguments
+      ScopedTypeVariables
+      MultiWayIf
+      EmptyDataDecls
+      FlexibleInstances
+      BangPatterns
+      GADTs
+      GeneralizedNewtypeDeriving
+      RankNTypes
+      RecordWildCards
+      NamedFieldPuns
+      OverloadedStrings
+      EmptyDataDecls
+      OverloadedLists
+      TypeFamilies
+      DataKinds
+      TemplateHaskell
+      TypeApplications
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aoc19hs
+    , base >=4.7 && <5
+    , containers
+    , lens
+    , linear
+    , matrix
+    , mtl
+    , neat-interpolation
+    , parsec
+    , split
+    , text
+    , transformers
+    , vector
+  default-language: Haskell2010
+
+test-suite aoc22hs-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_aoc19hs
+  autogen-modules:
+      Paths_aoc19hs
+  hs-source-dirs:
+      test
+  default-extensions:
+      TypeOperators
+      DerivingStrategies
+      DeriveFunctor
+      DeriveFoldable
+      DeriveGeneric
+      DeriveTraversable
+      ExplicitNamespaces
+      FlexibleContexts
+      LambdaCase
+      TupleSections
+      BlockArguments
+      ScopedTypeVariables
+      MultiWayIf
+      EmptyDataDecls
+      FlexibleInstances
+      BangPatterns
+      GADTs
+      GeneralizedNewtypeDeriving
+      RankNTypes
+      RecordWildCards
+      NamedFieldPuns
+      OverloadedStrings
+      EmptyDataDecls
+      OverloadedLists
+      TypeFamilies
+      DataKinds
+      TemplateHaskell
+      TypeApplications
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck
+    , aoc19hs
+    , base >=4.7 && <5
+    , containers
+    , hspec
+    , lens
+    , linear
+    , matrix
+    , mtl
+    , neat-interpolation
+    , parsec
+    , split
+    , text
+    , transformers
+    , vector
+  default-language: Haskell2010
