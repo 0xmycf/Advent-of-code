@@ -39,6 +39,7 @@ default-extensions:
   - TypeFamilies
   - DataKinds
   - TemplateHaskell
+  - TypeApplications
 
 description:         Please see the README on GitHub at <https://github.com/0xmycf/aoc22#readme>
 

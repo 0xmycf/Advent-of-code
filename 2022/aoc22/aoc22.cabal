@@ -66,6 +66,7 @@ library
       TypeFamilies
       DataKinds
       TemplateHaskell
+      TypeApplications
   ghc-options: -Wall
   build-depends:
       base >=4.7 && <5
@@ -119,6 +120,7 @@ executable aoc22-exe
       TypeFamilies
       DataKinds
       TemplateHaskell
+      TypeApplications
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aoc22
@@ -173,6 +175,7 @@ test-suite aoc22-test
       TypeFamilies
       DataKinds
       TemplateHaskell
+      TypeApplications
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck
