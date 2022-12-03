@@ -6,9 +6,12 @@ import           Data.Foldable         (toList)
 import           Data.Functor.Identity (Identity)
 
 import           Data.Map              (Map)
+import           Data.Set              (Set)
+import qualified Data.Set              as Set
 
 import           Data.Bifunctor        (Bifunctor, bimap)
 import           Data.List             (group, sort)
+import qualified Data.List             as List
 import qualified Data.Map              as Map
 import           Linear                (V2 (V2))
 import qualified Text.Parsec           as Parsec
@@ -78,19 +81,49 @@ getNine (V2 a b) = [V2 x y | x <- [a-1, a, a+1], y <- [b-1, b, b+1]]
 updiv :: Integral a => a -> a -> a
 updiv a b = if a `mod` b == 0 then a `div` b else (a `div` b) + 1
 
+-- | unsafe split of a list into chunks of provided size
+-- throws an error if n < 1
 groupN :: Int -> [a] -> [[a]]
 groupN _ [] = []
 groupN n l
   | n > 0     = take n l : groupN n (drop n l)
   | otherwise = error "Negative or zero n"
 
--- figure out later
---toupleN :: (Traversable t) => Int -> t a -> t (a, a, a)
--- toupleN :: Int -> [c] -> Maybe [(c, c, c)]
--- toupleN _ [] = Just []
--- toupleN n (a:b:c:xs)
---   | n > 0     = sequence ((a,b,c) : toupleN n xs)
--- toupleN _ _ = Nothing
+-- | safely splits a list into chunks of the provided Int = n
+-- returns Nothing if the list is not evenly divisible by n or n < 1
+groupNs :: Int -> [a] -> Maybe [[a]]
+groupNs n l
+  |  n > 0
+  && length l `mod` n == 0  = Just $ take n l : groupN n (drop n l)
+  | otherwise               = Nothing
 
+-- | converts a list of exactly 2 elements into a tuple
+-- returns Nothing if the list is bigger or smaller than 2
+tuple2 :: Int -> [a] -> Maybe (a, a)
+tuple2 n [a,b]
+ | n > 0        = Just (a,b)
+tuple2 _ _      = Nothing
+
+-- | converts a list of exactly 3 elements into a tuple
+-- returns Nothing if the list is bigger or smaller than 3
+tuple3 :: Int -> [a] -> Maybe (a, a, a)
+tuple3 n [a,b,c]
+ | n > 0        = Just (a,b,c)
+tuple3 _ _      = Nothing
+
+-- | shorthand for bimap f f
+-- same as join bimap
 both :: Bifunctor p => (c -> d) -> p c c -> p d d
 both f = bimap f f
+
+-- | Same as @Set.unions@ for Sets
+intersections :: Ord a => [Set a] -> Set a
+intersections = List.foldl1' Set.intersection
+
+-- | Inline  @Set.intersection@
+(/\) :: Ord a => Set a -> Set a -> Set a
+(/\) = Set.intersection
+
+-- | Inline  @Set.union@
+(\/) :: Ord a => Set a -> Set a -> Set a
+(\/) = Set.union
