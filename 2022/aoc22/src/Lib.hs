@@ -99,17 +99,15 @@ groupNs n l
 
 -- | converts a list of exactly 2 elements into a tuple
 -- returns Nothing if the list is bigger or smaller than 2
-tuple2 :: Int -> [a] -> Maybe (a, a)
-tuple2 n [a,b]
- | n > 0        = Just (a,b)
-tuple2 _ _      = Nothing
+tuple2 :: [a] -> Maybe (a, a)
+tuple2 [a,b] = Just (a,b)
+tuple2 _     = Nothing
 
 -- | converts a list of exactly 3 elements into a tuple
 -- returns Nothing if the list is bigger or smaller than 3
-tuple3 :: Int -> [a] -> Maybe (a, a, a)
-tuple3 n [a,b,c]
- | n > 0        = Just (a,b,c)
-tuple3 _ _      = Nothing
+tuple3 :: [a] -> Maybe (a, a, a)
+tuple3 [a,b,c] = Just (a,b,c)
+tuple3 _       = Nothing
 
 -- | shorthand for bimap f f
 -- same as join bimap
