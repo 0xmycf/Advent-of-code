@@ -184,7 +184,7 @@ For part b
 
 [^1]: The function of our choosing must actually be associative too, but `(-)` isn't.
   That means `((-),{0,1,2})` is *not* a Semigroup.
-  Another way to look at this problem is algebraically:  
+  Another way to look at this problem is algebraically:
 
   Lets name our function `(<>): R3 x R3 -> R3`
 
