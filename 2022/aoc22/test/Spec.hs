@@ -1,4 +1,5 @@
 import           Days.Day03  (day3)
+import           Days.Day04  (day4)
 import           Days.DayOne (day1)
 import           Days.DayTwo (day2)
 import           Finite      (unwrap)
@@ -31,6 +32,13 @@ main = hspec $ do
       (_, pb) <- solveDay day3
       pb `shouldBe` "70"
 
+  describe "Day 4" $ do
+    it "Part A -- 2" $ do
+      (pa, _) <- solveDay day4
+      pa `shouldBe` "2"
+    it "Part B -- 4" $ do
+      (_, pb) <- solveDay day4
+      pb `shouldBe` "4"
 
 solveDay :: Solution -> IO (String, String)
 solveDay val@Solution{..} = do
