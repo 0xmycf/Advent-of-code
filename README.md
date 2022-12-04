@@ -8,7 +8,8 @@ Isn't it the most wonderful and joyful time of the year?
 
 - [Day 1](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/DayOne.hs) | No Reflection
 - [Day 2](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/DayTwo.hs) | [Reflection](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/reflection/day2.md)
-- [Day 2](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day03.hs)  | No Reflection
+- [Day 3](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day03.hs)  | No Reflection
+- [Day 4](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day04.hs)  | No Reflection
 
 Everything is CC-BY-SA-NC unless otherwise specified.
 Any used library or package might have their own licence.
