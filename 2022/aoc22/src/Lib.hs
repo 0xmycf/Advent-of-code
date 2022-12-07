@@ -18,6 +18,9 @@ import qualified Text.Parsec           as Parsec
 
 type Point = V2 Int
 
+type IdentityParser stream userstate returntype = Parsec.ParsecT stream userstate Identity returntype
+type Parser state returntype = Parsec.ParsecT String state Identity returntype
+
 getLines :: FilePath -> IO [String]
 getLines = fmap lines . readFile
 
