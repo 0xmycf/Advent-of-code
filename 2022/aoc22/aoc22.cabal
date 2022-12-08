@@ -31,6 +31,7 @@ library
       Days.Day05
       Days.Day06
       Days.Day07
+      Days.Day08
       Days.DayOne
       Days.DayTwo
       Finite
@@ -71,6 +72,7 @@ library
       DataKinds
       TemplateHaskell
       TypeApplications
+      NumericUnderscores
   ghc-options: -Wall
   build-depends:
       base >=4.7 && <5
@@ -125,6 +127,7 @@ executable aoc22-exe
       DataKinds
       TemplateHaskell
       TypeApplications
+      NumericUnderscores
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aoc22
@@ -180,6 +183,7 @@ test-suite aoc22-test
       DataKinds
       TemplateHaskell
       TypeApplications
+      NumericUnderscores
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck

@@ -9,6 +9,7 @@ My Haskell solutions.
 - [Day 5](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day05.hs)  | No Reflection (But the parsing took too long lol) (also covid edition :(  )
 - [Day 6](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day06.hs)  | No Reflection
 - [Day 7](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day07.hs)  | No Reflection
+- [Day 8](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day08.hs)  | For some reason I did not want to use brainpower on this one, so its not really nice.
 
 # License
 

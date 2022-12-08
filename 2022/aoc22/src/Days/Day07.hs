@@ -113,7 +113,7 @@ calcTotalSizes :: [Command] -> Map String Int
 calcTotalSizes cs = foldr addSize initMap ls
   where
   initMap = M.fromList . (`zip` repeat 0) . fmap (\(Cd dir) -> dir) . filter (\case {Cd _ -> True; _ -> False}) $ cs
-  selfMap = M.fromList . zip (fmap (\(Cd dir) -> dir) ls) $ ls
+  selfMap = M.fromList . zip (fmap (\(Ls _ dir) -> dir) ls) $ ls
   ls      = filter (\case {Ls _ _ -> True; _ -> False}) cs
   addSize :: Command -> Map String Int -> Map String Int
   addSize (Ls contents key) mp = let tsize = sum . map (\case

@@ -39,11 +39,11 @@ commaListParser s = fmap (fmap read) . parse (Parsec.sepBy (Parsec.many Parsec.d
 -- | Parses a grid
 --   Grid is indexed like a matrix
 --   Grid looks like this:
---   (1,1) (1,2) (1,3) ...
---   (2,1) (2,2) (2,3) ...
+--   (0,0) (0,1) (0,2) ...
+--   (1,0) (1,1) (1,2) ...
 --   ...
 gridParser :: (Char -> a) -> [String] -> Map Point a
-gridParser f = Map.fromList . concat . mapIdx (\a idx1 -> mapIdx (\b idx2 -> (V2 (idx1 + 1) (idx2 + 1), f b)) a)
+gridParser f = Map.fromList . concat . mapIdx (\a idx1 -> mapIdx (\b idx2 -> (V2 idx1 idx2, f b)) a)
 
 -- | Creates a bitmask out of the char using the ord function
 -- | ord 'a' = 97
@@ -111,6 +111,9 @@ tuple2 _     = Nothing
 tuple3 :: [a] -> Maybe (a, a, a)
 tuple3 [a,b,c] = Just (a,b,c)
 tuple3 _       = Nothing
+
+takeWhileOneMore :: (a -> Bool) -> [a] -> [a]
+takeWhileOneMore p = foldr (\x ys -> if p x then x:ys else [x]) []
 
 -- | shorthand for bimap f f
 -- same as join bimap
