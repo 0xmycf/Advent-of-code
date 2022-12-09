@@ -72,17 +72,20 @@ main = hspec $ do
     it "Part A -- 13" $ do
       (pa, _) <- solveDay day9
       pa `shouldBe` "13"
-    it "Part B -- ???" $ do
-      (_, pb) <- solveDay day9
-      pb `shouldBe` "???"
+    it "Part B -- 36" $ do
+      (_, pb) <- (solveDayWith "./input/test/b") day9
+      pb `shouldBe` "36"
 
 solveDay :: Solution -> IO (String, String)
-solveDay val@Solution{..} = do
+solveDay = solveDayWith testPath
+
+solveDayWith :: FilePath -> Solution -> IO (String, String)
+solveDayWith fp val@Solution{..} = do
                              s1 <- solvea
                              s2 <- solveb
                              pure (show s1, show s2)
   where
-  file = readFile $ testPath ++ ( "day" ++ (show . (+1) . unwrap . Solution.day $ val) ++ ".txt")
+  file = readFile $ fp ++ ( "day" ++ (show . (+1) . unwrap . Solution.day $ val) ++ ".txt")
   parsed = common <$> file
   solvea = partA  <$> parsed
   solveb = partB  <$> parsed

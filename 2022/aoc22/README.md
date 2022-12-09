@@ -1,6 +1,6 @@
 # Advent of Code 2022 in Haskell
 
-My Haskell solutions.
+My Haskell solutions (Spoiler ahead).
 
 - [Day 1](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/DayOne.hs) | No Reflection
 - [Day 2](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/DayTwo.hs) | [Reflection](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/reflection/day2.md)
@@ -10,6 +10,7 @@ My Haskell solutions.
 - [Day 6](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day06.hs)  | No Reflection
 - [Day 7](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day07.hs)  | No Reflection
 - [Day 8](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day08.hs)  | For some reason I did not want to use brainpower on this one, so its not really nice.
+- [Day 9](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day09.hs)  | This Day took me too long.. First my snake was too short and then I couldn't figure out where I would need the sgn function... A little bug chocked me almost to death today...
 
 # License
 
