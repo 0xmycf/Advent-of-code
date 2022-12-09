@@ -1,5 +1,6 @@
 {-# OPTIONS_GHC -Wno-unused-local-binds #-}
 {-# OPTIONS_GHC -Wno-unused-matches #-}
+{-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}
 module Days.Day05 (day5) where
 import           Control.Arrow      ((&&&))
 import           Data.IntMap.Strict (IntMap)

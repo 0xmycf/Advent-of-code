@@ -13,6 +13,7 @@ import           Days.Day05          (day5)
 import           Days.Day06          (day6)
 import           Days.Day07          (day7)
 import           Days.Day08          (day8)
+import           Days.Day09          (day9)
 import           Days.DayOne         (day1)
 import           Days.DayTwo         (day2)
 import           Finite              (Finite, finite, unwrap)
@@ -31,6 +32,7 @@ registry = Registry
   , day6
   , day7
   , day8
+  , day9
   ]
 
 -- | Sovles and prints out all Soltutions in the provided registry
