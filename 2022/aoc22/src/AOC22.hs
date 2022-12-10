@@ -1,4 +1,3 @@
-{-# OPTIONS_GHC -Wno-unused-imports #-}
 module AOC22 (
     registry
   , solveRegistry
@@ -14,11 +13,11 @@ import           Days.Day06          (day6)
 import           Days.Day07          (day7)
 import           Days.Day08          (day8)
 import           Days.Day09          (day9)
+import           Days.Day10          (day10)
 import           Days.DayOne         (day1)
 import           Days.DayTwo         (day2)
-import           Finite              (Finite, finite, unwrap)
+import           Finite              (unwrap)
 import           Solution            (Solution (..))
-import           Text.Read           (Lexeme (String))
 
 
 -- | Register all days in here -------------------------------------
@@ -33,6 +32,7 @@ registry = Registry
   , day7
   , day8
   , day9
+  , day10
   ]
 
 -- | Sovles and prints out all Soltutions in the provided registry

@@ -15,6 +15,7 @@ Isn't it the most wonderful and joyful time of the year?
 - [Day 7](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day07.hs)  | No Reflection
 - [Day 8](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day08.hs)  | For some reason I did not want to use brainpower on this one, so its not really nice.
 - [Day 9](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day09.hs)  | This Day took me too long.. First my snake was too short and then I couldn't figure out where I would need the sgn function... A little bug chocked me almost to death today...
+- [Day 10](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day10.hs)  | Tried to use lenses today, went well but the solution is really verbose. (Part B can only be run from ghci)
 
 Everything is CC-BY-SA-NC unless otherwise specified.
 Any used library or package might have their own licence.
