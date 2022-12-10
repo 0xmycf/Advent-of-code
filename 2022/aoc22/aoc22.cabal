@@ -69,7 +69,6 @@ library
       NamedFieldPuns
       OverloadedStrings
       EmptyDataDecls
-      OverloadedLists
       TypeFamilies
       DataKinds
       TemplateHaskell
@@ -124,7 +123,6 @@ executable aoc22-exe
       NamedFieldPuns
       OverloadedStrings
       EmptyDataDecls
-      OverloadedLists
       TypeFamilies
       DataKinds
       TemplateHaskell
@@ -180,7 +178,6 @@ test-suite aoc22-test
       NamedFieldPuns
       OverloadedStrings
       EmptyDataDecls
-      OverloadedLists
       TypeFamilies
       DataKinds
       TemplateHaskell

@@ -35,7 +35,6 @@ default-extensions:
   - NamedFieldPuns
   - OverloadedStrings
   - EmptyDataDecls
-  - OverloadedLists
   - TypeFamilies
   - DataKinds
   - TemplateHaskell
