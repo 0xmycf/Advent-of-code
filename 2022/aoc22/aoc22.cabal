@@ -34,6 +34,7 @@ library
       Days.Day08
       Days.Day09
       Days.Day10
+      Days.Day11
       Days.DayOne
       Days.DayTwo
       Finite
@@ -76,7 +77,8 @@ library
       NumericUnderscores
   ghc-options: -Wall
   build-depends:
-      base >=4.7 && <5
+      async
+    , base >=4.7 && <5
     , containers
     , directory
     , lens
@@ -85,6 +87,7 @@ library
     , mtl
     , neat-interpolation
     , parsec
+    , say
     , split
     , text
     , transformers
@@ -131,6 +134,7 @@ executable aoc22-exe
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aoc22
+    , async
     , base >=4.7 && <5
     , containers
     , lens
@@ -139,6 +143,7 @@ executable aoc22-exe
     , mtl
     , neat-interpolation
     , parsec
+    , say
     , split
     , text
     , transformers
@@ -187,6 +192,7 @@ test-suite aoc22-test
   build-depends:
       QuickCheck
     , aoc22
+    , async
     , base >=4.7 && <5
     , containers
     , hspec
@@ -196,6 +202,7 @@ test-suite aoc22-test
     , mtl
     , neat-interpolation
     , parsec
+    , say
     , split
     , text
     , transformers

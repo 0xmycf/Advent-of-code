@@ -10,12 +10,13 @@ main :: IO ()
 main = do
   day <- getArgs
   case day of
-    [x] -> putStrLn ("Solving only day " ++ x ++ ":\n") >> showOnlyOneDay x
-    _   -> putStrLn "Solving all days:\n"               >> solveRegistry registry
+    [x] -> putStrLn ("Solving only day " ++ x ++ ":") >> showOnlyOneDay x
+    _   -> putStrLn "Solving all days:"               >> solveRegistry registry
 
 showOnlyOneDay :: String -> IO ()
-showOnlyOneDay day = solveSolution entry >>= putStrLn
+showOnlyOneDay day = file >>= putStrLn . flip solveSolution entry
   where
   day'  = fromMaybe 1 (readMaybe day) - 1
   entry = registry ! day'
+  file  = readFile $ "./input/day" ++ show (day' + 1) ++ ".txt"
 

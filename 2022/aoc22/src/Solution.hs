@@ -1,6 +1,5 @@
 module Solution (Solution(..)) where
-import           Control.Lens (makeLenses)
-import           Finite       (Finite, unwrap)
+import           Finite (Finite, unwrap)
 
 data Solution = forall a o. (Show o) => Solution
                 {
@@ -16,8 +15,6 @@ data Solution = forall a o. (Show o) => Solution
                     -- | parsing and common calculations between part A and B
                     common :: String -> a
                 }
-
-makeLenses ''Solution
 
 instance Show Solution where
   show Solution{..} = "Solution for day " ++ show ((+1) . unwrap $ day)
