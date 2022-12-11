@@ -87,9 +87,9 @@ main = hspec $ do
     it "Part A -- 10605" $ do
       (pa, _) <- solveDay day11
       pa `shouldBe` "10605"
-    it "Part B -- ???" $ do
+    it "Part B -- 2713310158" $ do
       (_, pb) <- solveDay day11
-      pb `shouldBe` "2"
+      pb `shouldBe` "2713310158"
 
 solveDay :: Solution -> IO (String, String)
 solveDay = solveDayWith testPath
