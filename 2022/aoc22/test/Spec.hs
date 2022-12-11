@@ -5,6 +5,7 @@ import           Days.Day06  (day6)
 import           Days.Day08  (day8)
 import           Days.Day09  (day9)
 import           Days.Day10  (day10)
+import           Days.Day11  (day11)
 import           Days.DayOne (day1)
 import           Days.DayTwo (day2)
 import           Finite      (unwrap)
@@ -81,6 +82,14 @@ main = hspec $ do
     it "Part A -- 13140" $ do
       (pa, _) <- solveDay day10
       pa `shouldBe` "13140"
+
+  describe "Day 11" $ do
+    it "Part A -- 10605" $ do
+      (pa, _) <- solveDay day11
+      pa `shouldBe` "10605"
+    it "Part B -- ???" $ do
+      (_, pb) <- solveDay day11
+      pb `shouldBe` "2"
 
 solveDay :: Solution -> IO (String, String)
 solveDay = solveDayWith testPath
