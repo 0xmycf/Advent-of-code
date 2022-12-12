@@ -3,12 +3,12 @@ import           Data.Char       (isLower, ord)
 import           Data.List.Split (chunksOf)
 import           Data.Set        (Set)
 import qualified Data.Set        as S
-import           Finite          (finite)
+import           Finite          (dayn)
 import           Lib             (both, intersections)
 import           Solution        (Solution (..))
 
 day3 :: Solution
-day3 = Solution {day=finite 2, partA=partA1, partB=partB1, common=commonDayOne.parseDayOne}
+day3 = Solution {day=dayn 3, partA=partA1, partB=partB1, common=commonDayOne.parseDayOne}
 
 type Rucksack = ([Int], [Int])
 

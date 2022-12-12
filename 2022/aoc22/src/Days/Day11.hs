@@ -10,7 +10,7 @@ import           Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IM
 import           Data.List          (sort, unfoldr)
 import           Data.List.Split    (splitOn)
-import           Finite             (finite)
+import           Finite             (dayn)
 import           Lib                (Parser, parse)
 import           Solution           (Solution (..))
 import           Text.Parsec        (anyChar, char, digit, many1, manyTill,
@@ -131,5 +131,5 @@ partB1 ms = common11 (`mod` limit) 10_000 ms
 
 -- The Day --------------------------------------------------------------------------------
 day11 :: Solution
-day11 = Solution {day=finite 10, partA=partA1, partB=partB1, common=parsecParse.parseDay05}
+day11 = Solution {day=dayn 11, partA=partA1, partB=partB1, common=parsecParse.parseDay05}
 

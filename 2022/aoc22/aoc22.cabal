@@ -35,6 +35,7 @@ library
       Days.Day09
       Days.Day10
       Days.Day11
+      Days.Day12
       Days.DayOne
       Days.DayTwo
       Finite
@@ -87,6 +88,7 @@ library
     , mtl
     , neat-interpolation
     , parsec
+    , psqueues
     , say
     , split
     , text
@@ -143,6 +145,7 @@ executable aoc22-exe
     , mtl
     , neat-interpolation
     , parsec
+    , psqueues
     , say
     , split
     , text
@@ -202,6 +205,7 @@ test-suite aoc22-test
     , mtl
     , neat-interpolation
     , parsec
+    , psqueues
     , say
     , split
     , text

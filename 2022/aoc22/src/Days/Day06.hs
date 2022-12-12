@@ -4,11 +4,11 @@ import           Data.Foldable (find)
 import           Data.IntSet   (IntSet)
 import qualified Data.IntSet   as ISet
 import           Data.Maybe    (fromJust)
-import           Finite        (finite)
+import           Finite        (dayn)
 import           Solution      (Solution (..))
 
 day6 :: Solution
-day6 = Solution {day=finite 5, partA=partA1, partB=partB1, common=id}
+day6 = Solution {day=dayn 6, partA=partA1, partB=partB1, common=id}
 
 common06 :: String -> Int -> Int
 common06 input howMany = (+(howMany - 1)) . fst . fromJust . find snd                             -- finding the answer

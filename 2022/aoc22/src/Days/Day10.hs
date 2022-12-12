@@ -7,7 +7,7 @@ import           Control.Monad.State (State, execState, forM_)
 import           Data.IntMap.Strict  (IntMap)
 import qualified Data.IntMap.Strict  as IM
 import           Data.Monoid         (Sum (..))
-import           Finite              (finite)
+import           Finite              (dayn)
 import           Prelude             hiding (cycle)
 import           Solution            (Solution (..))
 
@@ -92,4 +92,4 @@ _drawIO st = forM_ (IM.elems $ st^.cSimage) print
   Today I wanna focus on Lenses and State (and Lenses in those)
 -}
 day10 :: Solution
-day10 = Solution {day=finite 9, partA=part110, partB=part210, common=common10.parseDay10}
+day10 = Solution {day=dayn 10, partA=part110, partB=part210, common=common10.parseDay10}

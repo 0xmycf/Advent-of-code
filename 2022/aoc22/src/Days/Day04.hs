@@ -1,12 +1,12 @@
 module Days.Day04 (day4) where
 import           Data.List.Split (splitOn)
 import           Data.Maybe      (fromJust)
-import           Finite          (finite)
+import           Finite          (dayn)
 import           Lib             (both, tuple2)
 import           Solution        (Solution (..))
 
 day4 :: Solution
-day4 = Solution {day=finite 3, partA=partA1, partB=partB1, common=parseDay04}
+day4 = Solution {day=dayn 4, partA=partA1, partB=partB1, common=parseDay04}
 
 data Range = Range
               { _from :: Int

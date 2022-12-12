@@ -6,7 +6,7 @@
 -- Stability   :  experimental
 -- Source      :  https://hackage.haskell.org/package/finite-typelits-0.1.6.0/docs/Data-Finite.html
 --------------------------------------------------------------------------------
-module Finite (Finite, finite, unwrap, toInt) where
+module Finite (Finite, finite, unwrap, toInt, dayn) where
 import           GHC.TypeLits (KnownNat, natVal)
 import           GHC.TypeNats (Nat)
 
@@ -20,6 +20,12 @@ finite x = result
     where
     result = if x < natVal result && x >= 0
               then Finite x else error $ show x ++ " Out of bounds for " ++ show (natVal result)
+
+dayn :: Integer -> Finite 25
+dayn x = result
+    where
+    result = if x <= natVal result && x >= 1
+              then Finite $ x - 1 else error $ show x ++ " Out of bounds for " ++ show (natVal result)
 
 -- | Convert a @Finite@ to the corresponding @Integer@
 toInt :: Finite n -> Int

@@ -2,7 +2,7 @@
 {-# LANGUAGE MultiParamTypeClasses  #-}
 module Days.DayTwo (day2) where
 import           Data.Bifunctor (bimap)
-import           Finite         (finite)
+import           Finite         (dayn)
 import           Solution       (Solution (..))
 
 {-
@@ -28,7 +28,7 @@ import           Solution       (Solution (..))
 -}
 
 day2 :: Solution
-day2 = Solution {day=finite 1, partA=flip partA2 scoreA, partB= partB2, common=parseDayTwo}
+day2 = Solution {day=dayn 2, partA=flip partA2 scoreA, partB= partB2, common=parseDayTwo}
 
 -- | A for Rock, B for Paper, and C for Scissors
 -- X for Rock, Y for Paper, and Z for Scissors

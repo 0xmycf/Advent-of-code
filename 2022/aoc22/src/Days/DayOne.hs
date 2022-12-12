@@ -1,10 +1,10 @@
 module Days.DayOne (day1) where
 import           Data.List (sort)
-import           Finite    (finite)
+import           Finite    (dayn)
 import           Solution  (Solution (..))
 
 day1 :: Solution
-day1 = Solution {day=finite 0, partA=partA1, partB=partB1, common=commonDayOne.parseDayOne}
+day1 = Solution {day=dayn 1, partA=partA1, partB=partB1, common=commonDayOne.parseDayOne}
 
 parseDayOne  :: String -> [[Int]]
 parseDayOne input = go splitted []

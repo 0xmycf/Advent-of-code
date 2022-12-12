@@ -7,14 +7,14 @@ import           Data.Functor    (($>))
 import           Data.List       (dropWhileEnd)
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as M
-import           Finite          (finite)
+import           Finite          (dayn)
 import           Lib             (Parser)
 import           Solution        (Solution (..))
 import           Text.Parsec     (char, spaces, string)
 import qualified Text.Parsec     as P
 
 day7 :: Solution
-day7 = Solution {day=finite 6, partA=partA1, partB=partB1, common=common07.parseDay07}
+day7 = Solution {day=dayn 7, partA=partA1, partB=partB1, common=common07.parseDay07}
 
 parseDay07 :: String -> [Command]
 parseDay07 input = case P.runParser (P.many1 commandParse) "" "/" input of

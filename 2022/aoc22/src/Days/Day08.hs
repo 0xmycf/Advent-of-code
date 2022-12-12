@@ -8,13 +8,13 @@ import           Data.List       (unfoldr)
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import qualified Data.Set        as Set
-import           Finite          (finite)
+import           Finite          (dayn)
 import           Lib             (Point, gridParser, takeWhileOneMore)
 import           Linear          (V2 (..))
 import           Solution        (Solution (..))
 
 day8 :: Solution
-day8 = Solution {day=finite 7, partA=partA1, partB=partB1, common=parseDay08}
+day8 = Solution {day=dayn 8, partA=partA1, partB=partB1, common=parseDay08}
 
 type TreeGrid = Map Point Int
 

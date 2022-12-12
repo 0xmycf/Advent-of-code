@@ -2,13 +2,13 @@ module Days.Day09 (day9) where
 import           Control.Monad.State.Strict (MonadState (get, put), State,
                                              evalState, gets)
 import           Data.List                  (nub)
-import           Finite                     (finite)
+import           Finite                     (dayn)
 import           Lib                        (Point, getAllNeighbs)
 import           Linear                     (V2 (V2))
 import           Solution                   (Solution (..))
 
 day9 :: Solution
-day9 = Solution {day=finite 8, partA=part1, partB=part2, common=parseDay9}
+day9 = Solution {day=dayn 9, partA=part1, partB=part2, common=parseDay9}
 
 parseDay9 :: String -> [Inst]
 parseDay9 = fmap (read @Inst) . lines

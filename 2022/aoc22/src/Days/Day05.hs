@@ -8,11 +8,11 @@ import qualified Data.IntMap.Strict as Map
 import           Data.List          (transpose)
 import           Data.Text          (Text, pack)
 import qualified Data.Text          as T
-import           Finite             (Finite, finite, unwrap)
+import           Finite             (Finite, dayn, unwrap)
 import           Solution           (Solution (..))
 
 day5 :: Solution
-day5 = Solution {day=finite 4, partA=partA1, partB=partB1, common=parseDay05}
+day5 = Solution {day=dayn 5, partA=partA1, partB=partB1, common=parseDay05}
 
 
 {-
