@@ -36,10 +36,12 @@ library
       Days.Day10
       Days.Day11
       Days.Day12
+      Days.Day13
       Days.DayOne
       Days.DayTwo
       Finite
       Lib
+      Search
       Solution
   other-modules:
       Paths_aoc22

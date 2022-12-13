@@ -100,6 +100,14 @@ main = hspec $ do
       (_, pb) <- solveDay day12
       pb `shouldBe` "29"
 
+  describe "Day 13" $ do
+    it "Part A -- 13" $ do
+      (pa, _) <- solveDay day12
+      pa `shouldBe` "13"
+    it "Part B -- ???" $ do
+      (_, pb) <- solveDay day12
+      pb `shouldBe` "???"
+
 solveDay :: Solution -> IO (String, String)
 solveDay = solveDayWith testPath
 

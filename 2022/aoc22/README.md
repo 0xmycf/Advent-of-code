@@ -14,6 +14,7 @@ My Haskell solutions (Spoiler ahead).
 - [Day 10](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day10.hs)  | Tried to use lenses today, went well but the solution is really verbose. (Part B can only be run from ghci)
 - [Day 11](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day11.hs)  | Huh, Part a was harder.
 - [Day 12](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day12.hs)  | No Reflection
+- [Day 13](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day13.hs)  | I think using `sort` was cheating but oh well.
 
 # License
 
