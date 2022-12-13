@@ -19,26 +19,30 @@ parseDay11 = gridParser (\case
                           a   -> ord a - ord 'a'
                         ) . lines
 
-helloNeighbour :: Map Point Int -> V2 Int -> [V2 Int]
-helloNeighbour grid p =
+helloNeighbour :: Num n => (n -> n -> Bool) -> Map (V2 Int) n -> V2 Int -> [V2 Int]
+helloNeighbour comp grid p =
                     let c = grid M.! p
                         ns = filter (`M.member` grid) $ getNeighbors p
-                     in filter (\n -> let nc = grid M.! n in nc <= c + 1) ns
+                     in filter (\n -> let nc = grid M.! n in nc `comp` c) ns
 
-common12 :: (Maybe [Point] -> b) -> Point -> Map Point Int -> b
-common12 f start grid = bfs (helloNeighbour grid')
-                  (==end)
+common12 :: Int                                      -- ^ -1 for part 1 (starting at S) 100 for partB (starting at E)
+            -> (Point -> Bool)                       -- ^ end criterion
+            -> (Map Point Int -> Point -> [Point])   -- ^ neighbourhood
+            -> Map Point Int                         -- ^ graph
+            -> Int
+common12 part end n grid = bfs (n grid')
+                  end
                   start
-                & f
-  where end   = head $ M.keys $ M.filter (==100) grid
+                & maybe 0 (pred . length)
+  where
+        start = head $ M.keys $ M.filter (==part) grid
         grid' = grid & traverse . filtered (==(-1)) .~ 0
-                     & traverse . filtered (==100)   .~ 25
+                     & traverse . filtered (==100) .~ 25
 
 partA1, partB1 :: Map Point Int -> Int
-partA1 grid = common12 (maybe 0 (pred . length)) start grid
-  where start = head $ M.keys $ M.filter (==(-1)) grid
+partA1 grid = common12 (-1) (==end) (helloNeighbour (\nc c -> nc <= (c + 1))) grid
+   where end = head $ M.keys $ M.filter (==100) grid
 
-partB1 grid = minimum $ fmap (\p -> common12 (maybe 10_000 (pred . length)) p grid) as
-  where as = M.keys $ M.filter (==0) grid
+partB1 grid = common12 100 (\v2 -> let num = grid M.! v2 in num == 0) (helloNeighbour (\nc c -> (nc + 1) >= c)) grid
 
 
