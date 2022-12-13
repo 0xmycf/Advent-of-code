@@ -214,3 +214,62 @@ test-suite aoc22-test
     , transformers
     , vector
   default-language: Haskell2010
+
+benchmark aoc22-bench
+  type: exitcode-stdio-1.0
+  main-is: Bench.hs
+  other-modules:
+      Paths_aoc22
+  autogen-modules:
+      Paths_aoc22
+  hs-source-dirs:
+      bench
+  default-extensions:
+      TypeOperators
+      DerivingStrategies
+      DeriveFunctor
+      DeriveFoldable
+      DeriveGeneric
+      DeriveTraversable
+      ExplicitNamespaces
+      FlexibleContexts
+      LambdaCase
+      TupleSections
+      BlockArguments
+      ScopedTypeVariables
+      MultiWayIf
+      EmptyDataDecls
+      FlexibleInstances
+      BangPatterns
+      GADTs
+      GeneralizedNewtypeDeriving
+      RankNTypes
+      RecordWildCards
+      NamedFieldPuns
+      OverloadedStrings
+      EmptyDataDecls
+      TypeFamilies
+      DataKinds
+      TemplateHaskell
+      TypeApplications
+      NumericUnderscores
+  ghc-options: -Wall -O2
+  build-depends:
+      aoc22
+    , async
+    , base >=4.7 && <5
+    , containers
+    , criterion
+    , lens
+    , linear
+    , matrix
+    , mtl
+    , neat-interpolation
+    , parsec
+    , psqueues
+    , say
+    , split
+    , text
+    , transformers
+    , vector
+  default-language: Haskell2010

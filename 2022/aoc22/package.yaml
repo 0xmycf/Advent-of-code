@@ -2,7 +2,6 @@ version:             0.1.0.0
 author:              "0xmycf"
 name:                "aoc22"
 github:              "0xmycf/aoc22"
-# license:             "CC-BY-NC-SA 4.0" this throws an error
 license:             "CC-BY-NC-SA-4.0"
 synopsis:            "Just a simple project"
 copyright:           "2022 0xmycf"
@@ -92,3 +91,13 @@ tests:
     - aoc22
     - QuickCheck
     - hspec
+
+benchmarks:
+  aoc22-bench:
+    main:                Bench.hs
+    source-dirs:         bench
+    ghc-options:
+    - -O2
+    dependencies:
+    - aoc22
+    - criterion

@@ -3,6 +3,7 @@ module AOC22 (
   , solveRegistry
   , solveSolution
   , (!)
+  , len
   ) where
 import           Control.Concurrent.Async (mapConcurrently)
 import           Control.Monad            (forM_)
@@ -52,7 +53,7 @@ solveRegistry (Registry rs) = do
                                 say . pack $ solveSolution (files Prelude.!! ix) day'
 
 -- | Sovles and prints out the provided Soltution
-solveSolution :: FilePath -> Solution -> String
+solveSolution :: String -> Solution -> String
 solveSolution file val@Solution{..} = ansStringBuilder solvea solveb
   where
   parsed = common file
@@ -66,6 +67,9 @@ solveSolution file val@Solution{..} = ansStringBuilder solvea solveb
 (!) (Registry reg) int
                 | int > 0 && int < length reg = reg Prelude.!! int
                 | otherwise = head reg
+
+len :: Registry -> Int
+len (Registry reg) = length reg
 
 -- private -----------------------------------------------------------------------------------------------------------------------
 
