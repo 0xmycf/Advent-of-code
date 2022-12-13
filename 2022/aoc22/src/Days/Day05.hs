@@ -8,7 +8,7 @@ import qualified Data.IntMap.Strict as Map
 import           Data.List          (transpose)
 import           Data.Text          (Text, pack)
 import qualified Data.Text          as T
-import           Finite             (Finite, dayn, unwrap)
+import           Finite             (Finite, dayn, finite, unwrap)
 import           Solution           (Solution (..))
 
 day5 :: Solution

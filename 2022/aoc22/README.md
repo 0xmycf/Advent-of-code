@@ -13,6 +13,7 @@ My Haskell solutions (Spoiler ahead).
 - [Day 9](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day09.hs)  | This Day took me too long.. First my snake was too short and then I couldn't figure out where I would need the sgn function... A little bug chocked me almost to death today...
 - [Day 10](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day10.hs)  | Tried to use lenses today, went well but the solution is really verbose. (Part B can only be run from ghci)
 - [Day 11](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day11.hs)  | Huh, Part a was harder.
+- [Day 12](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day12.hs)  | No Reflection
 
 # License
 
