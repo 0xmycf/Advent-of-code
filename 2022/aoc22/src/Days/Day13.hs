@@ -43,13 +43,10 @@ one = do
       num <- (leaf P.<|> one) `P.sepBy` P.char ','
       _ <- P.char ']'
       pure $ Node num
+--one = Node <$> (P.char '[' >> ((leaf P.<|> one) `P.sepBy` P.char ',') >>= \x -> P.char ']' >> pure x)
 
 two :: Parser () (Tree Int, Tree Int)
-two = do
-      f <- one
-      _ <- P.newline
-      s <- one
-      pure (f,s)
+two = (,) <$> one <*> (P.newline >> one)
 
 leaf :: Parser () (Tree Int)
 leaf = Leaf . (read @Int) <$> P.many1 P.digit
