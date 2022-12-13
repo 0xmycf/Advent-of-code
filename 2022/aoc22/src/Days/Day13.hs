@@ -14,22 +14,17 @@ day13 :: Solution
 day13 = Solution {day=dayn 13, partA=partA1, partB=partB1, common=parseDay13.splt}
 
 data Tree a = Leaf a | Node [Tree a]
+  deriving (Eq)
 
 instance Show a => Show (Tree a) where
   show (Leaf a)  = show a
   show (Node ls) = show ls
 
-instance Eq a => Eq (Tree a) where
-   Leaf a  == Leaf b  = a        == b
-   Node as == Leaf b  = as       == [Leaf b]
-   Leaf a  == Node bs = [Leaf a] == bs
-   Node as == Node bs = as       == bs
-
 instance Ord a => Ord (Tree a) where
-   Leaf a  <= Leaf b  = a        <= b
-   Node as <= Leaf b  = as       <= [Leaf b]
-   Leaf a  <= Node bs = [Leaf a] <= bs
-   Node as <= Node bs = as       <= bs
+   Leaf a  `compare` Leaf b  = a        `compare` b
+   Node as `compare` Leaf b  = as       `compare` [Leaf b]
+   Leaf a  `compare` Node bs = [Leaf a] `compare` bs
+   Node as `compare` Node bs = as       `compare` bs
 
 type Input = [(Tree Int, Tree Int)]
 
