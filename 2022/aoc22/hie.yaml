@@ -1,13 +1,13 @@
 cradle:
-  cabal:
-    - path: "src"
-      component: "lib:aoc22"
+  stack:
+    - path: "./src"
+      component: "aoc22:lib"
 
-    - path: "app/Main.hs"
+    - path: "./app/Main.hs"
       component: "aoc22:exe:aoc22-exe"
 
-    - path: "test"
+    - path: "./test"
       component: "aoc22:test:aoc22-test"
 
-    - path: "bench/Bench.hs"
+    - path: "./bench/Bench.hs"
       component: "aoc22:bench:aoc22-bench"

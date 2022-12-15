@@ -18,8 +18,12 @@ import qualified Text.Parsec           as Parsec
 
 type Point = V2 Int
 
+-- | IP stream userstate returntype
 type IdentityParser stream userstate returntype = Parsec.ParsecT stream userstate Identity returntype
+-- | Parser state returntype
 type Parser state returntype = Parsec.ParsecT String state Identity returntype
+-- | Parser' returntype
+type Parser' = Parsec.ParsecT String () Identity
 
 getLines :: FilePath -> IO [String]
 getLines = fmap lines . readFile
@@ -115,8 +119,16 @@ tuple3 _       = Nothing
 takeWhileOneMore :: (a -> Bool) -> [a] -> [a]
 takeWhileOneMore p = foldr (\x ys -> if p x then x:ys else [x]) []
 
--- | shorthand for bimap f f
--- same as join bimap
+-- | Makes a list of the arguments.
+--   If the the first arguemnt is higher it flips them.
+--
+--   # Examples
+--   range 3 0 == [0..3] == range 0 3
+range :: (Ord a, Enum a) => a -> a -> [a]
+range x y = if x <= y then [x..y] else [y..x]
+
+-- | Shorthand for bimap f f
+-- Same as join bimap
 both :: Bifunctor p => (c -> d) -> p c c -> p d d
 both f = bimap f f
 
@@ -124,10 +136,10 @@ both f = bimap f f
 intersections :: Ord a => [Set a] -> Set a
 intersections = List.foldl1' Set.intersection
 
--- | Inline  @Set.intersection@
+-- | Operator for @Set.intersection@
 (/\) :: Ord a => Set a -> Set a -> Set a
 (/\) = Set.intersection
 
--- | Inline  @Set.union@
+-- | Operator for @Set.union@
 (\/) :: Ord a => Set a -> Set a -> Set a
 (\/) = Set.union
