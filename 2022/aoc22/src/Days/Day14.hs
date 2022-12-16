@@ -1,15 +1,15 @@
 module Days.Day14 (day14) where
 import           Control.Applicative ((<|>))
-import           Control.Lens        (Field1 (_1), Field2 (_2), Ixed (ix),
-                                      ifiltered, itraversed, (&), (.~), (<&>),
-                                      (^.), (^..))
+import           Control.Lens
 import           Control.Monad       (forM_)
 import           Data.List           (groupBy, sortBy, unfoldr)
 import           Data.Map.Strict     (Map)
 import qualified Data.Map.Strict     as M
+import           Data.Maybe          (fromJust)
 import           Finite              (dayn)
 import           Lib                 (Parser', Point, range)
 import           Linear              (V2 (..))
+import           Search              (bfsWithCount)
 import           Solution            (Solution (..))
 import qualified Text.Parsec         as P
 
@@ -63,8 +63,10 @@ _showTetris t = forM_ t' $ \i -> do
 
 part1, part2 :: (Int, Tetris) -> Int
 part1 (maxy, t) = length  $ unfoldr (\b -> steps maxy b <&> (b,)) t
-part2 (maxy, t) = (+1) $ length $ unfoldr (\b -> steps maxy b <&> (b,)) t'
-  where t' = t & itraversed . ifiltered (\(V2 _ y) _ -> y == (maxy + 2)) .~ Bric
+part2 (maxy, t) = (+1) . snd . fromJust . bfsWithCount neighbourhood isEnd $ V2 500 0
+  where neighbourhood p = filter (\v2 -> (v2 ^. _2) <= maxy + 2 && notElem v2 bricks) [V2 x 1 + p | x <- [1,0,-1]]
+        isEnd v2 = (v2 ^. _2) > maxy + 1
+        bricks = M.toList t ^.. traversed . filtered (\(_,tile) -> tile == Bric) . _1
 
 mdown, mleft, mrigh :: Tetris -> Point -> Maybe Point
 mdown mp p = M.lookup (p + V2 0 1) mp >>= \case
@@ -77,23 +79,20 @@ mrigh mp p = M.lookup (p + V2 1 1) mp >>= \case
                                            None -> pure (p + V2 1 1)
                                            _    -> Nothing
 
-data MoveOutcome = NoMove | Move Point Tetris | LastMove
-
--- | yes i gotta brute force it. Its fast enough.
-step :: Int -> Tetris -> Point -> MoveOutcome
-step maxy t p = case mdown t p <|> mleft t p <|> mrigh t p of
-                  Nothing | p == V2 500 0    -> LastMove       -- Its the last one (ik its hacky ignore it)
-                  Nothing                    -> NoMove         -- nothing changes anymore
-                  Just p1 | (p1 ^. _2) >= maxy + 3 -> LastMove -- If its behind the threshhold we can stop
-                          | otherwise -> Move p1 $             -- change map accordingly and return it
-                              t & ix p  .~ None
-                                & ix p1 .~ Sand
+data MoveOutcome = NoMove Point | Move Point | LastMove
 
 steps :: Int -> Tetris -> Maybe Tetris
-steps maxy = go (V2 500 0)
-  where go :: Point -> Tetris -> Maybe Tetris
-        go p t = case step maxy t p of
-                  Move p1 t1 -> go p1 t1
-                  NoMove     -> Just t
-                  LastMove   -> Nothing
+steps maxy t = go (V2 500 0)
+  where go :: Point -> Maybe Tetris
+        go p = case step p of
+                  Move   p1 -> go p1
+                  NoMove p1 -> Just (t & ix p1 .~ Sand)
+                  LastMove  -> Nothing
+
+        step :: Point -> MoveOutcome
+        step p = case mdown t p <|> mleft t p <|> mrigh t p of
+                          Nothing | p == V2 500 0          -> LastMove      -- Its the last one (ik its hacky ignore it)
+                          Nothing                          -> NoMove p      -- nothing changes anymore
+                          Just p1 | (p1 ^. _2) >= maxy + 3 -> LastMove      -- If its behind the threshhold we can stop
+                                  | otherwise -> Move p1
 

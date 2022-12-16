@@ -19,7 +19,7 @@ Isn't it the most wonderful and joyful time of the year?
 - [Day 11](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day11.hs)  | Huh, Part a was harder.
 - [Day 12](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day12.hs)  | No Reflection
 - [Day 13](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day13.hs)  | I think using `sort` was cheating but oh well.
-- [Day 14](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day14.hs)  | Ugh.. Its slow...
+- [Day 14](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day14.hs)  | This one was slow, but is fast now.
 
 Everything is CC-BY-SA-NC unless otherwise specified.
 Any used library or package might have their own licence.

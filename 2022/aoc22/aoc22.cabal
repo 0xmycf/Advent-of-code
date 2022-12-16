@@ -42,6 +42,7 @@ library
       Days.DayTwo
       Finite
       Lib
+      MinMax
       Search
       Solution
   other-modules:
@@ -136,7 +137,7 @@ executable aoc22-exe
       TemplateHaskell
       TypeApplications
       NumericUnderscores
-  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aoc22
     , async
