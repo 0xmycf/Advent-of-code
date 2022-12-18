@@ -5,26 +5,29 @@ module AOC22 (
   , (!)
   , len
   ) where
-import           Control.Concurrent.Async (mapConcurrently)
-import           Control.Monad            (forM_)
-import           Data.Text                (pack)
-import           Days.Day03               (day3)
-import           Days.Day04               (day4)
-import           Days.Day05               (day5)
-import           Days.Day06               (day6)
-import           Days.Day07               (day7)
-import           Days.Day08               (day8)
-import           Days.Day09               (day9)
-import           Days.Day10               (day10)
-import           Days.Day11               (day11)
-import           Days.Day12               (day12)
-import           Days.Day13               (day13)
-import           Days.Day14               (day14)
-import           Days.DayOne              (day1)
-import           Days.DayTwo              (day2)
-import           Finite                   (toInt, unwrap)
-import           Say                      (say)
-import           Solution                 (Solution (..))
+import           Control.Concurrent.Async    (mapConcurrently)
+import           Control.DeepSeq             (force)
+import           Control.Monad               (forM_)
+import           Control.Parallel.Strategies (parList, rdeepseq, using)
+import           Data.Text                   (pack)
+import           Days.Day03                  (day3)
+import           Days.Day04                  (day4)
+import           Days.Day05                  (day5)
+import           Days.Day06                  (day6)
+import           Days.Day07                  (day7)
+import           Days.Day08                  (day8)
+import           Days.Day09                  (day9)
+import           Days.Day10                  (day10)
+import           Days.Day11                  (day11)
+import           Days.Day12                  (day12)
+import           Days.Day13                  (day13)
+import           Days.Day14                  (day14)
+import           Days.Day15                  (day15)
+import           Days.DayOne                 (day1)
+import           Days.DayTwo                 (day2)
+import           Finite                      (toInt, unwrap)
+import           Say                         (say)
+import           Solution                    (Solution (..))
 
 
 -- | Register all days in here -------------------------------------
@@ -44,15 +47,16 @@ registry = Registry
   , day12
   , day13
   , day14
+  , day15
   ]
 
 -- | Sovles and prints out all Soltutions in the provided registry
 solveRegistry :: Registry -> IO ()
 solveRegistry (Registry rs) = do
                               files <- mapConcurrently readFile [file | x <- [1..length rs], let file = path ++ "day" ++ show x ++ ".txt" ]
-                              forM_ rs $ \day' -> do
-                                let ix = toInt (day day')
-                                say . pack $ solveSolution (files Prelude.!! ix) day'
+                              let rs' = map (\day' -> let ix = toInt (day day') in pack $! solveSolution (files Prelude.!! ix) day') rs `using` parList rdeepseq
+                              forM_ (force rs') $ \day' -> do
+                                say day'
 
 -- | Sovles and prints out the provided Soltution
 solveSolution :: String -> Solution -> String

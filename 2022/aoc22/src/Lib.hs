@@ -49,6 +49,10 @@ commaListParser s = fmap (fmap read) . parse (Parsec.sepBy (Parsec.many Parsec.d
 gridParser :: (Char -> a) -> [String] -> Map Point a
 gridParser f = Map.fromList . concat . mapIdx (\a idx1 -> mapIdx (\b idx2 -> (V2 idx1 idx2, f b)) a)
 
+-- | parses an integer
+int :: Parser s Int
+int = read <$> Parsec.many1 (Parsec.char '-' Parsec.<|> Parsec.digit)
+
 -- | Creates a bitmask out of the char using the ord function
 -- | ord 'a' = 97
 maskChar :: Integer -> Char -> Integer

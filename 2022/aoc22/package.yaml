@@ -54,10 +54,16 @@ dependencies:
 - text
 - split
 - lens
+- generic-lens
 - neat-interpolation
 - say
 - async
+- parallel
+- deepseq
 - psqueues
+- data-interval
+- extended-reals
+- range
 
 ghc-options:
 - -Wall

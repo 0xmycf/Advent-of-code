@@ -38,6 +38,7 @@ library
       Days.Day12
       Days.Day13
       Days.Day14
+      Days.Day15
       Days.DayOne
       Days.DayTwo
       Finite
@@ -85,14 +86,20 @@ library
       async
     , base >=4.7 && <5
     , containers
+    , data-interval
+    , deepseq
     , directory
+    , extended-reals
+    , generic-lens
     , lens
     , linear
     , matrix
     , mtl
     , neat-interpolation
+    , parallel
     , parsec
     , psqueues
+    , range
     , say
     , split
     , text
@@ -143,13 +150,19 @@ executable aoc22-exe
     , async
     , base >=4.7 && <5
     , containers
+    , data-interval
+    , deepseq
+    , extended-reals
+    , generic-lens
     , lens
     , linear
     , matrix
     , mtl
     , neat-interpolation
+    , parallel
     , parsec
     , psqueues
+    , range
     , say
     , split
     , text
@@ -202,14 +215,20 @@ test-suite aoc22-test
     , async
     , base >=4.7 && <5
     , containers
+    , data-interval
+    , deepseq
+    , extended-reals
+    , generic-lens
     , hspec
     , lens
     , linear
     , matrix
     , mtl
     , neat-interpolation
+    , parallel
     , parsec
     , psqueues
+    , range
     , say
     , split
     , text
@@ -262,13 +281,19 @@ benchmark aoc22-bench
     , base >=4.7 && <5
     , containers
     , criterion
+    , data-interval
+    , deepseq
+    , extended-reals
+    , generic-lens
     , lens
     , linear
     , matrix
     , mtl
     , neat-interpolation
+    , parallel
     , parsec
     , psqueues
+    , range
     , say
     , split
     , text

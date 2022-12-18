@@ -1,20 +1,33 @@
-import           Days.Day03  (day3)
-import           Days.Day04  (day4)
-import           Days.Day05  (day5)
-import           Days.Day06  (day6)
-import           Days.Day08  (day8)
-import           Days.Day09  (day9)
-import           Days.Day10  (day10)
-import           Days.Day11  (day11)
-import           Days.Day12  (day12)
-import           Days.DayOne (day1)
-import           Days.DayTwo (day2)
-import           Finite      (unwrap)
-import           Solution    (Solution (..))
-import           Test.Hspec  (describe, hspec, it, shouldBe)
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+import           Days.Day03      (day3)
+import           Days.Day04      (day4)
+import           Days.Day05      (day5)
+import           Days.Day06      (day6)
+import           Days.Day08      (day8)
+import           Days.Day09      (day9)
+import           Days.Day10      (day10)
+import           Days.Day11      (day11)
+import           Days.Day12      (day12)
+import           Days.Day15      (day15)
+import           Days.DayOne     (day1)
+import           Days.DayTwo     (day2)
+import           Finite          (unwrap)
+import           MinMax          (MinMax (..))
+import           Solution        (Solution (..))
+import           Test.Hspec      (describe, hspec, it, shouldBe)
+import           Test.QuickCheck (Testable (property), (===))
+
 
 main :: IO ()
 main = hspec $ do
+
+  describe "MinMax tests" $ do
+    describe "Semigroup" $ do
+      it "Associativity" $ do
+        property $ \x x1 x2 ->
+                    MinMax x <> (MinMax x1 <> MinMax x2) ===
+                    (MinMax x <> MinMax x1) <> MinMax x2
+
   describe "Day One" $ do
     it "Part A -- 24000" $ do
       (pa, _) <- solveDay day1
@@ -76,7 +89,7 @@ main = hspec $ do
       (pa, _) <- solveDay day9
       pa `shouldBe` "13"
     it "Part B -- 36" $ do
-      (_, pb) <- (solveDayWith "./input/test/b") day9
+      (_, pb) <- solveDayWith "./input/test/b" day9
       pb `shouldBe` "36"
 
   describe "Day 10" $ do
@@ -100,13 +113,13 @@ main = hspec $ do
       (_, pb) <- solveDay day12
       pb `shouldBe` "29"
 
-  describe "Day 13" $ do
-    it "Part A -- 13" $ do
-      (pa, _) <- solveDay day12
-      pa `shouldBe` "13"
-    it "Part B -- ???" $ do
-      (_, pb) <- solveDay day12
-      pb `shouldBe` "???"
+  describe "Day 15" $ do
+    it "Part A -- 26" $ do
+      (pa, _) <- solveDay day15
+      pa `shouldBe` "26"
+    it "Part B -- 56000011" $ do
+      (_, pb) <- solveDay day15
+      pb `shouldBe` "56000011"
 
 solveDay :: Solution -> IO (String, String)
 solveDay = solveDayWith testPath
