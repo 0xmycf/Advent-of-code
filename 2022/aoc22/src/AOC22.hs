@@ -23,6 +23,7 @@ import           Days.Day12                  (day12)
 import           Days.Day13                  (day13)
 import           Days.Day14                  (day14)
 import           Days.Day15                  (day15)
+import           Days.Day18                  (day18)
 import           Days.DayOne                 (day1)
 import           Days.DayTwo                 (day2)
 import           Finite                      (toInt, unwrap)
@@ -48,7 +49,11 @@ registry = Registry
   , day13
   , day14
   , day15
-  ]
+  , day16
+  , day17
+  , day18
+  ] where day16 = error "not done yet"
+          day17 = error "not done yet"
 
 -- | Sovles and prints out all Soltutions in the provided registry
 solveRegistry :: Registry -> IO ()

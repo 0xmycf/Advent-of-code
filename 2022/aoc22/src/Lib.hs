@@ -14,9 +14,11 @@ import           Data.List             (group, sort)
 import qualified Data.List             as List
 import qualified Data.Map              as Map
 import           Linear                (V2 (V2))
+import           Linear.V3             (V3 (..))
 import qualified Text.Parsec           as Parsec
 
-type Point = V2 Int
+type Point  = V2 Int
+type Point3 = V3 Int
 
 -- | IP stream userstate returntype
 type IdentityParser stream userstate returntype = Parsec.ParsecT stream userstate Identity returntype
@@ -78,11 +80,21 @@ binToDec xs = go (0 :: Integer) (reverse xs)
         go i (x:xs') = (2^i * read [x]) + go (i+1) xs'
 
 -- | gets parallel (to x/y axis) perpendicular vectors to the input Coordinate
-getNeighbors :: V2  Int -> [V2  Int]
+getNeighbors :: Num a => V2 a -> [V2 a]
 getNeighbors (V2 a b) = [V2 a (b-1), V2 (a+1) b, V2 a (b+1), V2 (a-1) b]
 
+-- | gets parallel (to x/y/z axis) perpendicular vectors to the input Coordinate
+getNeighbors3 :: Num a => V3 a -> [V3 a]
+getNeighbors3 (V3 a b c) =    [V3 (a+x) b c | x <- [1,-1]]
+                           ++ [V3 a (b+y) c | y <- [1,-1]]
+                           ++ [V3 a b (c+z) | z <- [1,-1]]
+
 -- | gets neighbors parallel to x/y axis as well as the vectors in 45 degree angle relative to those.
-getAllNeighbs :: V2  Int -> [V2  Int]
+getAllNeighbors3 :: Num a => V3 a -> [V3 a]
+getAllNeighbors3 (V3 a b c) = [V3 (a+x) (b+y) (c+z) | x <- [1,0,-1], y <- [1,0,-1], z <- [1,0,-1]]
+
+-- | gets neighbors parallel to x/y axis as well as the vectors in 45 degree angle relative to those.
+getAllNeighbs :: Num a => V2 a -> [V2 a]
 getAllNeighbs (V2 a b) = [V2 a (b-1), V2 (a-1) (b-1) , V2 (a+1) b, V2 (a+1) (b+1), V2 a (b+1), V2 (a-1) (b+1), V2 (a-1) b, V2 (a+1) (b-1)]
 
 -- | gets all Points in a 3x3 field, where the center is the input Point
