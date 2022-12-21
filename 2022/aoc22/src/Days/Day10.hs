@@ -23,11 +23,11 @@ parseDay10 = lines
 type Instruction = String -- ^ Yes we gonna use a weird type alias
 
 data CommState = CS
-                 { _CStick   :: !Int         -- ^ the current tick the machine is in
-                 , _CSnumber :: !Int         -- ^ the number the machine is working on
-                 , _CSpartav :: Sum Int      -- ^ the product values which we need for the first part
+                 { _CStick   :: !Int          -- ^ the current tick the machine is in
+                 , _CSnumber :: !Int          -- ^ the number the machine is working on
+                 , _CSpartav :: Sum Int       -- ^ the product values which we need for the first part
                  , _CSimage  :: IntMap String -- ^ the thing we gotta draw
-                 , _CSrow    :: !Int         -- ^ the row we draw at 0..5
+                 , _CSrow    :: !Int          -- ^ the row we draw at 0..5
                  } deriving Show
 
 defaultState :: CommState

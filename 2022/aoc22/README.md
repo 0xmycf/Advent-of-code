@@ -20,6 +20,9 @@ My Haskell solutions (Spoiler ahead).
 - Day 16 soon?
 - Day 17 soon
 - [Day 18](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day18.hs)  | Eh, its okay.
+- Day 19 soon
+- Day 20 soon
+- [Day 21](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day21.hs)  | Part B was trivial in Haskell (tying the knot), I used the guessing game strategy for part b, because I did not want to think about this too hard today.
 
 # License
 

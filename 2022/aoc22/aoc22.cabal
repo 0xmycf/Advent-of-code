@@ -40,8 +40,10 @@ library
       Days.Day14
       Days.Day15
       Days.Day18
+      Days.Day21
       Days.DayOne
       Days.DayTwo
+      Debug
       Finite
       Lib
       Search
