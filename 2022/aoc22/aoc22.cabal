@@ -41,6 +41,7 @@ library
       Days.Day15
       Days.Day18
       Days.Day21
+      Days.Day25
       Days.DayOne
       Days.DayTwo
       Debug

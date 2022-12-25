@@ -27,6 +27,10 @@ Isn't it the most wonderful and joyful time of the year?
 - Day 19 soon
 - Day 20 soon
 - [Day 21](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day21.hs)  | Part B was trivial in Haskell (tying the knot), I used the guessing game strategy for part b, because I did not want to think about this too hard today.
+- Day 22 soon
+- Day 23 soon
+- Day 25 soon
+- [Day 25](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day25.hs)  | Hmpf, one of those days that took me longer than it should have.
 
 ## [BQN](https://github.com/0xmycf/Advent-of-code/blob/main/2022/bqn-22)
 

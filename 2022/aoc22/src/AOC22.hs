@@ -25,6 +25,7 @@ import           Days.Day14                  (day14)
 import           Days.Day15                  (day15)
 import           Days.Day18                  (day18)
 import           Days.Day21                  (day21)
+import           Days.Day25                  (day25)
 import           Days.DayOne                 (day1)
 import           Days.DayTwo                 (day2)
 import           Finite                      (toInt, unwrap)
@@ -56,10 +57,18 @@ registry = Registry
   , day19
   , day20
   , day21
-  ] where day16 = error "not done yet"
+  , day22
+  , day23
+  , day24
+  , day25
+  ] where --                        --
+          day16 = error "not done yet"
           day17 = error "not done yet"
           day19 = error "not done yet"
           day20 = error "not done yet"
+          day22 = error "not done yet"
+          day23 = error "not done yet"
+          day24 = error "not done yet"
 
 -- | Sovles and prints out all Soltutions in the provided registry
 solveRegistry :: Registry -> IO ()
@@ -71,15 +80,17 @@ solveRegistry (Registry rs) = do
 
 -- | Sovles and prints out the provided Soltution
 solveSolution :: String -> Solution -> String
-solveSolution file val@Solution{..} = ansStringBuilder solvea solveb
+solveSolution file val@Solution{..} = mkResult solvea solveb
   where
   parsed = common file
   solvea = partA parsed
   solveb = partB parsed
-  ansStringBuilder ansa ansb = "Day " ++ (show . (+1) . unwrap . Solution.day $ val) ++ ": " ++ show ansa ++ ", " ++ show ansb
+  mkResult ansa ansb = "Day " ++ (show . (+1) . unwrap . Solution.day $ val) ++ ": " ++ show ansa ++ ", " ++ show ansb
 
 -- | Helper function to access Solutions by day
--- if the provided int is out of bounds it will default to the first day
+-- If the provided int is out of bounds it will default to the first day
+--
+-- This function is unsafe and will crash if used on an empty registry
 (!) :: Registry -> Int -> Solution
 (!) (Registry reg) int
                 | int > 0 && int < length reg = reg Prelude.!! int
