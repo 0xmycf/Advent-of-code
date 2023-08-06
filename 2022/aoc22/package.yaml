@@ -10,35 +10,21 @@ homepage:            https://github.com/0xmycf/advent-of-code#readme
 extra-source-files:
 - README.md          
 
+language: GHC2021
 default-extensions:
-  - TypeOperators
-  - DerivingStrategies
-  - DeriveFunctor
-  - DeriveFoldable
-  - DeriveGeneric
-  - DeriveTraversable
-  - ExplicitNamespaces
-  - FlexibleContexts
-  - LambdaCase
-  - TupleSections
+  - MultiWayIf
   - BlockArguments
-  - ScopedTypeVariables
-  - MultiWayIf 
-  - EmptyDataDecls
-  - FlexibleInstances
-  - BangPatterns
-  - GADTs
-  - GeneralizedNewtypeDeriving
-  - RankNTypes
-  - RecordWildCards
-  - NamedFieldPuns
+  - DerivingStrategies
+  - LambdaCase
   - OverloadedStrings
-  - EmptyDataDecls
-  - TypeFamilies
+  - OverloadedLabels
+  - RecordWildCards
+  - ExplicitNamespaces
+  - GADTs
   - DataKinds
+  - TypeFamilies
+  - DeriveAnyClass
   - TemplateHaskell
-  - TypeApplications
-  - NumericUnderscores 
 
 description:         Please see the README on GitHub at <https://github.com/0xmycf/aoc22#readme>
 
@@ -48,6 +34,9 @@ dependencies:
 - transformers
 - matrix
 - containers
+- unordered-containers
+- hashable
+- directory
 - parsec
 - linear
 - vector
@@ -63,6 +52,7 @@ dependencies:
 - psqueues
 - range
 - data-interval
+- data-default
 - extended-reals
 
 ghc-options:

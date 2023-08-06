@@ -1,6 +1,6 @@
 module Lib where
 
-import           Data.Bits             (Bits (shiftL, (.|.)))
+import           Data.Bits             (Bits(shiftL, (.|.)))
 import           Data.Char             (ord)
 import           Data.Foldable         (toList)
 import           Data.Functor.Identity (Identity)
@@ -13,8 +13,8 @@ import           Data.Bifunctor        (Bifunctor, bimap)
 import           Data.List             (group, sort)
 import qualified Data.List             as List
 import qualified Data.Map              as Map
-import           Linear                (V2 (V2))
-import           Linear.V3             (V3 (..))
+import           Linear                (V2(V2))
+import           Linear.V3             (V3(..))
 import qualified Text.Parsec           as Parsec
 
 type Point  = V2 Int
@@ -52,7 +52,7 @@ gridParser :: (Char -> a) -> [String] -> Map Point a
 gridParser f = Map.fromList . concat . mapIdx (\a idx1 -> mapIdx (\b idx2 -> (V2 idx1 idx2, f b)) a)
 
 -- | parses an integer
-int :: Parser s Int
+int :: (Num i, Read i) => Parser s i
 int = read <$> Parsec.many1 (Parsec.char '-' Parsec.<|> Parsec.digit)
 
 -- | Creates a bitmask out of the char using the ord function

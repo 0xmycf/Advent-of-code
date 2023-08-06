@@ -3,16 +3,15 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use <$>" #-}
 module Days.Day15 (day15) where
-import           Data.Range   (Bound (..), BoundType (Inclusive),
-                               Range (SpanRange), mergeRanges, (+=+))
-import qualified Data.Set     as Set
-import           Finite       (dayn)
-import           GHC.Generics (Generic)
-import           Lib          (int)
-import           Linear.V2    (V2 (..))
-import           Solution     (Solution (..))
-import           Text.Parsec  (ParseError, Parsec, eof, many1, newline, parse,
-                               string)
+import           Data.Range  (Bound(..), BoundType(Inclusive), Range(SpanRange),
+                              mergeRanges, (+=+))
+import qualified Data.Set    as Set
+import           Finite      (dayn)
+import           Lib         (int)
+import           Linear.V2   (V2(..))
+import           Solution    (Solution(..))
+import           Text.Parsec (ParseError, Parsec, eof, many1, newline, parse,
+                              string)
 
 
 day15 :: Solution
@@ -41,12 +40,15 @@ parseLine = do
   return (Circle (manhattanDistance sensor beacon) sensor, Beacon beacon)
 
 -- | data type for storing each line after parsing
-data Circle = Circle
-              { _radius :: Int
-              , _center :: V2 Int
-              } deriving (Show, Generic)
+data Circle
+  = Circle
+      { _radius :: Int
+      , _center :: V2 Int
+      }
+  deriving (Show)
 
-newtype Beacon = Beacon {unBeacon :: V2 Int}
+newtype Beacon
+  = Beacon { unBeacon :: V2 Int }
 
 -- | Parser for the entire input
 parseInput :: String -> Either ParseError [(Circle, Beacon)]
