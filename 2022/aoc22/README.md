@@ -20,7 +20,7 @@ My Haskell solutions (Spoiler ahead).
 - Day 16 soon?
 - Day 17 soon
 - [Day 18](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day18.hs)  | Eh, its okay.
-- Day 19 soon
+- [Day 19](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day19.hs)  | Slow, the GC uses the most time here too. [I watched this video and oriented myself on it (Because I am bad at optimizing things).](https://www.youtube.com/watch?v=5rb0vvJ7NCY&t). I might come back in the future and make it faster.
 - Day 20 soon
 - [Day 21](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22/src/Days/Day21.hs)  | Part B was trivial in Haskell (tying the knot), I used the guessing game strategy for part b, because I did not want to think about this too hard today.
 - Day 22 soon
