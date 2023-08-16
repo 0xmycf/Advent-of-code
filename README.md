@@ -36,5 +36,9 @@ Isn't it the most wonderful and joyful time of the year?
 
 - [Day 1](https://github.com/0xmycf/Advent-of-code/blob/main/2022/bqn-22/day1.bqn) | Great start to learn BQN!
 
+## [Lua](https://github.com/0xmycf/Advent-of-code/blob/main/2022/lua)
+
+- [Day 1](https://github.com/0xmycf/Advent-of-code/blob/main/2022/lua/day1.lua) | Is this how you do lua?
+
 Everything is CC-BY-SA-NC unless otherwise specified.
 Any used library or package might have their own licence.
