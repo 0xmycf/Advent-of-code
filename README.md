@@ -2,6 +2,38 @@
 
 Isn't it the most wonderful and joyful time of the year?
 
+# 2023
+
+I'll do it in a few different langauges this year, depending on my mood (or if I think I have to do some more studying on R/Java).
+
+| Day | Language | Solution | Reflection |
+|-----|----------|----------|------------|
+| 1   | idk yet  | /        | /          |
+| 2   | idk yet  | /        | /          |
+| 3   | idk yet  | /        | /          |
+| 4   | idk yet  | /        | /          |
+| 5   | idk yet  | /        | /          |
+| 6   | idk yet  | /        | /          |
+| 7   | idk yet  | /        | /          |
+| 8   | idk yet  | /        | /          |
+| 9   | idk yet  | /        | /          |
+| 10  | idk yet  | /        | /          |
+| 11  | idk yet  | /        | /          |
+| 12  | idk yet  | /        | /          |
+| 13  | idk yet  | /        | /          |
+| 14  | idk yet  | /        | /          |
+| 15  | idk yet  | /        | /          |
+| 16  | idk yet  | /        | /          |
+| 17  | idk yet  | /        | /          |
+| 18  | idk yet  | /        | /          |
+| 19  | idk yet  | /        | /          |
+| 20  | idk yet  | /        | /          |
+| 21  | idk yet  | /        | /          |
+| 22  | idk yet  | /        | /          |
+| 23  | idk yet  | /        | /          |
+| 24  | idk yet  | /        | /          |
+| 25  | idk yet  | /        | /          |
+
 # 2022
 
 ## [Haskell](https://github.com/0xmycf/Advent-of-code/blob/main/2022/aoc22)
