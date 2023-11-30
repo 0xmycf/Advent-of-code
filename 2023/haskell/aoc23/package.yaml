@@ -1,0 +1,109 @@
+version:             0.1.0.0
+author:              "0xmycf"
+name:                "aoc23"
+github:              "0xmycf/aoc23"
+license:             "CC-BY-NC-SA-4.0"
+synopsis:            "aoc 2023!"
+copyright:           "2023 0xmycf"
+homepage:            https://github.com/0xmycf/aoc23#readme
+
+extra-source-files:
+- README.md          
+
+language: GHC2021
+default-extensions:
+  - MultiWayIf
+  - BlockArguments
+  - DerivingStrategies
+  - LambdaCase
+  - OverloadedStrings
+  - OverloadedLabels
+  - RecordWildCards
+  - ExplicitNamespaces
+  - GADTs
+  - DataKinds
+  - TypeFamilies
+  - DeriveAnyClass
+  - TemplateHaskell
+
+description: Please see the README on GitHub at <https://github.com/0xmycf/aoc23#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- mtl
+- transformers
+- containers
+- unordered-containers
+- hashable
+- vector
+- text
+- split
+- optics
+- async
+- parallel
+- filepath
+- bytestring
+- aeson
+- yaml
+- parsec
+- linear
+- optics
+# - lens # if i want to use lens ill just switch
+# - generic-lens
+# - neat-interpolation
+- deepseq
+- psqueues
+- range
+- directory
+- vector
+- split
+- say
+- async
+- parallel
+- data-interval
+- data-default
+- extended-reals
+
+ghc-options:
+- -Wall
+
+library:
+  source-dirs: src
+  dependencies:
+  - directory
+
+executables:
+  aoc23-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+
+    dependencies:
+    - aoc23
+
+tests:
+  aoc23-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wno-unused-imports
+    dependencies:
+    - aoc23
+    - hspec
+    - QuickCheck
+
+benchmarks:
+  aoc23-bench:
+    main:                Bench.hs
+    source-dirs:         bench
+    ghc-options:
+    - -O2
+    dependencies:
+    - aoc23
+    - criterion

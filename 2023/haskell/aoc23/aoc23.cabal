@@ -1,0 +1,247 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.35.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:           aoc23
+version:        0.1.0.0
+synopsis:       aoc 2023!
+description:    Please see the README on GitHub at <https://github.com/0xmycf/aoc23#readme>
+homepage:       https://github.com/0xmycf/aoc23#readme
+bug-reports:    https://github.com/0xmycf/aoc23/issues
+author:         0xmycf
+maintainer:     0xmycf
+copyright:      2023 0xmycf
+license:        CC-BY-NC-SA-4.0
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/0xmycf/aoc23
+
+library
+  exposed-modules:
+      AOC23
+      Days.Day1
+      Debug
+      Finite
+      Lib
+      Search
+      Solution
+  other-modules:
+      Paths_aoc23
+  autogen-modules:
+      Paths_aoc23
+  hs-source-dirs:
+      src
+  default-extensions:
+      MultiWayIf
+      BlockArguments
+      DerivingStrategies
+      LambdaCase
+      OverloadedStrings
+      OverloadedLabels
+      RecordWildCards
+      ExplicitNamespaces
+      GADTs
+      DataKinds
+      TypeFamilies
+      DeriveAnyClass
+      TemplateHaskell
+  ghc-options: -Wall
+  build-depends:
+      aeson
+    , async
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , data-default
+    , data-interval
+    , deepseq
+    , directory
+    , extended-reals
+    , filepath
+    , hashable
+    , linear
+    , mtl
+    , optics
+    , parallel
+    , parsec
+    , psqueues
+    , range
+    , say
+    , split
+    , text
+    , transformers
+    , unordered-containers
+    , vector
+    , yaml
+  default-language: GHC2021
+
+executable aoc23-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc23
+  autogen-modules:
+      Paths_aoc23
+  hs-source-dirs:
+      app
+  default-extensions:
+      MultiWayIf
+      BlockArguments
+      DerivingStrategies
+      LambdaCase
+      OverloadedStrings
+      OverloadedLabels
+      RecordWildCards
+      ExplicitNamespaces
+      GADTs
+      DataKinds
+      TypeFamilies
+      DeriveAnyClass
+      TemplateHaskell
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , aoc23
+    , async
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , data-default
+    , data-interval
+    , deepseq
+    , directory
+    , extended-reals
+    , filepath
+    , hashable
+    , linear
+    , mtl
+    , optics
+    , parallel
+    , parsec
+    , psqueues
+    , range
+    , say
+    , split
+    , text
+    , transformers
+    , unordered-containers
+    , vector
+    , yaml
+  default-language: GHC2021
+
+test-suite aoc23-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_aoc23
+  autogen-modules:
+      Paths_aoc23
+  hs-source-dirs:
+      test
+  default-extensions:
+      MultiWayIf
+      BlockArguments
+      DerivingStrategies
+      LambdaCase
+      OverloadedStrings
+      OverloadedLabels
+      RecordWildCards
+      ExplicitNamespaces
+      GADTs
+      DataKinds
+      TypeFamilies
+      DeriveAnyClass
+      TemplateHaskell
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N -Wno-unused-imports
+  build-depends:
+      QuickCheck
+    , aeson
+    , aoc23
+    , async
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , data-default
+    , data-interval
+    , deepseq
+    , directory
+    , extended-reals
+    , filepath
+    , hashable
+    , hspec
+    , linear
+    , mtl
+    , optics
+    , parallel
+    , parsec
+    , psqueues
+    , range
+    , say
+    , split
+    , text
+    , transformers
+    , unordered-containers
+    , vector
+    , yaml
+  default-language: GHC2021
+
+benchmark aoc23-bench
+  type: exitcode-stdio-1.0
+  main-is: Bench.hs
+  other-modules:
+      Paths_aoc23
+  autogen-modules:
+      Paths_aoc23
+  hs-source-dirs:
+      bench
+  default-extensions:
+      MultiWayIf
+      BlockArguments
+      DerivingStrategies
+      LambdaCase
+      OverloadedStrings
+      OverloadedLabels
+      RecordWildCards
+      ExplicitNamespaces
+      GADTs
+      DataKinds
+      TypeFamilies
+      DeriveAnyClass
+      TemplateHaskell
+  ghc-options: -Wall -O2
+  build-depends:
+      aeson
+    , aoc23
+    , async
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , criterion
+    , data-default
+    , data-interval
+    , deepseq
+    , directory
+    , extended-reals
+    , filepath
+    , hashable
+    , linear
+    , mtl
+    , optics
+    , parallel
+    , parsec
+    , psqueues
+    , range
+    , say
+    , split
+    , text
+    , transformers
+    , unordered-containers
+    , vector
+    , yaml
+  default-language: GHC2021
