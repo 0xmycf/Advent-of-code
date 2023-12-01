@@ -8,7 +8,7 @@ I'll do it in a few different langauges this year, depending on my mood (or if I
 
 | Day | Language | Solution | Reflection |
 |-----|----------|----------|------------|
-| 1   | idk yet  | /        | /          |
+| 1   | (tried r, but ended up doing it in haskell)  | [Haskell](./2023/haskell/aoc23/src/Days/Day1.hs), [incomplete and messy R](./2023/r/day1.r) | Not a day that favours functional programming |
 | 2   | idk yet  | /        | /          |
 | 3   | idk yet  | /        | /          |
 | 4   | idk yet  | /        | /          |
