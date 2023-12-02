@@ -12,7 +12,7 @@ import           Text.Parsec    (runParser)
 import Data.Function ((&))
 
 day2 :: Solution
-day2 = Solution {day=dayn 2, partA=partA1, partB=partB1, common=commonDayTwo}
+day2 = Solution {day=dayn 2, partA=partA1, partB=partB1, common=parseDayTwo}
 
 -- Parsing ---------------------------------------------------------------------
 -- Game 2: 1 green, 1 blue, 1 red; 11 red, 3 blue; 1 blue, 18 red; 9 red, 1 green; 2 blue, 11 red, 1 green; 1 green, 2 blue, 10 red
@@ -74,19 +74,21 @@ parseGames = do
   games <- parseGame `Parsec.endBy` Parsec.newline
   pure $ M.fromList games
 
-commonDayTwo :: String -> GameList
-commonDayTwo input =
+parseDayTwo :: String -> GameList
+parseDayTwo input =   
   case runParser parseGames () "(source)" input  of
     Right a -> a
     Left  a -> error $ show a
 
+commonDayTwo :: (Int -> Game -> Int -> Int) -> GameList -> Int
+commonDayTwo hof = M.foldrWithKey hof 0
+
 partA1 :: GameList -> Int
-partA1 = M.foldrWithKey   
-  (\k (Game v) acc -> 
+partA1 = commonDayTwo (\k (Game v) acc -> 
     if all (\Set {..} -> red <= redLimit && green <= greenLimit && blue <= blueLimit) v
     then k + acc
     else acc
-  ) 0
+  )
   where
   redLimit, greenLimit, blueLimit :: Int
   redLimit   = 12
@@ -94,9 +96,9 @@ partA1 = M.foldrWithKey
   blueLimit  = 14
 
 partB1 :: GameList -> Int
-partB1 = M.foldr
-  (\(Game v) acc -> 
+partB1 = commonDayTwo
+  (\_ (Game v) acc -> 
     acc + pow v
-  ) 0
+  )
   where pow = (\Set {..} -> red * blue * green) . mconcat 
 
