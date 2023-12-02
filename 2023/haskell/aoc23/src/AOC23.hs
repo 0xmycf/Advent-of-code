@@ -12,6 +12,7 @@ import           Control.Parallel            (par, pseq)
 import           Control.Parallel.Strategies (parList, rdeepseq, using)
 import           Data.Text                   (pack)
 import           Days.Day1                   (day1)
+import           Days.Day2                   (day2)
 import           Finite                      (dayn, toInt, unwrap)
 import           Say                         (say)
 import           Solution                    (Solution(..))
@@ -46,7 +47,7 @@ registry = Registry
   , day24
   , day25
   ] where --                        --
-          day2  = Solution {day=dayn  2,  partB=const @String "partB 2",  partA=const "partA 2",  common=id}
+          -- day2  = Solution {day=dayn  2,  partB=const @String "partB 2",  partA=const "partA 2",  common=id}
           day3  = Solution {day=dayn  3,  partB=const @String "partB 3",  partA=const "partA 3",  common=id}
           day4  = Solution {day=dayn  4,  partB=const @String "partB 4",  partA=const "partA 4",  common=id}
           day5  = Solution {day=dayn  5,  partB=const @String "partB 5",  partA=const "partA 5",  common=id}

@@ -3,7 +3,6 @@ import           Control.Monad (join)
 import           Data.Char     (digitToInt, isNumber)
 import qualified Data.Map      as M
 import           Data.Text     (Text, pack, replace, unpack)
-import qualified Debug.Trace   as T
 import           Finite        (dayn)
 import           Solution      (Solution(..))
 
@@ -21,9 +20,6 @@ partA1 input = foldr (\v acc -> read [head v, last v] + acc) 0 newinput
   where
   newinput   = map filterNums input
   filterNums = filter isNumber
-
-js :: Show a => a -> a
-js = join T.traceShow
 
 data Var
   = Var

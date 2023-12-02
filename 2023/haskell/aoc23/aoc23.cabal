@@ -27,6 +27,7 @@ library
   exposed-modules:
       AOC23
       Days.Day1
+      Days.Day2
       Debug
       Finite
       Lib
