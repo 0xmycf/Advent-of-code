@@ -1,5 +1,4 @@
 module Days.Day1 (day1) where
-import           Control.Monad (join)
 import           Data.Char     (digitToInt, isNumber)
 import qualified Data.Map      as M
 import           Data.Text     (Text, pack, replace, unpack)

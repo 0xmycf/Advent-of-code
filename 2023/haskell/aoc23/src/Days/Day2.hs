@@ -2,14 +2,11 @@ module Days.Day2 (day2) where
 import           Control.Monad  (void)
 import           Data.Map       (Map)
 import qualified Data.Map       as M
-import           Debug          (js)
 import           Finite         (dayn)
 import           Lib            (Parser', int)
-import           Linear.Plucker (p13)
 import           Solution       (Solution(..))
 import qualified Text.Parsec    as Parsec
 import           Text.Parsec    (runParser)
-import Data.Function ((&))
 
 day2 :: Solution
 day2 = Solution {day=dayn 2, partA=partA1, partB=partB1, common=parseDayTwo}

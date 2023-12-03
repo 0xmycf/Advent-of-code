@@ -10,7 +10,7 @@ I'll do it in a few different langauges this year, depending on my mood (or if I
 |-----|----------|----------|------------|
 | 1   | Haskell, R (only a) | [Haskell](./2023/haskell/aoc23/src/Days/Day1.hs), [incomplete and messy R](./2023/r/day1.r) | Not a day that favours functional programming |
 | 2   | Haskell  | [Haskell](./2023/haskell/aoc23/src/Days/Day2.hs)        | Very nice. Used a semigroup instance and lots of datatypes :handsup: |
-| 3   | idk yet  | /        | /          |
+| 3   | Haskell  | [Haskell](./2023/haskell/aoc23/src/Days/Day3.hs)        | Very quick and dirty, did not bother too look over it again. The solutions was quite straight forward though. Compared to the previous day 3 problems this seems quite bloated.|
 | 4   | idk yet  | /        | /          |
 | 5   | idk yet  | /        | /          |
 | 6   | idk yet  | /        | /          |

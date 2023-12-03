@@ -28,6 +28,7 @@ library
       AOC23
       Days.Day1
       Days.Day2
+      Days.Day3
       Debug
       Finite
       Lib
