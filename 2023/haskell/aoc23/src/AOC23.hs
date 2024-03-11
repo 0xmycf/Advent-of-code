@@ -14,6 +14,7 @@ import           Data.Text                   (pack)
 import           Days.Day1                   (day1)
 import           Days.Day2                   (day2)
 import           Days.Day3                   (day3)
+import           Days.Day4                   (day4)
 import           Finite                      (dayn, toInt, unwrap)
 import           Say                         (say)
 import           Solution                    (Solution(..))
@@ -50,7 +51,7 @@ registry = Registry
   ] where --                        --
           -- day2  = Solution {day=dayn  2,  partB=const @String "partB 2",  partA=const "partA 2",  common=id}
           -- day3  = Solution {day=dayn  3,  partB=const @String "partB 3",  partA=const "partA 3",  common=id}
-          day4  = Solution {day=dayn  4,  partB=const @String "partB 4",  partA=const "partA 4",  common=id}
+          -- day4  = Solution {day=dayn  4,  partB=const @String "partB 4",  partA=const "partA 4",  common=id}
           day5  = Solution {day=dayn  5,  partB=const @String "partB 5",  partA=const "partA 5",  common=id}
           day6  = Solution {day=dayn  6,  partB=const @String "partB 6",  partA=const "partA 6",  common=id}
           day7  = Solution {day=dayn  7,  partB=const @String "partB 7",  partA=const "partA 7",  common=id}
