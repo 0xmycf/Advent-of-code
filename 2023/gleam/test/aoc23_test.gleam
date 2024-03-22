@@ -1,10 +1,9 @@
 import gleeunit
-import gleam/io
 import gleeunit/should
 import aoc23
 import gleam/dict
 import gleam/result
-import gleam/option.{type Option, None, Some}
+import gleam/option.{None, Some}
 import gleam/list
 
 pub fn main() {
