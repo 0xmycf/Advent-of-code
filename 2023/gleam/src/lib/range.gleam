@@ -3,35 +3,41 @@
 
 import gleam/list
 
-/// The basic range type, you can create one using the constructor
-/// or one of the other smart constructors
-pub type Range {
-  Range(from: Int, to: Int, inclusive: Inclusive)
+/// The basic range type, you can construct one
+/// using one of the other smart constructors
+///
+/// This is always inclusive on both sides
+pub opaque type Range {
+  Range(from: Int, to: Int)
 }
 
 /// it doesnt matter if from is greater than to, the range will be created correctly,
 /// i.e. Range(from, to, _) from will always be from <= to.
-pub fn new(from from: Int, to to: Int, inclusive inclusive: Inclusive) -> Range {
+fn new(from from: Int, to to: Int) -> Range {
   case from <= to {
-    True -> Range(from, to, inclusive)
-    False -> Range(to, from, inclusive)
+    True -> Range(from, to)
+    False -> Range(to, from)
   }
 }
 
+/// left inclusive, right exclusive
 pub fn new_left(from from: Int, to to: Int) -> Range {
-  new(from, to, Left)
+  new(from, to - 1)
 }
 
+// right inclusive, left exclusive
 pub fn new_right(from from: Int, to to: Int) -> Range {
-  new(from, to, Right)
+  new(from + 1, to)
 }
 
+/// both inclusive
 pub fn new_both(from from: Int, to to: Int) -> Range {
-  new(from, to, Both)
+  new(from, to)
 }
 
+/// none inclusive
 pub fn new_none(from from: Int, to to: Int) -> Range {
-  new(from, to, None)
+  new(from + 1, to - 1)
 }
 
 /// Left  [from, to)
@@ -50,21 +56,11 @@ pub type Inclusive {
 
 // creats a list of integers from the given range
 pub fn to_list(r: Range) -> List(Int) {
-  case r.inclusive {
-    Left -> list.range(r.from, r.to - 1)
-    Right -> list.range(r.from - 1, r.to)
-    Both -> list.range(r.from, r.to)
-    None -> list.range(r.from - 1, r.to - 1)
-  }
+  list.range(r.from, r.to)
 }
 
 pub fn contains(r: Range, value: Int) -> Bool {
-  case r.inclusive {
-    Left -> r.from <= value && value < r.to
-    Right -> r.from < value && value <= r.to
-    Both -> r.from <= value && value <= r.to
-    None -> r.from < value && value < r.to
-  }
+  r.from <= value && value <= r.to
 }
 
 /// checks if the first range is a subset of the second
@@ -84,13 +80,7 @@ pub type Overlap {
 /// if r2 is partially contained, but has a higher bound than r1, it returns `Overlap(Right)`
 /// if r2 is partially contained, but has a lower bound than r1, it returns `Overlap(Left)`
 pub fn overlap(r1: Range, r2: Range) -> Overlap {
-  let #(from, to) = case r2.inclusive {
-    Left -> #(r2.from, r2.to - 1)
-    Right -> #(r2.from + 1, r2.to)
-    Both -> #(r2.from, r2.to)
-    None -> #(r2.from + 1, r2.to - 1)
-  }
-  case contains(r1, from), contains(r1, to) {
+  case contains(r1, r2.from), contains(r1, r2.to) {
     True, True -> Overlap(Both)
     True, False -> Overlap(Right)
     False, True -> Overlap(Left)
@@ -115,55 +105,19 @@ pub fn split(
     False -> at - 1
   }
   case contains(r1, at) {
-    True -> {
-      case r1.inclusive {
-        Left -> #(new_both(r1.from, bound), new_left(bound, r1.to))
-        Right -> #(new_right(r1.from, bound), new_both(bound, r1.to))
-        Both -> #(new_both(r1.from, bound), new_both(bound, r1.to))
-        None -> #(new_right(r1.from, bound), new_left(bound, r1.to))
-      }
-      |> Ok
-    }
+    True -> Ok(#(new(r1.from, bound), new(bound, r1.to)))
     False -> Error(NotInBounds(at))
   }
 }
-//
 
-// /// given that the two ranges overlap, it will return the intersection
-// /// TODO this does not work, as Overlap(Left) will return the wrong values
-// fn new_inc(r1: Range, r2: Range) -> Inclusive {
-//   case r1.inclusive, r2.inclusive {
-//     Left, Left -> Left
-//     Left, Right -> Both
-//     Left, Both -> Both
-//     Left, None -> Left
-// //
-//     Right, Left -> None
-//     Right, Right -> Right
-//     Right, Both -> Right
-//     Right, None -> None
-// //
-//     Both, Left -> Left
-//     Both, Right -> Both
-//     Both, Both -> Both
-//     Both, None -> Left
-// //
-//     None, Left -> None
-//     None, Right -> Right
-//     None, Both -> Right
-//     None, None -> None
-//   }
-// }
 
-// /// will merge the tow ranges, even if there is no overlap
-// pub fn merge(r1: Range, r2: Range) -> Range {
-//   case overlap(r1, r2) {
-//     NoOverlap -> new(r1.from, r2.to, Both)
-//     Overlap(Both) -> todo
-//     Overlap(_) -> {
-//       todo
-//     }
-//   }
-//   // new(from, to, inclusive)
-//   todo
-// }
+// TODO needs testing
+/// will merge the tow ranges, even if there is no overlap
+pub fn merge(r1: Range, r2: Range) -> Range {
+  case r1.from <= r2.from, r1.to >= r2.to {
+    True, True -> r1
+    False, False -> r2
+    True, False -> new(r1.from, r2.to)
+    False, True -> new(r2.from, r1.to)
+  }
+}
