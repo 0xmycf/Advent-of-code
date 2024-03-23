@@ -40,6 +40,10 @@ pub fn new_none(from from: Int, to to: Int) -> Range {
   new(from + 1, to - 1)
 }
 
+pub fn bounds(r: Range) -> #(Int, Int) {
+  #(r.from, r.to)
+}
+
 /// Left  [from, to)
 ///
 /// Right (from, to]
@@ -70,29 +74,34 @@ pub fn subset(r1: Range, subset_of r2: Range) -> Bool {
 
 pub type Overlap {
   NoOverlap
-  Overlap(Inclusive)
+  RightOverlap
+  LeftOverlap
+  BothOverlap
 }
 
 /// checks if the two ranges overlap
 ///
 /// if there is no overlap, it returns `NoOverlap`
+///
 /// if r2 is completely contained in r1, it returns `Overlap(Both)`
+///
 /// if r2 is partially contained, but has a higher bound than r1, it returns `Overlap(Right)`
+///
 /// if r2 is partially contained, but has a lower bound than r1, it returns `Overlap(Left)`
 pub fn overlap(r1: Range, r2: Range) -> Overlap {
   case contains(r1, r2.from), contains(r1, r2.to) {
-    True, True -> Overlap(Both)
-    True, False -> Overlap(Right)
-    False, True -> Overlap(Left)
+    True, True -> BothOverlap
+    True, False -> RightOverlap
+    False, True -> LeftOverlap
     False, False -> NoOverlap
   }
 }
 
 pub type RangeError {
   NotInBounds(Int)
+  RangesDontOverlap
 }
 
-// this needs testing
 /// if include is false, this function will return new ranges that are inclusive of up to (at - 1)
 /// instead of Left/Right/None with at as the bound
 pub fn split(
@@ -100,18 +109,16 @@ pub fn split(
   at at: Int,
   should_include inclusive: Bool,
 ) -> Result(#(Range, Range), RangeError) {
-  let bound = case inclusive {
-    True -> at
-    False -> at - 1
+  let offset = case inclusive {
+    True -> 0
+    False -> 1
   }
   case contains(r1, at) {
-    True -> Ok(#(new(r1.from, bound), new(bound, r1.to)))
+    True -> Ok(#(new(r1.from, at - offset), new(at + offset, r1.to)))
     False -> Error(NotInBounds(at))
   }
 }
 
-
-// TODO needs testing
 /// will merge the tow ranges, even if there is no overlap
 pub fn merge(r1: Range, r2: Range) -> Range {
   case r1.from <= r2.from, r1.to >= r2.to {
@@ -119,5 +126,14 @@ pub fn merge(r1: Range, r2: Range) -> Range {
     False, False -> r2
     True, False -> new(r1.from, r2.to)
     False, True -> new(r2.from, r1.to)
+  }
+}
+
+// todo better docs
+/// returns the disjunction of the two ranges
+pub fn parts(r1: Range, r2: Range) -> Result(List(Range), RangeError) {
+  case overlap(r1, r2) {
+    NoOverlap -> Error(RangesDontOverlap)
+    _ -> todo
   }
 }
