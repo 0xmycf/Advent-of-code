@@ -95,17 +95,9 @@ pub fn overlap_no_overlap_test() {
 }
 
 pub fn overlap_right_test() {
-  let expected = range.Overlap(range.Right)
+  let expected = range.RightOverlap
   let r1 = range.new_both(0, 10)
   let r2 = range.new_both(5, 20)
-  range.overlap(r1, r2)
-  |> should.equal(expected)
-}
-
-pub fn overlap_right_extreme_right_test() {
-  let expected = range.Overlap(range.Right)
-  let r1 = range.new_both(0, 10)
-  let r2 = range.new_both(10, 20)
   range.overlap(r1, r2)
   |> should.equal(expected)
 }
@@ -129,17 +121,9 @@ pub fn overlap_right_extreme_right_false2_test() {
 }
 
 pub fn overlap_left_test() {
-  let expected = range.Overlap(range.Left)
+  let expected = range.LeftOverlap
   let r1 = range.new_both(0, 10)
   let r2 = range.new_both(-5, 5)
-  range.overlap(r1, r2)
-  |> should.equal(expected)
-}
-
-pub fn overlap_left_extreme_left_test() {
-  let expected = range.Overlap(range.Left)
-  let r1 = range.new_both(20, 200)
-  let r2 = range.new_both(10, 20)
   range.overlap(r1, r2)
   |> should.equal(expected)
 }
@@ -163,7 +147,7 @@ pub fn overlap_left_extreme_left_false2_test() {
 }
 
 pub fn overlap_both_test() {
-  let expected = range.Overlap(range.Both)
+  let expected = range.BothOverlap
   let r1 = range.new_both(-20, 20)
   let r2 = range.new_both(5, 15)
   range.overlap(r1, r2)
@@ -197,7 +181,7 @@ pub fn subset_false_true_but_arguments_are_flipped_test() {
 
 pub fn subset_false_test() {
   let r1 = range.new_both(200, 10_000)
-  let r2 = range.new_both(-123332131, -1)
+  let r2 = range.new_both(-123_332_131, -1)
   range.subset(r1, subset_of: r2)
   |> should.be_false
 }
@@ -208,8 +192,7 @@ pub fn subset_false_test() {
 
 pub fn split_at_inside_test() {
   let where = 10
-  let expected =
-    #(range.new_both(0, 10), range.new_both(10, 20))
+  let expected = #(range.new_both(0, 10), range.new_both(10, 20))
   let r1 = range.new_both(0, 20)
   range.split(r1, at: where, should_include: True)
   |> should.be_ok
@@ -228,11 +211,32 @@ pub fn split_at_outside_test() {
 
 pub fn split_at_inside_and_not_inclusive_test() {
   let where = 10
-  let expected =
-    #(range.new_both(0, 9), range.new_both(11, 20))
+  let expected = #(range.new_both(0, 9), range.new_both(11, 20))
   let r1 = range.new_both(0, 20)
   range.split(r1, at: where, should_include: False)
   |> should.be_ok
+  |> should.equal(expected)
+}
+
+//
+// Test overlap right and left adjecency
+//
+
+pub fn overlap_right_adjecent_test() {
+  let expected = range.RightAdjacent
+  let r1 = range.new_both(0, 10)
+  let r2 = range.new_both(10, 20)
+  // r2 is right of r1
+  range.overlap(r1, r2)
+  |> should.equal(expected)
+}
+
+pub fn overlap_left_adjecent_test() {
+  let expected = range.LeftAdjacent
+  let r1 = range.new_both(10, 20)
+  let r2 = range.new_both(0, 10)
+  // r2 is left of r1
+  range.overlap(r1, r2)
   |> should.equal(expected)
 }
 
@@ -268,4 +272,98 @@ pub fn merge_r2_is_true_subset_test() {
   let r2 = range.new_both(5, 10)
   range.merge(r1, r2)
   |> should.equal(r1)
+}
+
+//
+// parts tests
+//
+
+pub fn parts_test_no_overlap() {
+  let expected = range.RangesDontOverlap
+  let r1 = range.new_both(200, 2000)
+  let r2 = range.new_both(0, 10)
+  range.parts(r1, r2)
+  |> should.be_error
+  |> should.equal(expected)
+}
+
+pub fn parts_test_right_adjacent() {
+  let r1 = range.new_both(0, 20)
+  let r2 = range.new_both(20, 100)
+  let expected = [r1, r2]
+  range.parts(r1, r2)
+  |> should.be_ok
+  |> should.equal(expected)
+}
+
+pub fn parts_test_left_adjacent() {
+  let r1 = range.new_both(20, 100)
+  let r2 = range.new_both(0, 20)
+  let expected = [r2, r1]
+  range.parts(r1, r2)
+  |> should.be_ok
+  |> should.equal(expected)
+}
+
+pub fn parts_test_right_overlap() {
+  let r1 = range.new_both(0, 20)
+  let r2 = range.new_both(10, 100)
+  let expected = [
+    range.new_both(0, 10),
+    range.new_both(10, 20),
+    range.new_both(20, 100),
+  ]
+  range.parts(r1, r2)
+  |> should.be_ok
+  |> should.equal(expected)
+}
+
+pub fn parts_test_left_overlap() {
+  let r1 = range.new_both(10, 100)
+  let r2 = range.new_both(0, 20)
+  let expected = [
+    range.new_both(0, 10),
+    range.new_both(10, 20),
+    range.new_both(20, 100),
+  ]
+  range.parts(r1, r2)
+  |> should.be_ok
+  |> should.equal(expected)
+}
+
+pub fn parts_test_both_overlap() {
+  let r1 = range.new_both(0, 30)
+  let r2 = range.new_both(10, 20)
+  let expected = [
+    range.new_both(0, 10),
+    range.new_both(10, 20),
+    range.new_both(20, 30),
+  ]
+  range.parts(r1, r2)
+  |> should.be_ok
+  |> should.equal(expected)
+}
+
+pub fn parts_test_both_overlap_some_bounds_are_the_same_min() {
+  let r1 = range.new_both(0, 30)
+  let r2 = range.new_both(10, 30)
+  let expected = [
+    range.new_both(0, 10),
+    range.new_both(10, 30),
+  ]
+  range.parts(r1, r2)
+  |> should.be_ok
+  |> should.equal(expected)
+}
+
+pub fn parts_test_both_overlap_some_bounds_are_the_same_max() {
+  let r1 = range.new_both(0, 30)
+  let r2 = range.new_both(0, 20)
+  let expected = [
+    range.new_both(0, 20),
+    range.new_both(20, 30),
+  ]
+  range.parts(r1, r2)
+  |> should.be_ok
+  |> should.equal(expected)
 }

@@ -77,23 +77,34 @@ pub type Overlap {
   RightOverlap
   LeftOverlap
   BothOverlap
+  LeftAdjacent
+  RightAdjacent
 }
 
-/// checks if the two ranges overlap
+/// checks if the two ranges overlap, the result can be interpreted as r2 'overlap_value' r1
 ///
 /// if there is no overlap, it returns `NoOverlap`
 ///
-/// if r2 is completely contained in r1, it returns `Overlap(Both)`
+/// if r2 is completely contained in r1, it returns `BothOverlap`
 ///
-/// if r2 is partially contained, but has a higher bound than r1, it returns `Overlap(Right)`
+/// if r2 is partially contained, but has a higher bound than r1, it returns `RightOverlap`
 ///
-/// if r2 is partially contained, but has a lower bound than r1, it returns `Overlap(Left)`
+/// if r2 is partially contained, but has a lower bound than r1, it returns `LeftOverlap`
+///
+/// if r2 starts where r1 ends it returns `LeftAdjacent`
+///
+/// if r2 ends where r1 starts it returns `RightAdjacent`
 pub fn overlap(r1: Range, r2: Range) -> Overlap {
-  case contains(r1, r2.from), contains(r1, r2.to) {
-    True, True -> BothOverlap
-    True, False -> RightOverlap
-    False, True -> LeftOverlap
-    False, False -> NoOverlap
+  case r1.from == r2.to, r1.to == r2.from {
+    True, _ -> LeftAdjacent
+    _, True -> RightAdjacent
+    _, _ ->
+      case contains(r1, r2.from), contains(r1, r2.to) {
+        True, True -> BothOverlap
+        True, False -> RightOverlap
+        False, True -> LeftOverlap
+        False, False -> NoOverlap
+      }
   }
 }
 
@@ -129,11 +140,29 @@ pub fn merge(r1: Range, r2: Range) -> Range {
   }
 }
 
-// todo better docs
-/// returns the disjunction of the two ranges
+fn filter_same_bounds(r: Range) -> Bool {
+  r.from != r.to
+}
+
+// returns a list of subranges defined by the bounds of the two given ranges
 pub fn parts(r1: Range, r2: Range) -> Result(List(Range), RangeError) {
   case overlap(r1, r2) {
     NoOverlap -> Error(RangesDontOverlap)
-    _ -> todo
+    LeftAdjacent | LeftOverlap -> parts(r2, r1)
+    RightAdjacent -> Ok([r1, r2])
+    BothOverlap -> {
+      let #(from1, to1) = bounds(r1)
+      let #(from2, to2) = bounds(r2)
+      [new(from1, from2), r2, new(to2, to1)]
+      |> list.filter(filter_same_bounds)
+      |> Ok
+    }
+    RightOverlap -> {
+      let #(from1, to1) = bounds(r1)
+      let #(from2, to2) = bounds(r2)
+      [new(from1, from2), new(from2, to1), new(to1, to2)]
+      |> list.filter(filter_same_bounds)
+      |> Ok
+    }
   }
 }
