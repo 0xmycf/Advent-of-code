@@ -1,6 +1,7 @@
 import gleeunit/should
 import lib/range
 import gleam/list
+import gleam/io
 
 //
 // new_both tests
@@ -278,7 +279,32 @@ pub fn merge_r2_is_true_subset_test() {
 // parts tests
 //
 
-pub fn parts_test_no_overlap() {
+pub fn parts_test() {
+  let one = range.new_both(79, 92)
+  let two = range.new_both(50, 97)
+  range.parts(one, two)
+  |> should.be_ok
+  |> should.equal([
+    range.new_both(50, 78),
+    range.new_both(79, 91),
+    range.new_both(92, 97),
+  ])
+}
+
+// it think this test assumes different things than i assumed before
+// pub fn parts_2_test() {
+//   let one = range.new_left(53, 53 + 8)
+//   let two = range.new_both(38, 80)
+//   range.parts(one, two)
+//   |> should.be_ok
+//   |> should.equal([
+//     range.new_both(38, 52),
+//     range.new_both(53, 60),
+//     range.new_both(61, 80),
+//   ])
+// }
+
+pub fn parts_test_no_overlap_test() {
   let expected = range.RangesDontOverlap
   let r1 = range.new_both(200, 2000)
   let r2 = range.new_both(0, 10)
@@ -287,30 +313,30 @@ pub fn parts_test_no_overlap() {
   |> should.equal(expected)
 }
 
-pub fn parts_test_right_adjacent() {
+pub fn parts_test_right_adjacent_test() {
   let r1 = range.new_both(0, 20)
   let r2 = range.new_both(20, 100)
-  let expected = [r1, r2]
+  let expected = [range.new_both(0, 19), r2]
   range.parts(r1, r2)
   |> should.be_ok
   |> should.equal(expected)
 }
 
-pub fn parts_test_left_adjacent() {
+pub fn parts_test_left_adjacent_test() {
   let r1 = range.new_both(20, 100)
   let r2 = range.new_both(0, 20)
-  let expected = [r2, r1]
+  let expected = [range.new_both(0, 19), r1]
   range.parts(r1, r2)
   |> should.be_ok
   |> should.equal(expected)
 }
 
-pub fn parts_test_right_overlap() {
+pub fn parts_test_right_overlap_test() {
   let r1 = range.new_both(0, 20)
   let r2 = range.new_both(10, 100)
   let expected = [
-    range.new_both(0, 10),
-    range.new_both(10, 20),
+    range.new_both(0, 9),
+    range.new_both(10, 19),
     range.new_both(20, 100),
   ]
   range.parts(r1, r2)
@@ -318,12 +344,12 @@ pub fn parts_test_right_overlap() {
   |> should.equal(expected)
 }
 
-pub fn parts_test_left_overlap() {
+pub fn parts_test_left_overlap_test() {
   let r1 = range.new_both(10, 100)
   let r2 = range.new_both(0, 20)
   let expected = [
-    range.new_both(0, 10),
-    range.new_both(10, 20),
+    range.new_both(0, 9),
+    range.new_both(10, 19),
     range.new_both(20, 100),
   ]
   range.parts(r1, r2)
@@ -331,12 +357,12 @@ pub fn parts_test_left_overlap() {
   |> should.equal(expected)
 }
 
-pub fn parts_test_both_overlap() {
+pub fn parts_test_both_overlap_test() {
   let r1 = range.new_both(0, 30)
   let r2 = range.new_both(10, 20)
   let expected = [
-    range.new_both(0, 10),
-    range.new_both(10, 20),
+    range.new_both(0, 9),
+    range.new_both(10, 19),
     range.new_both(20, 30),
   ]
   range.parts(r1, r2)
@@ -344,25 +370,19 @@ pub fn parts_test_both_overlap() {
   |> should.equal(expected)
 }
 
-pub fn parts_test_both_overlap_some_bounds_are_the_same_min() {
+pub fn parts_test_both_overlap_some_bounds_are_the_same_min_test() {
   let r1 = range.new_both(0, 30)
   let r2 = range.new_both(10, 30)
-  let expected = [
-    range.new_both(0, 10),
-    range.new_both(10, 30),
-  ]
+  let expected = [range.new_both(0, 9), range.new_both(10, 30)]
   range.parts(r1, r2)
   |> should.be_ok
   |> should.equal(expected)
 }
 
-pub fn parts_test_both_overlap_some_bounds_are_the_same_max() {
+pub fn parts_test_both_overlap_some_bounds_are_the_same_max_test() {
   let r1 = range.new_both(0, 30)
   let r2 = range.new_both(0, 20)
-  let expected = [
-    range.new_both(0, 20),
-    range.new_both(20, 30),
-  ]
+  let expected = [range.new_both(0, 19), range.new_both(20, 30)]
   range.parts(r1, r2)
   |> should.be_ok
   |> should.equal(expected)

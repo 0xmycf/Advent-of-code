@@ -7,6 +7,8 @@ import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/result.{try}
 import gleam/dict.{type Dict}
+import lib/range.{type Range}
+import argv
 
 pub type FileError {
   Enoent
@@ -15,15 +17,31 @@ pub type FileError {
 @external(erlang, "file", "read_file")
 fn read_file(path: String) -> Result(String, FileError)
 
+pub type Part {
+  A
+  B
+}
+
 pub fn main() {
-  let either_content = read_file("./input/day5.txt")
-  case either_content {
-    Ok(content) -> {
-      let #(seeds, Input(map_to_list)) = parse(content)
-      let lowest_num = resolve(seeds, map_to_list)
-      io.println("Lowest number is: " <> from_max(lowest_num))
+  let args = argv.load().arguments
+  let part = case args {
+    [part] -> {
+      case part {
+        "1" | "a" | "A" -> A
+        "2" | "b" | "B" -> B
+        _ -> panic as "Invalid part"
+      }
     }
-    Error(_) -> io.println("Error reading file")
+    _ -> panic as "No part provided"
+  }
+  let either_content = read_file("./input/test/day5.txt")
+  case either_content, part {
+    Ok(content), part -> {
+      let #(seeds, Input(map_to_list)) = parse(content)
+      let lowest_num = resolve(part, seeds, map_to_list)
+      io.println("Lowest number is: " <> min_to_string(lowest_num))
+    }
+    Error(_), _ -> io.println("Error reading file")
   }
 }
 
@@ -37,25 +55,40 @@ const oh_no = [
   #("humidity", "location"),
 ]
 
-type Max {
+type Min {
   Inf
   Num(Int)
 }
 
-fn from_max(max: Max) -> String {
-  case max {
+fn min(m: Min, b: Int) {
+  case m {
+    Inf -> Num(b)
+    Num(a) -> Num(int.min(a, b))
+  }
+}
+
+fn min_to_string(min: Min) -> String {
+  case min {
     Inf -> "Inf"
     Num(int) -> int.to_string(int)
   }
 }
 
-fn resolve(seeds, map) -> Max {
+fn resolve(part, seeds, map: Dict(#(String, String), List(Mapper))) -> Min {
+  case part {
+    A -> resolve_a(seeds, map)
+    B -> resolve_b(seeds, map)
+  }
+}
+
+fn resolve_a(seeds, map) -> Min {
   use total, seed <- list.fold(seeds, Inf)
   let new = {
     use last_seed, key <- list.fold(oh_no, seed)
     // advent of code guarantees that the key is in the map
     let assert Ok(maps) = dict.get(map, key)
     use last, map <- list.fold(maps, last_seed)
+    // either gets a new value or returns the same value unchanged
     mapped_value(map, last_seed)
     |> option.unwrap(last)
   }
@@ -66,8 +99,106 @@ fn resolve(seeds, map) -> Max {
   |> Num
 }
 
+fn resolve_b(seeds, map) {
+  inner_b(seeds, map)
+  |> min_rs
+}
+
+fn min_rs(ranges: List(Range)) -> Min {
+  use acc, value <- list.fold(ranges, Inf)
+  let #(from, to) = range.bounds(value)
+  min(acc, from)
+  |> min(to)
+}
+
+fn inner_b(seeds, map) -> List(Range) {
+  // if its not none there is something wrong 
+  let assert #(b_seeds, None) =
+    list.fold(seeds, #([], None), fn(acc, seed) {
+      case acc {
+        #(xs, None) -> #(xs, Some(seed))
+        #(xs, Some(value)) -> #(
+          [range.new_left(value, seed + value), ..xs],
+          None,
+        )
+      }
+    })
+  let input =
+    [
+      list.at(
+        b_seeds
+          |> list.reverse,
+        0,
+      )
+      |> result.unwrap(range.singleton(-1_202_303_404)),
+    ]
+    |> io.debug
+  use seed_acc, seed_value <- list.fold(input, [])
+  let ranges = map_seed(seed_value, map)
+  list.append(ranges, seed_acc)
+}
+
+/// returns the new ranges after they've been mapped 
+fn map_seed(
+  seed: Range,
+  map: Dict(#(String, String), List(Mapper)),
+) -> List(Range) {
+  use acc, key <- list.fold(oh_no, [seed])
+  let assert Ok(maps) = dict.get(map, key)
+  io.debug(#(key, maps, acc))
+  let foo = {
+    use value <- list.flat_map(acc)
+    io.debug(#("calling resolve_maps with", value))
+    resolve_maps(maps, value)
+  }
+  io.debug(#("foo:", foo))
+  io.debug("---")
+  foo
+}
+
+fn resolve_maps(maps: List(Mapper), seed: Range) -> List(Range) {
+  use acc, map <- list.fold(maps, [seed])
+  io.debug(#("iniside resolve_maps", "acc", acc, "map", map))
+  use value <- list.flat_map(acc)
+  io.debug(#("using value", value))
+  let ps =
+    parts(seed, map)
+    |> result.unwrap([])
+    |> io.debug
+    |> list.map(mapped_range(map, _))
+  case ps == [] {
+    True -> [value]
+    False -> ps
+  }
+}
+
+pub fn parts(range: Range, map: Mapper) -> range.PartsResult {
+  let map_range = range.new_left(map.src, map.src + map.range)
+  case range.overlap(range, map_range) {
+    range.BothOverlap -> {
+      range.parts(
+        range,
+        map_range
+          |> range.map_to(fn(x) { x + 1 }),
+      )
+    }
+    _ -> range.parts(range, map_range)
+  }
+}
+
 pub type Mapper {
   Map(dst: Int, src: Int, range: Int)
+}
+
+pub fn mapped_range(mapper: Mapper, r: Range) -> Range {
+  let #(from, to) = range.bounds(r)
+  let from1 =
+    mapped_value(mapper, from)
+    |> option.unwrap(from)
+  let to1 =
+    mapped_value(mapper, to)
+    |> option.unwrap(to)
+  range.new_both(from1, to1)
 }
 
 pub fn mapped_value(mapper: Mapper, value: Int) -> Option(Int) {
@@ -80,7 +211,6 @@ pub fn mapped_value(mapper: Mapper, value: Int) -> Option(Int) {
       dst + diff
       |> Some
     }
-    // |> Some
     False -> None
   }
 }

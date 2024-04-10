@@ -2,6 +2,7 @@
 //// Differente functions are exposed to create ranges
 
 import gleam/list
+import gleam/int
 
 /// The basic range type, you can construct one
 /// using one of the other smart constructors
@@ -22,12 +23,14 @@ fn new(from from: Int, to to: Int) -> Range {
 
 /// left inclusive, right exclusive
 pub fn new_left(from from: Int, to to: Int) -> Range {
-  new(from, to - 1)
+  new(from, to)
+  |> map_to(fn(x) { x - 1 })
 }
 
 // right inclusive, left exclusive
 pub fn new_right(from from: Int, to to: Int) -> Range {
-  new(from + 1, to)
+  new(from, to)
+  |> map_from(fn(x) { x + 1 })
 }
 
 /// both inclusive
@@ -37,7 +40,13 @@ pub fn new_both(from from: Int, to to: Int) -> Range {
 
 /// none inclusive
 pub fn new_none(from from: Int, to to: Int) -> Range {
-  new(from + 1, to - 1)
+  new(from, to)
+  |> map_from(fn(x) { x + 1 })
+  |> map_to(fn(x) { x - 1 })
+}
+
+pub fn singleton(value: Int) -> Range {
+  new(value, value)
 }
 
 pub fn bounds(r: Range) -> #(Int, Int) {
@@ -103,7 +112,14 @@ pub fn overlap(r1: Range, r2: Range) -> Overlap {
         True, True -> BothOverlap
         True, False -> RightOverlap
         False, True -> LeftOverlap
-        False, False -> NoOverlap
+        False, False -> {
+          case contains(r2, r1.from), contains(r2, r1.to) {
+            True, True -> BothOverlap
+            True, False -> RightOverlap
+            False, True -> LeftOverlap
+            False, False -> NoOverlap
+          }
+        }
       }
   }
 }
@@ -144,25 +160,60 @@ fn filter_same_bounds(r: Range) -> Bool {
   r.from != r.to
 }
 
+pub type PartsResult =
+  Result(List(Range), RangeError)
+
 // returns a list of subranges defined by the bounds of the two given ranges
+// each subrange is inclusive on the left and exclusive on the right,
+// except the last list, which is inclusive on both side
 pub fn parts(r1: Range, r2: Range) -> Result(List(Range), RangeError) {
   case overlap(r1, r2) {
     NoOverlap -> Error(RangesDontOverlap)
     LeftAdjacent | LeftOverlap -> parts(r2, r1)
-    RightAdjacent -> Ok([r1, r2])
-    BothOverlap -> {
+    RightAdjacent -> Ok([new_left(r1.from, r1.to), r2])
+    BothOverlap | RightOverlap -> {
       let #(from1, to1) = bounds(r1)
       let #(from2, to2) = bounds(r2)
-      [new(from1, from2), r2, new(to2, to1)]
+      let offset = case to1 == to2 {
+        True -> 0
+        False -> 1
+      }
+      [
+        from_to_range(from1, from2),
+        new(int.min(to1, to2), int.max(from1, from2))
+          |> map_to(fn(x) { x - offset }),
+        new(to2, to1),
+      ]
       |> list.filter(filter_same_bounds)
       |> Ok
     }
-    RightOverlap -> {
-      let #(from1, to1) = bounds(r1)
-      let #(from2, to2) = bounds(r2)
-      [new(from1, from2), new(from2, to1), new(to1, to2)]
-      |> list.filter(filter_same_bounds)
-      |> Ok
-    }
+    // RightOverlap -> {
+    //   let #(from1, to1) = bounds(r1)
+    //   let #(from2, to2) = bounds(r2)
+    //   [
+    //     new(from1, from2)
+    //       |> map_to(fn(x) { x - 1 }),
+    //     new(from2, to1)
+    //       |> map_to(fn(x) { x - 1 }),
+    //     new(to1, to2),
+    //   ]
+    //   |> list.filter(filter_same_bounds)
+    //   |> Ok
+    // }
+  }
+}
+
+pub fn map_from(r: Range, fun) -> Range {
+  new(fun(r.from), r.to)
+}
+
+pub fn map_to(r: Range, fun) -> Range {
+  new(r.from, fun(r.to))
+}
+
+fn from_to_range(from1, from2) -> Range {
+  case from1 == from2 {
+    True -> new_both(from1, from2)
+    False -> new_left(from1, from2)
   }
 }

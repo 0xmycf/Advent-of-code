@@ -5,6 +5,7 @@ import gleam/dict
 import gleam/result
 import gleam/option.{None, Some}
 import gleam/list
+import lib/range
 
 pub fn main() {
   gleeunit.main()
@@ -127,8 +128,54 @@ pub fn mapped_value_2_inside_test() {
   |> should.equal(Some(57))
 }
 
+pub fn mapped_range_same_no_inside_test() {
+  let mapper = aoc23.Map(50, 98, 2)
+  let value = range.singleton(55)
+  aoc23.mapped_range(mapper, value)
+  |> should.equal(range.singleton(55))
+}
+
+pub fn mapped_range_different_no_inside_test() {
+  let mapper = aoc23.Map(50, 98, 2)
+  let value = range.new_left(55, 57)
+  aoc23.mapped_range(mapper, value)
+  |> should.equal(range.new_left(55, 57))
+}
+
+pub fn mapped_range_2_same_inside_test() {
+  let mapper = aoc23.Map(52, 50, 48)
+  //           2 `to` 50
+  // 55 - 50 = 5
+  //
+  // 52 + (5 - 2) = 55 
+  let value = range.singleton(55)
+  aoc23.mapped_range(mapper, value)
+  |> should.equal(range.singleton(57))
+}
+
+pub fn mapped_range_2_different_inside_test() {
+  let mapper = aoc23.Map(52, 50, 48)
+  //           2 `to` 50
+  // 55 - 50 = 5
+  //
+  // 52 + (5 - 2) = 55 
+  let value = range.new_left(55, 58)
+  aoc23.mapped_range(mapper, value)
+  |> should.equal(range.new_left(57, 60))
+}
+
+
 pub fn range_test() {
   let foo = [0, 1, 2, 3, 4, 5]
   list.range(0, 5)
   |> should.equal(foo)
+}
+
+pub fn parts_local_test() {
+  let one = range.new_both(79, 92)
+  let two = aoc23.Map(52, 50, 48)
+  let ps = range.parts(one, range.new_left(50, 50 + 48))
+  aoc23.parts(one, two)
+  |> should.be_ok
+  |> should.equal(ps |> should.be_ok)
 }
