@@ -2,6 +2,40 @@
 
 Isn't it the most wonderful and joyful time of the year?
 
+# 2024
+
+Multi language year! 
+(No [Forther](http://github.com/0xmycf/Forther) this year... I didn't get to a point where
+I could use it for AOC yet.)
+
+| Day | Language  | Solution | Reflection |
+|-----|-----------|----------|------------|
+| 1   | bash!?    | /        | /          |
+| 2   | fish!?    | /        | /          |
+| 3   | R?!       | /        | /          |
+| 4   | TCL?!     | /        | /          |
+| 5   | Julia?!   | /        | /          |
+| 6   | Dart?!    | /        | /          |
+| 7   | C?!       | /        | /          |
+| 8   | Gleam?!   | /        | /          |
+| 9   | LISP?!    | /        | /          |
+| 10  | Ruby?!    | /        | /          |
+| 11  | TS?!      | /        | /          |
+| 12  | Scala?!   | /        | /          |
+| 13  | Zig?!     | /        | /          |
+| 14  | Ocaml?!   | /        | /          |
+| 15  | Java?!    | /        | /          |
+| 16  | Rust?!    | /        | /          |
+| 17  | Python?!  | /        | /          |
+| 18  | Go?!      | /        | /          |
+| 19  | Lua?!     | /        | /          |
+| 20  | C++?!     | /        | /          |
+| 21  | C#?!      | /        | /          |
+| 22  | D?!       | /        | /          |
+| 23  | Lean?!    | /        | /          |
+| 24  | Haskell!  | /        | /          |
+| 25  | Haskell!  | /        | /          |
+
 # 2023
 
 I'll do it in a few different langauges this year, depending on my mood (or if I think I have to do some more studying on R/Java).
