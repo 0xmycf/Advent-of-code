@@ -10,7 +10,7 @@ I could use it for AOC yet.)
 
 | Day | Language  | Solution | Reflection |
 |-----|-----------|----------|------------|
-| 1   | bash!?    | /        | /          |
+| 1   | bash!     | [Bash](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day01/day01.sh)     | I dont like bash (but I learned a ton (which says a lot about my bash knowledge))          |
 | 2   | fish!?    | /        | /          |
 | 3   | R?!       | /        | /          |
 | 4   | TCL?!     | /        | /          |
