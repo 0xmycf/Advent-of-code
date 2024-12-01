@@ -25,3 +25,19 @@ done
 echo $total
 
 echo "doing part b"
+
+total=0
+for idx in "${!array1[@]}"; do
+    elem1=${array1[$idx]}
+    count=0
+
+    for elem2 in "${array2[@]}"; do
+        if [[ "$elem1" = "$elem2"  ]]; then
+            count=$((count + 1))
+        fi
+    done
+    total=$((total + count * elem1))
+done
+
+echo $total
+
