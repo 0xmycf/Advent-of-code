@@ -11,7 +11,7 @@ I could use it for AOC yet.)
 | Day | Language  | Solution | Reflection |
 |-----|-----------|----------|------------|
 | 1   | bash!     | [Bash](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day01/day01.sh)     | I dont like bash (but I learned a ton (which says a lot about my bash knowledge))          |
-| 2   | fish!?    | /        | /          |
+| 2   | fish!    | [fish](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day02/day02.fish)        | I like fish. But erasing a variable is written and not `set -e tmp` `set -e $tmp`. I should also re-read the assignment from time to time so i dont waste a lot of time trying to do the opposite of what the assignment is asking. |
 | 3   | R?!       | /        | /          |
 | 4   | TCL?!     | /        | /          |
 | 5   | Julia?!   | /        | /          |
