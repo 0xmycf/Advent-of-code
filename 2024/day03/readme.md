@@ -3,7 +3,7 @@
 ## Regular Expressions and Finite Automata
 
 We're dealing with a simple state machine today.
-State machines can be modeled as [Deterministic Finite Automaton](https://en.wikipedia.org/wiki/Deterministic_finite_automaton)'s (DFA).
+State machines can be modeled as [Deterministic Finite Automaton](https://en.wikipedia.org/wiki/Deterministic_finite_automaton) (DFA).
 
 And this is exactly what we're going to to today!
 To be more precise: We are going to define a [Mealy Machine](https://en.wikipedia.org/wiki/Mealy_machine)
@@ -88,12 +88,12 @@ As a side note: I did not try to implement the DFA we'll use to solve this probl
 
 ## Implementation in Haskell  
 
-The alphabet is defined as follows:
+The alphabet -- the set of letters our input will use --  is defined as follows:
 
 ```haskell
 -- Technically only one of :n>^[%760@]&4$l5ym o!\n<#?,~p)}srah/(e2{1u+-8'w39*tcid;fb
 type Σ = Char
-type Σ' = String -- Σ*
+type Σ' = String -- Σ* -- the set of all possible words derived from Σ
 ```
 
 The states of the automaton are enumerated as `Q0` to `Q5`.
@@ -123,13 +123,13 @@ We can naively define our transition function like this:
 δ q c = undefined {- impossible ! -}
 ```
 
-With the current implementation, achieving this behavior is not possible.
+With the current definition of `Q`, defining a total function with the signature like `δ` is impossible.
 We would have to determine whether to stay or move based on whether we encounter
   `do()` or `d<something else>`, but this cannot be handled with just a single
-  character.
+  character and the current amount of states.
 
 To resolve this, we will define a new function, `δ'`,
-  which takes a string as input, much like `δ*` does for DFAs.
+  which takes a string as input, much like [`δ*`](https://en.wikipedia.org/wiki/Deterministic_finite_automaton#As_a_transition_monoid) does for DFAs.
 
 There is just one problem:
   We need to return what we just read or the new string.
@@ -139,7 +139,11 @@ We have two options here:
 1. Implement this over the `State` Monad and keep all the knowledge hidden.
 2. Return a tuple `Q × Σ'` where `Σ'` is the rest of the string.
 
+We'll continue using the second approach to be more understandable to non-Haskellers.
+
 The function `δ'` is an extension of `δ` to process strings.
+  `δ'` can now properly transition to the new states,
+  but loses all information that is required to solve todays problem!
 
 ```haskell
 δ' :: Q × Σ' → Q
@@ -161,12 +165,11 @@ The function `δ'` is an extension of `δ` to process strings.
   (Q5, _)                              -> Q0 -- losing information again
 ```
 
-To combat the issues of losing information, we define a new transition function `δ''` with an extended alphabet.
+To combat the issues of losing information, we define a new transition function `δ''` with a new alphabet `R`.
 
-We also define a new kind of alphabet, which we will be returning from `δ''`.
 
 ```haskell
-type R = (Σ', Maybe Σ)
+type R = (Σ', Maybe Σ) -- equivalent to (String, Maybe Char) or Option<char> if you don't know Maybe.
 
 δ'' :: Q × Σ' → (Q, R)
 δ'' q str@(c:rest) = case (q, c) of
@@ -186,6 +189,7 @@ type R = (Σ', Maybe Σ)
   (Q5, ')')                            -> (Q0, just c) -- we need to indicate that we did meet ')'
   (Q5, c)                              -> (Q0, nothing)
   where
+    -- these are helpers local only to this function
     withoutPrefix pref = (fromJust $ pref `stripPrefix` str, Nothing)
     just c = (rest, Just c)
     nothing = (rest, Nothing)
@@ -200,6 +204,9 @@ testString = "sldfjsfdmul(12,343)sldfjsddon't()sldfjmul(234,3)fsldjdo()sd0812342
 ```
 
 We then define `test` to apply `δ''` iteratively.
+  You don't have to understand `test` deeply.
+  What it does is applying `δ''` as often as it can,
+    yielding only the new state `q'` and the read Char (`Maybe Σ`).
 
 ```haskell
 test :: Σ' -> [(Q, Maybe Σ)]
@@ -210,7 +217,22 @@ test s =
   in loop q0 s
 ```
 
-If we run this now, we will obtain a list of R values. This represents tuples consisting of new states and the corresponding returned characters.
+This function would look something like this in python.
+
+```py
+def test(string):
+  current_string = string
+  q = q0
+  while len(current_string) != 0:
+    (new_state, (new_string, opt_char)) = δ''(q, current_string)
+    current_string = new_string
+    q = new_state
+    yield (new_state, opt_char)
+```
+
+If we run this now, we will obtain a list of `R` values.
+  This represents tuples consisting of new states and the corresponding returned
+    characters.
 
 ```hs
 -- test testString
@@ -251,7 +273,7 @@ We’ll immediately discard all `Nothing` values and introduce a `Memory` to kee
 
 This `Memory` is necessary because finite automata can only remember their most recent
   state.
-This limitation is also why languages like $\{ a^n b^n \mid n \in \mathbb{N} \}$ are
+This limitation is also why languages like {$a^n b^n \mid n \in \mathbb{N}$} are
   not regular -- there’s no way to ensure we encounter as many `b`s as `a`s, as finite
   automata cannot retain the value of `n`.
 
@@ -261,8 +283,11 @@ This limitation is also why languages like $\{ a^n b^n \mid n \in \mathbb{N} \}$
 data Memory
   = Memory
       { _sum  :: Sum Int
+        -- ^ Sum is a monoid over +, you can think of sum as just an Integer
       , q3num :: Σ'
+        -- ^ will be empty if we're not in q3 to q5
       , q5num :: Σ'
+        -- ^ will be empty if we're not in q5
       }
   deriving (Show)
 
@@ -285,13 +310,19 @@ solve q memory []    = memory
 solve q memory input =
   let (q', (rest, char)) = δ'' q input in
   let newMemory = case q' of
+        -- If we're in Q3 and have read a char, then we upate the Memory
         Q3 | Just c <- char -> memory {q3num = memory.q3num <> [c]}
+        -- If we're in Q5 and have read a char, then we upate the Memory
         Q5 | Just c <- char -> memory {q5num = memory.q5num <> [c]}
+        -- If we end up in Q0 and have read a char (')') we 
+        -- will try to update the sum using the helper 'addNumbers' defined above.
         Q0 | Just c <- char ->
           if not (null memory.q3num) && not (null memory.q5num)
             then addNumbers memory
             else memory {q3num = [], q5num = []}
+        -- If we did not find a ')', then we need to clear the state of the numbers
         Q0 | Nothing <- char -> memory {q3num = [], q5num = []}
+        -- nothing happens in any other case
         _ -> memory
   in solve q' newMemory rest
 ```
@@ -311,7 +342,7 @@ We defined a [Mealy Machine](https://en.wikipedia.org/wiki/Mealy_machine) with t
 - **Transition Function**: $$\delta'' : Q \times \Sigma' \to (Q, R)$$  
 - **Start State**: $$q_0$$  
 - **Input Alphabet**: $$\Sigma = \text{Char}$$  
-- **Output Alphabet**: $$R = (\Sigma', \text{Maybe } \Sigma)$$
+- **Output Alphabet**: $$R = (\Sigma', \text{Maybe } \Sigma) = (\text{String, Option<Char>})$$
 
 Because we also needed to remember some information along the way
 we defined `Memory`.
@@ -319,7 +350,7 @@ we defined `Memory`.
 There are several alternative approaches to achieve the same result using similar techniques:  
 - For instance, instead of using `Memory`, we could fold or reduce over the `List` produced by the `test` function defined above.  
 - We could leverage the `Control.Monad.State` monad to manage all stateful computations in a more elegant and structured way.  
-- Alternatively, we could define δ'' in terms of `Q × Σ' -> (Q, R)` by introducing additional states.
+- Alternatively, we could define δ'' in terms of `Q × Σ -> (Q, R)` by introducing additional states.
   For example, `d` and `o` could each have their own state, with `o` transitioning to `q0` unless followed by `n`.
   However, this would unnecessarily complicate the definition of δ''.  
 
