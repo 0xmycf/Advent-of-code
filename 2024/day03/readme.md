@@ -13,7 +13,7 @@ One possible DFA could look like this:
 
 ![A simple DFA](./dfa/fa_simpler.png)
 
-Here `a` means `everything other char that does not already have a transition`.
+Here `a` means `every other char that does not already have a transition`.
 
 We can make it more clear and friendly for the tool I am using:
 
@@ -65,12 +65,12 @@ Using the same principle we would define
 - `δ(q2, a) = q1`
 - `δ(q2, b) = q2`
 
-Each DFA has one minimal (as in, minimal amount of states) äquivalent DFA.
+Each DFA has one minimal (as in, minimal amount of states) equivalent DFA.
   For this automata it is this one:
 
 ![A DFA with two states labeled from q0 to q1. q0 is the inital state and q1 is the final state. Transitions are: q0 to q1 via b; q0 to q0 via a; q1 to q0 via a; q1 to q1 via b.](./dfa/dfa-example-minimal.png)
 
-"Äquivalent" here means, both automata "understand" the same inputs.
+"Equivalent" here means, both automata "understand" the same inputs.
 We say a DFA "understands" some input = `abc...` if `δ(δ(δ(... , ...), b),a) ∈ FinalStates`.
 
 In other words: If we go along the whole input and use our transition function `δ`, 
