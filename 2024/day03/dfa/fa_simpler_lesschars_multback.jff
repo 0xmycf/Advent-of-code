@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>
+	<type>fa</type>
+	<automaton>
+		<!--The list of states.-->
+		<state id="0" name="q0">
+			<x>315.0</x>
+			<y>295.0</y>
+			<label>q2</label>
+		</state>
+		<state id="1" name="q1">
+			<x>346.0</x>
+			<y>496.0</y>
+			<label>q4</label>
+		</state>
+		<state id="2" name="q2">
+			<x>392.0</x>
+			<y>405.0</y>
+			<label>q3</label>
+		</state>
+		<state id="3" name="q3">
+			<x>249.0</x>
+			<y>554.0</y>
+			<label>q5</label>
+		</state>
+		<state id="4" name="q4">
+			<x>167.0</x>
+			<y>333.0</y>
+			<label>q0</label>
+			<initial/>
+			<final/>
+		</state>
+		<state id="5" name="q5">
+			<x>99.0</x>
+			<y>545.0</y>
+			<label>q1</label>
+			<final/>
+		</state>
+		<!--The list of transitions.-->
+		<transition>
+			<from>5</from>
+			<to>4</to>
+			<read>+</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>4</to>
+			<read>a</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>5</to>
+			<read>c</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>)</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>4</to>
+			<read>c</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>2</to>
+			<read>d</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>3</to>
+			<read>d</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>1</to>
+			<read>,</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>5</to>
+			<read>-</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>4</to>
+			<read>a</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>4</to>
+			<read>a</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>a</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>0</to>
+			<read>m</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>2</to>
+			<read>d</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>3</to>
+			<read>d</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>2</to>
+			<read>0</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>3</to>
+			<read>0</read>
+		</transition>
+		<note>
+			<text/>
+			<x>690.0</x>
+			<y>542.0</y>
+		</note>
+		<note>
+			<text>m :: mult(
+a :: [^0123456789]
+c :: any char
+d :: [1-9]
+0 :: 0
++ :: do()
+- :: don't()
+) :: )</text>
+			<x>59.0</x>
+			<y>172.0</y>
+		</note>
+	</automaton>
+</structure>
