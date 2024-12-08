@@ -10,15 +10,19 @@ Future<void> main(List<String> arguments) async {
   var lines = await map.readAsLines();
   var board = Board.fromString(lines, LabelOverseer.get());
 
-  Renderable.withOtherBuffer(() {
-    var res = board.partOne(withGraphics: true);
-    moveCursor(12, 1);
-    stdout.write(res);
-    for (final s in board.segments) {
-      s.render();
-    }
-    sleep(Duration(minutes: 3));
-  });
+  // Renderable.withOtherBuffer(() {
+  //   var res = board.partOne(withGraphics: true);
+  //   moveCursor(12, 1);
+  //   stdout.write(res);
+  //   var line = 15;
+  //   for (final s in board.segments) {
+  //     s.render();
+  //     moveCursor(line++, 1);
+  //     stdout.write(s.label);
+  //   }
+  //   sleep(Duration(minutes: 3));
+  // });
+  print(board.partTwo());
 }
 
 class LabelOverseer {
@@ -26,9 +30,10 @@ class LabelOverseer {
   // ignore: non_constant_identifier_names
   static final LabelOverseer INSTANCE = LabelOverseer();
   Label next() {
-    var label = Label(_last.id);
+    var label = Label(_last.id + 1);
+    var tmp = _last;
     _last = label;
-    return label;
+    return tmp;
   }
 
   static LabelOverseer get() {
@@ -39,6 +44,14 @@ class LabelOverseer {
 class Label {
   final int id;
   Label(this.id);
+  @override
+  String toString() {
+    return "Label(id: $id)";
+  }
+
+  bool isEarlier(Label label) {
+    return id < label.id;
+  }
 }
 
 void moveCursor(int line, int column) {
@@ -84,9 +97,13 @@ class SegmentBuilder {
     return this;
   }
 
-  Segment build([Segment? next]) {
+  Segment build(LabelOverseer overseer, [Segment? next]) {
     if (from != null && to != null) {
-      var seg = Segment(from: from as Pos, to: to as Pos, direction: direction);
+      var seg = Segment(
+          from: from as Pos,
+          to: to as Pos,
+          direction: direction,
+          label: overseer.next());
       seg.next = next;
       return seg;
     }
@@ -99,19 +116,41 @@ class SegmentBuilder {
   }
 }
 
+typedef Segments = List<Segment>;
+typedef SegmentPartiton = List<Segments>; // this list has 4 elements
+
 class Segment implements Renderable {
   final Pos from;
   final Pos to;
   final Dir direction;
+  final Label label;
   Segment? next;
 
-  Segment({required this.from, required this.to, required this.direction})
+  Segment(
+      {required this.from,
+      required this.to,
+      required this.direction,
+      required this.label})
       : assert(switch (direction) {
           Dir.north => from.x == to.x && from.y >= to.y,
           Dir.south => from.x == to.x && from.y <= to.y,
           Dir.west => from.y == to.y && from.x <= to.x,
           Dir.east => from.y == to.y && from.x >= to.x,
         });
+
+  int end() {
+    return switch (direction) {
+      Dir.north || Dir.south => to.y,
+      Dir.west || Dir.east => to.x,
+    };
+  }
+
+  int start() {
+    return switch (direction) {
+      Dir.north || Dir.south => from.y,
+      Dir.west || Dir.east => from.x,
+    };
+  }
 
   (int min, int max) bounds() {
     return switch (direction) {
@@ -140,7 +179,7 @@ class Segment implements Renderable {
 
   @override
   String toString() {
-    return "Segement(from: $from, to: $to, dir: $direction, length: ${length()})";
+    return "Segement(from: $from, to: $to, dir: ${direction.str()}, length: ${length()})";
   }
 
   @override
@@ -158,6 +197,55 @@ class Segment implements Renderable {
       }
       stdout.write(direction.toString());
     }
+  }
+
+  /// this matches x means this searches for intersections with segments going
+  /// 90° turn right
+  (Pos, bool) matches(Segment other, Board board) {
+    var obstacles = board.obstaclesMap;
+    // has to test for:
+    //  1. in bounds (ie. not too far up, right, left or down)
+    //    1.1. Not be blocked by an obstacle
+    //  2. is a previous one
+    bool cond3 = other.label.isEarlier(label);
+    // var cond3 = true;
+
+    int limit = end();
+    int thisStart = start();
+    int theirEnd = other.end();
+    // in bounds
+    // console is flipped on y axis
+    bool cond1 = switch (direction) {
+      // we're up => other's right
+      Dir.north => limit <= other.to.y && theirEnd >= to.x && other.to.y <= thisStart,
+      // we're down => other's left
+      Dir.south => limit >= other.to.y && theirEnd <= to.x && other.to.y >= thisStart,
+      // we're right => other's down
+      Dir.east => limit >= other.to.x && theirEnd >= to.y && other.to.x >= thisStart,
+      // we're left => other's up
+      Dir.west => limit <= other.to.x && theirEnd <= to.y && other.to.x <= thisStart,
+    };
+
+    if (!cond3 || !cond1) {
+      return (Pos(-1, -1), false);
+    }
+
+    Pos intersection = switch (direction) {
+      // we're up => other's right
+      Dir.north || Dir.south => Pos(to.x, other.to.y),
+      // we're right => other's down
+      Dir.east || Dir.west => Pos(other.to.x, to.y),
+    };
+
+    // not blocked by some obstacle
+    List<Pos> line = intersection.line(other.to, other.direction);
+    for (final pos in line) {
+      if (obstacles.containsKey(pos)) {
+        return (Pos(-1, -1), false);
+      }
+    }
+
+    return (intersection, true);
   }
 }
 
@@ -189,6 +277,16 @@ class Pos implements Renderable {
 
   isOn(Board board) {
     return x >= 1 && y >= 1 && x <= board.height && y <= board.width;
+  }
+
+  List<Pos> line(Pos other, Dir dir) {
+    var curr = this;
+    List<Pos> ret = [];
+    while (curr != other) {
+      curr = curr.move(dir);
+      ret.add(curr);
+    }
+    return ret;
   }
 
   @override
@@ -271,18 +369,21 @@ class Board implements Renderable {
   int width;
   int height;
   Guard guard;
-  Map<Pos, bool> obstaclesMap;
+  Map<Pos, bool> obstaclesMap; // lol this could be a set
+  Set<Pos> visited;
   LabelOverseer overseer;
   List<Segment> segments = [];
   Segment? pathRoot;
+  bool ranPartOne = false;
 
   factory Board._internal(int width, int height, List<Pos> positions,
       Guard guard, LabelOverseer overseer) {
     return Board(width, height, {for (var elem in positions) elem: true}, guard,
-        overseer);
+        overseer, {guard.pos});
   }
 
-  Board(this.width, this.height, this.obstaclesMap, this.guard, this.overseer);
+  Board(this.width, this.height, this.obstaclesMap, this.guard, this.overseer,
+      this.visited);
 
   factory Board.fromString(List<String> lines, LabelOverseer overseer) {
     List<Pos> positions = [];
@@ -349,23 +450,68 @@ class Board implements Renderable {
       if (obstaclesMap.containsKey(next)) {
         guard.rotateRight();
         sb.to_(guard.pos);
-        segments.add(sb.build());
+        segments.add(sb.build(overseer));
         sb = SegmentBuilder(guard.dir);
         sb.from_(guard.pos);
       }
       guard.move();
+      visited.add(guard.pos);
       if (withGraphics) {
         reRender(prev, guard.pos);
       }
     }
     sb.to_(guard.pos.move(guard.dir.opposite()));
-    segments.add(sb.build());
+    segments.add(sb.build(overseer));
     pathRoot = Segment.link(segments);
+    ranPartOne = true;
     return guard.visited.where((pos) => pos.isOn(this)).length;
   }
 
   int partTwo({bool withGraphics = false}) {
-    return 0;
+    if (!ranPartOne) {
+      partOne(withGraphics: withGraphics);
+    }
+    Set<Pos> newObstacles = {};
+    var partitions = partitionSegments();
+    for (var i = 0; i < partitions.length; i++) {
+      var partition = partitions[i];
+      var next = partitions[switch (i) { 3 => 0, _ => i + 1 }];
+      for (final elem in partition) {
+        // i.e. for each *up*...
+        for (final match in next) {
+          // ...we check if it has one intersection with *right*
+          var (loc, bl) = elem.matches(match, this);
+          if (bl) {
+            newObstacles.add(loc);
+          }
+        }
+      }
+    }
+
+    return newObstacles.length;
+  }
+
+  /// up right down left
+  SegmentPartiton partitionSegments() {
+    List<Segment> up = [];
+    List<Segment> down = [];
+    List<Segment> left = [];
+    List<Segment> right = [];
+
+    for (final seg in segments) {
+      switch (seg.direction) {
+        case Dir.north:
+          up.add(seg);
+        case Dir.south:
+          down.add(seg);
+        case Dir.east:
+          right.add(seg);
+        case Dir.west:
+          left.add(seg);
+      }
+    }
+
+    return [up, right, down, left];
   }
 
   /// visit each node and apply fn on the current position
@@ -400,6 +546,15 @@ extension on Dir {
       Dir.south => Dir.north,
       Dir.east => Dir.west,
       Dir.west => Dir.east,
+    };
+  }
+
+  String str() {
+    return switch (this) {
+      Dir.north => "north",
+      Dir.south => "south",
+      Dir.east => "east",
+      Dir.west => "west",
     };
   }
 }
