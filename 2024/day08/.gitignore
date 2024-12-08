@@ -1,0 +1,9 @@
+# macos
+.DS_Store
+
+# nix
+result
+result/
+
+# gleam
+build/
