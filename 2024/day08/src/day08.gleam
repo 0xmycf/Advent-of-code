@@ -78,8 +78,9 @@ fn solve(file, height, width, dots) {
         case a == b {
           True -> []
           False -> {
-            let #(a, b) = new_points(a, b)
-            [a, b]
+            // let #(a, b) = new_points_b(a, b)
+            // [a, b]
+            new_points_b(a, b)
           }
         }
       })
@@ -102,7 +103,26 @@ fn solve(file, height, width, dots) {
 
 const coef: Int = 2
 
-fn new_points(a: Pos, b: Pos) -> #(Pos, Pos) {
+fn new_points_b(a: Pos, b: Pos) -> List(Pos) {
+  let fst_diff = diff(a, b)
+  // b --> a
+  let snd_diff = diff(b, a)
+  // a --> b
+  // b + λ * a where λ = 2
+  list.flatten([
+    iter_till(fn(x) { do_thing(b, fst_diff, x) }, 0, 500),
+    iter_till(fn(x) { do_thing(a, snd_diff, x) }, 0, 500),
+  ])
+}
+
+// naming things is hard
+// b + λ * a where λ = 2
+fn do_thing(a, delta, lambda) {
+  add(a, mult(delta, lambda))
+}
+
+// use for part a
+pub fn new_points(a: Pos, b: Pos) -> #(Pos, Pos) {
   let fst_diff = diff(a, b)
   // b --> a
   let snd_diff = diff(b, a)
