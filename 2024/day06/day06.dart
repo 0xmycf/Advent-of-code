@@ -14,33 +14,11 @@ Future<void> main(List<String> arguments) async {
     var res = board.partOne(withGraphics: true);
     moveCursor(12, 1);
     stdout.write(res);
-    int line = 13;
     for (final s in board.segments) {
       s.render();
-      moveCursor(line++, 1);
-      stdout.write(s);
     }
     sleep(Duration(minutes: 3));
   });
-
-  // Renderable.withOtherBuffer(() {
-  //   // board.render();
-  //   var seg = Segment(from: Pos(6, 8), to: Pos(6, 3), direction: Dir.north);
-  //   // var seg2 = Segment(from: Pos(1, 1), to: Pos(11, 1), direction: Dir.west);
-  //   // var seg3 = Segment(from: Pos(11, 11), to: Pos(11, 1), direction: Dir.north);
-  //   // var seg4 = Segment(from: Pos(11, 11), to: Pos(1, 11), direction: Dir.east);
-  //   // for (var s in [seg, seg2, seg3, seg4]) {
-  //   //   s.render();
-  //   // }
-  //   seg.render();
-  //   Pos(11, 11).render();
-  //   Pos(1, 1).render();
-  //   Pos(1, 11).render();
-  //   Pos(11, 1).render();
-  //   moveCursor(20, 1);
-  //   print(seg);
-  //   sleep(Duration(minutes: 10));
-  // });
 }
 
 class LabelOverseer {
@@ -144,10 +122,11 @@ class Segment implements Renderable {
 
   int length() {
     return switch (direction) {
-      Dir.north || Dir.south => (to.y - from.y),
-      Dir.east || Dir.west => (to.x - from.x),
-    }
-        .abs();
+          Dir.north || Dir.south => (to.y - from.y),
+          Dir.east || Dir.west => (to.x - from.x),
+        }
+            .abs() +
+        1;
   }
 
   static Segment link(List<Segment> segments) {
@@ -167,7 +146,7 @@ class Segment implements Renderable {
   @override
   void render() {
     var (min, max) = bounds();
-    if (direction case Dir.north || Dir.east) {
+    if (direction case Dir.north || Dir.west) {
       (min, max) = (max, min);
     }
     for (var i = min; i <= max; i++) {
@@ -314,12 +293,12 @@ class Board implements Renderable {
       height++;
       width = 0;
       for (var c in line.split('')) {
+        width++;
         if (c == '#') {
           positions.add(Pos(width, height));
         } else if (c == '^') {
           guard = Guard.fromInts(width, height);
         }
-        width++;
       }
     }
     return Board._internal(width, height, positions, guard, overseer);
@@ -378,8 +357,9 @@ class Board implements Renderable {
       if (withGraphics) {
         reRender(prev, guard.pos);
       }
-      // print(segments);
     }
+    sb.to_(guard.pos.move(guard.dir.opposite()));
+    segments.add(sb.build());
     pathRoot = Segment.link(segments);
     return guard.visited.where((pos) => pos.isOn(this)).length;
   }
@@ -410,5 +390,16 @@ class Board implements Renderable {
       }
     }
     return buf.toString();
+  }
+}
+
+extension on Dir {
+  Dir opposite() {
+    return switch (this) {
+      Dir.north => Dir.south,
+      Dir.south => Dir.north,
+      Dir.east => Dir.west,
+      Dir.west => Dir.east,
+    };
   }
 }
