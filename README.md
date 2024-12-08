@@ -15,9 +15,9 @@ I could use it for AOC yet.)
 | 3   | "R"!      | [R](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day03/day03.r)        | I didn't learn much about R today. [Using DFA's to solve 2024 Day 3](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day03/readme.md) |
 | 4   | TCL?!     | /        | /          |
 | 5   | Julia?!   | /        | /          |
-| 6   | Dart?!    | /        | /          |
-| 7   | C?!       | /        | /          |
-| 8   | Gleam?!   | /        | /          |
+| 6   | Dart!     | [Dart](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day06/day06.dart)        | Dart was the most fun (outside of Haskell) I had so far. Pretty enjoyable langauge.          |
+| 7   | ~~C?!~~ Haskell       | [Haskell](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day07/day07.hs)       | I couldnt bring myself to write this in C... |
+| 8   | Gleam!    | [Gleam](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day08/src/day08.gleam)    | It took soo long to set everything up...  At this point I am not sure if I want to continue the polyglot run...     |
 | 9   | LISP?!    | /        | /          |
 | 10  | Ruby?!    | /        | /          |
 | 11  | TS?!      | /        | /          |
@@ -31,7 +31,7 @@ I could use it for AOC yet.)
 | 19  | Lua?!     | /        | /          |
 | 20  | C++?!     | /        | /          |
 | 21  | C#?!      | /        | /          |
-| 22  | D?!       | /        | /          |
+| 22  | PHP?!     | /        | /          |
 | 23  | Lean?!    | /        | /          |
 | 24  | Haskell!  | /        | /          |
 | 25  | Haskell!  | /        | /          |
