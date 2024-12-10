@@ -53,11 +53,11 @@ def parse(data)
   zeroes = []
 
   data.each_index do |y_coord|
-    x_coord_coord = 0
+    x_coord = 0
     data[y_coord].each_char do |c|
       pnt = Point.new(x_coord, y_coord)
       graph[pnt] = Integer(c)
-      x_coord_coord += 1
+      x_coord += 1
       zeroes.append(pnt) if c == '0'
     end
   end
