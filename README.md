@@ -19,7 +19,7 @@ I could use it for AOC yet.)
 | 7   | ~~C?!~~ Haskell       | [Haskell](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day07/day07.hs)       | I couldnt bring myself to write this in C... |
 | 8   | Gleam!    | [Gleam](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day08/src/day08.gleam)    | It took soo long to set everything up...  At this point I am not sure if I want to continue the polyglot run...     |
 | 9   | LISP?!    | /        | /          |
-| 10  | Ruby?!    | /        | /          |
+| 10  | Ruby!     | [Ruby 3](https://github.com/0xmycf/Advent-of-code/blob/2024/2024/day10/day10.rb)        | Pretty fun and straight forward. Solved part b before I solved part a |
 | 11  | TS?!      | /        | /          |
 | 12  | Scala?!   | /        | /          |
 | 13  | Zig?!     | /        | /          |
