@@ -9,45 +9,20 @@ def input
   file.readlines.map(&:strip) # remove whitespace at the end
 end
 
-# Point is a 2d coord
-# Point  {{{
-class Point
-  attr_accessor :x, :y
-
-  def initialize(x_coord, y_coord)
-    @x = x_coord
-    @y = y_coord
-  end
-
-  # Retruns the direct 90° neighbours
-  # @returns [Array<Point>]
+# 🐒
+class Complex
   def nbs
-    [Point.new(@x - 1, @y),
-     Point.new(@x + 1, @y),
-     Point.new(@x, @y - 1),
-     Point.new(@x, @y + 1)]
-  end
-
-  def hash
-    [x, y].hash
-  end
-
-  def equal?(other)
-    @x == other.x && @y == other.y
-  end
-
-  def eql?(other)
-    @x == other.x && @y == other.y
-  end
-
-  def to_s
-    "P(#{@x}, #{@y})"
+    [
+      0 + 1i,
+      0 - 1i,
+      1 + 0i,
+      -1 + 0i
+    ].map { |x| self + x }
   end
 end
-# end }}}
 
 # @param data [Array<String>]
-# @return [Hash<Point, Integer>]
+# @return [Hash<Complex, Integer>]
 def parse(data)
   graph = {}
   zeroes = []
@@ -55,7 +30,7 @@ def parse(data)
   data.each_index do |y_coord|
     x_coord = 0
     data[y_coord].each_char do |c|
-      pnt = Point.new(x_coord, y_coord)
+      pnt = Complex(x_coord, y_coord)
       graph[pnt] = Integer(c)
       x_coord += 1
       zeroes.append(pnt) if c == '0'
@@ -70,7 +45,7 @@ class Pather
   def initialize(graph, initial)
     # @type [Hash<String, Integer>]
     @graph = graph
-    # @type [Point]
+    # @type [Complex]
     @initial = initial
     # @type [Set]
     @visited = Set.new
