@@ -1,12 +1,10 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'set'
-
 # @return [Array<String>]
 def input
   # @type [File]
-  file = File.new("../input/day10.txt")
+  file = File.new('../input/day10.txt')
   # file = File.new('test.txt')
   file.readlines.map(&:strip) # remove whitespace at the end
 end
@@ -16,9 +14,9 @@ end
 class Point
   attr_accessor :x, :y
 
-  def initialize(x, y)
-    @x = x
-    @y = y
+  def initialize(x_coord, y_coord)
+    @x = x_coord
+    @y = y_coord
   end
 
   # Retruns the direct 90° neighbours
@@ -54,12 +52,12 @@ def parse(data)
   graph = {}
   zeroes = []
 
-  data.each_index do |y|
-    x = 0
-    data[y].each_char do |c|
-      pnt = Point.new(x, y)
+  data.each_index do |y_coord|
+    x_coord_coord = 0
+    data[y_coord].each_char do |c|
+      pnt = Point.new(x_coord, y_coord)
       graph[pnt] = Integer(c)
-      x += 1
+      x_coord_coord += 1
       zeroes.append(pnt) if c == '0'
     end
   end
@@ -84,6 +82,10 @@ class Pather
 
   private
 
+  def add_visited(pnt)
+    @visited.add pnt
+  end
+
   def _paths_amount(graph, initial)
     # for some reason he returns / goes to duplicates,..
     return 1 if graph[initial] == 9
@@ -91,7 +93,7 @@ class Pather
     nbs = higher_nbs(graph, initial)
     sum = 0
     nbs.each do |nb|
-      @visited.add(nb)
+      add_visited(nb)
       sum += _paths_amount(graph, nb)
     end
     sum
@@ -107,15 +109,22 @@ class Pather
   end
 end
 
-def solve_a(graph, zeroes)
+# Pather but ignores the visitied points
+# this was my inital Solution for part 1
+class PatherB < Pather
+  def add_visited(pnt); end
+end
+
+def solve(mkpather, graph, zeroes)
   sum = 0
-  zeroes.each { |z| sum += Pather.new(graph, z).paths_amount }
+  zeroes.each { |z| sum += mkpather.call(graph, z).paths_amount }
   sum
 end
 
 def main
   graph, zs = parse(input)
-  puts solve_a(graph, zs)
+  puts solve(->(g, z) { Pather.new(g, z) }, graph, zs)
+  puts solve(->(g, z) { PatherB.new(g, z) }, graph, zs)
 end
 
 main
