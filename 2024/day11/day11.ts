@@ -8,9 +8,9 @@ function parse(input: string) /* Returns a hashmap, but I can't figure out the t
     return ret;
 }
 
-function rule(num: number) {
+function rule(num: number, amnt: number) {
     if (num == 0) {
-        return { 1: 1 }
+        return { 1: amnt }
     }
     if (num.toString().length % 2 === 0) {
         const str = num.toString();
@@ -18,17 +18,17 @@ function rule(num: number) {
         const sh = str.slice(str.length / 2, str.length);
         if (parseInt(fh) == parseInt(sh)) {
             return {
-                [parseInt(fh)]: 2,
+                [parseInt(fh)]: amnt * 2,
             }
         } else {
             return {
-                [parseInt(fh)]: 1,
-                [parseInt(sh)]: 1,
+                [parseInt(fh)]: amnt,
+                [parseInt(sh)]: amnt,
             }
         }
     }
     const newNum = num * 2024;
-    return { [newNum]: 1 }
+    return { [newNum]: amnt }
 }
 
 interface Merge { (a: number, b: number): number; };
@@ -66,21 +66,14 @@ function summ(foo: any) {
 function loop(parsed: Record<string, number>, times: number) {
     let foo = structuredClone(parsed);
     for (let i = 0; i < times; i++) {
-        let tmp = structuredClone(foo);
-        for (const key in tmp) {
-            if (tmp[parseInt(key)] == 0) { continue; }
+        let neu = {};
+        for (const [key, value] of Object.entries(foo)) {
+            if (value == 0) { continue; }
 
-            for (let j = 0; j < tmp[parseInt(key)]; j++) {
-                const ruled = rule(parseInt(key));
-                merge(foo, ruled, (old, neu) => old + neu);
-                if (foo[parseInt(key)] > 1) {
-                    foo[parseInt(key)] -= 1;
-                } else {
-                    delete foo[parseInt(key)];
-                }
-            }
-
+            const ruled = rule(parseInt(key), value)
+            merge(neu, ruled, (a,b) => a + b)
         }
+        foo = neu
     }
     return summ(foo)
 }
@@ -91,6 +84,7 @@ function main() {
     // const input = "125 17";
     const parsed = parse(input);
     console.log(loop(parsed, 25));
+    console.log(loop(parsed, 75));
 }
 
 main()

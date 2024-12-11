@@ -57,3 +57,4 @@ main :: IO ()
 main = do
   data_ <- parse <$> input
   print $ sum $ solution data_ 25
+  print $ sum $ solution data_ 75
