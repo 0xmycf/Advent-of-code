@@ -6,7 +6,8 @@ import 'dart:io';
 
 Future<void> main(List<String> arguments) async {
   // var map = File("../input/day06.txt");
-  var map = File("./test.txt");
+  // var map = File("./test.txt");
+  var map = File("./test.2.txt");
   var lines = await map.readAsLines();
   var board = Board.fromString(lines, LabelOverseer.get());
 
