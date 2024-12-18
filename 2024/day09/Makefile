@@ -1,10 +1,8 @@
 .PHONEY: clj hs
 
-hs: day09
-	./day09
-
-day09:
+hs:
 	ghc -O2 day09.hs
+	./day09
 
 clj:
 	clj -M main.clj

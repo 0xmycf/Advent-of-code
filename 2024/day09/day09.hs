@@ -7,9 +7,11 @@ module Main where
 import           Control.Monad       (forM_, join, unless, void, when)
 import qualified Data.Char           as Char
 import           Data.Foldable       (foldl')
-import           Data.IORef          (newIORef, readIORef, writeIORef)
+import           Data.IORef          (newIORef, readIORef, writeIORef, modifyIORef)
 import           Data.Vector.Mutable (MVector, RealWorld)
 import qualified Data.Vector.Mutable as VM
+import           Data.Function       (applyWhen)
+import           Control.Exception   (throw, Exception)
 
 type Id = Int
 type Len = Int
@@ -55,6 +57,11 @@ data Memory
       , status :: Occupation
       }
   deriving (Show)
+
+isFile :: Memory -> Bool
+isFile mem = case mem.status of
+  Free -> False
+  Occupied _ -> True
 
 input :: IO String -> IO (MVector VM.RealWorld Memory)
 input in_ = do
@@ -219,24 +226,95 @@ pattern Overflow :: Memory -> DataSwapResult
 pattern Overflow mem <- Fine mem bl where
   Overflow mem = Fine mem False
 
+-- files :: MVector RealWorld Memory -> [Memory]
+files :: MVector RealWorld Memory -> IO [Memory]
+files = VM.foldl' (\acc mem -> applyWhen (isFile mem) (mem:) acc) []
+
+{-
+>>> vec = input file
+
+>>> vec >>= files >>= pure .  take 3
+[ Memory {len = 5, status = Occupied [(9999,5)]}
+, Memory {len = 3, status = Occupied [(9998,3)]}
+, Memory {len = 7, status = Occupied [(9997,7)]} ]
+-}
+
+data IllegalSwapResult = IllegalSwapResult
+  deriving Show
+
+instance Exception IllegalSwapResult
+
+solutionB :: MVector RealWorld Memory -> IO (MVector RealWorld Memory)
+solutionB vec = do
+  back <- newIORef (VM.length vec - 1)
+  let loop = do {
+    -- VM.mapM_ print (VM.unsafeSlice 0 10 vec);
+    -- void getLine;
+    tl <- readIORef back;
+    if tl <= 0 then
+      pure vec
+    else do
+      -- print $ "Now at " <> show tl
+      tl_elem <- VM.read vec tl;
+      if (not $ isFile tl_elem) then do
+        -- print $ "Skipping " <> show tl <> ", cause its not a file (" <> show tl_elem <> ")"
+        modifyIORef back (subtract 1)
+        loop
+      else do
+        hd <- findFirstMatching (sizeOfOcc tl_elem.status) tl vec
+        case hd of
+          Just idx -> do
+            hd_elem <- VM.read vec idx
+            let swap_res = swap hd_elem tl_elem
+            case swap_res of
+              Fine res _ -> VM.write vec idx res >> VM.write vec tl (tl_elem {status = Free})
+              _          -> throw IllegalSwapResult
+          Nothing  -> pure ()
+        modifyIORef back (subtract 1)
+        loop
+  }
+  loop
+  where
+    -- returns the first matching memory
+    findFirstMatching size tl_ptr vec = do
+      ref <- newIORef 0
+
+      let go = do {
+        j <- readIORef ref;
+        if j >= tl_ptr then pure Nothing
+        else do
+          elem <- VM.read vec j
+          if freeSizeOf elem >= size 
+            then pure $ Just j 
+            else do
+              modifyIORef ref (+1)
+              go
+      }
+      go
+
+
 main :: IO ()
 main =  do
-  -- vec <- input test
   vec <- input file
 
-  -- VM.mapM_ print vec
+  -- copying for part 2
+  cpy <- VM.new (VM.length vec)
+  VM.copy cpy vec
 
   foo <- solution vec
+  bar <- solutionB cpy
 
-  -- putStrLn "-------------------------------------------------------------------------"
 
-  -- VM.mapM_ print foo
-
-  sol <- VM.foldl' (\(idx, sum) val -> let (idx', size) = calculate idx val in (idx', sum + size)) (0, 0) foo
+  sol  <- checksum foo
+  solb <- checksum bar
+  -- part a
   print sol
+  -- part b
+  print solb
 
   print "hooray"
-
+  where
+    checksum vec = snd <$> VM.foldl' (\(idx, sum) val -> let (idx', size) = calculate idx val in (idx', sum + size)) (0, 0) vec
 
 -- >>> 9 * 2 + 9 * 3 + 8 * 4
 -- 77
