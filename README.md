@@ -28,7 +28,7 @@ I could use it for AOC yet.)
 | 16  | Rust?!    | /        | /          |
 | 17  | Python?!  | /        | /          |
 | 18  | Go?!      | /        | /          |
-| 19  | Lua?!     | /        | /          |
+| 19  | "Lua"!    | ['Lua'](https://github.com/0xmycf/Advent-of-code/blob/main/2024/day19/day19_v2.lua)        | NFA's?! Lua does not have proper regexes, so I kind of used something else to actually solve it... |
 | 20  | C++?!     | /        | /          |
 | 21  | C#?!      | /        | /          |
 | 22  | PHP?!     | /        | /          |
