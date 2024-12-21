@@ -24,7 +24,7 @@ I could use it for AOC yet.)
 | 12  | Scala?!   | /        | /          |
 | 13  | Zig?!     | /        | /          |
 | 14  | Ocaml?!   | /        | /          |
-| 15  | Java?!    | /        | /          |
+| 15  | Java!     | [Java](https://github.com/0xmycf/Advent-of-code/blob/main/2024/day15/aoc-day15/src/main/java/me/mycf/App.java)        | Same stuff as Dart, literally nothing fancy but boilerplate...          |
 | 16  | Rust?!    | /        | /          |
 | 17  | Python?!  | /        | /          |
 | 18  | Go?!      | /        | /          |
