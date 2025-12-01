@@ -60,11 +60,20 @@ abbrev State := Lock × TimesZero
 
 def State.mk (n : Nat) : State := (Lock.mk n, 0)
 
+def count_flips (old _new : Lock) (dir : Dir) (delta : Int) : Nat :=
+  let hunnies := Int.natAbs (delta / 100)
+  let Δ := delta % 100
+  let crosses := Bool.toNat $
+    match dir with
+    | Dir.L => old.val ≤ Δ && old.val ≠ 0
+    | Dir.R => old.val + Δ ≥ 100 && old.val ≠ 0
+  hunnies + crosses
+
 def run : State → List (Dir × Nat) → State
   | s, [] => s
   | (l, zs), (dir, delta) :: xs =>
     let new := (move_lock l dir delta)
-    run (new, if new.val == 0 then zs + 1 else zs) xs
+    run (new, zs + count_flips l new dir delta) xs
 
 def data_path := "./../input/day1.txt"
 
@@ -89,6 +98,7 @@ def parse (line : {s: String // 1 < s.length}) :=
     (dir, delta)
 
 def main : IO Unit := do
+  -- let content ← input none -- (.some data_path)
   let content ← input (.some data_path)
   let parsed := content.map parse
   let s : State := State.mk 50
