@@ -2,6 +2,23 @@
 
 Isn't it the most wonderful and joyful time of the year?
 
+# 2025
+
+| Day | Language  | Solution | Reflection |
+|-----|-----------|----------|------------|
+| 1   | L∃∀N      | [Click me](https://github.com/0xmycf/Advent-of-code/blob/main/2025/day01/Day01.lean) | I hate this kind of math. Dependent types don't save me from thinking wrong. |
+| 2   | L∃∀N      | None yet |            |
+| 3   | L∃∀N      | None yet |            |
+| 4   | L∃∀N      | None yet |            |
+| 5   | L∃∀N      | None yet |            |
+| 6   | L∃∀N      | None yet |            |
+| 7   | L∃∀N      | None yet |            |
+| 8   | L∃∀N      | None yet |            |
+| 9   | L∃∀N      | None yet |            |
+| 10  | L∃∀N      | None yet |            |
+| 11  | L∃∀N      | None yet |            |
+| 12  | L∃∀N      | None yet |            |
+
 # 2024
 
 Multi language year! 
