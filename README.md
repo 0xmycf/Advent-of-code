@@ -7,7 +7,7 @@ Isn't it the most wonderful and joyful time of the year?
 | Day | Language  | Solution | Reflection |
 |-----|-----------|----------|------------|
 | 1   | L∃∀N      | [Click me](https://github.com/0xmycf/Advent-of-code/blob/main/2025/day01/Day01.lean) | I hate this kind of math. Dependent types don't save me from thinking wrong. |
-| 2   | L∃∀N      | None yet |            |
+| 2   | L∃∀N      | [Click me](https://github.com/0xmycf/Advent-of-code/blob/main/2025/day02/Day02.lean) |   This is gonna be a hard year... Sometimes proving some type, condition or termination seems almost impossible; Strings are the worst to work with for me so far... |
 | 3   | L∃∀N      | None yet |            |
 | 4   | L∃∀N      | None yet |            |
 | 5   | L∃∀N      | None yet |            |

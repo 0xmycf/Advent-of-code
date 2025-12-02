@@ -53,6 +53,11 @@ def filter_for_day2 (predicate : Nat → Bool) (ranges : List Range) : List { n 
 def filter_for_a (ranges : List Range) : List InvalidIdx :=
   filter_for_day2 both_halfs_same ranges
 
+/-
+   I could not get this to work with termination checking
+   so instead I used this other brute force method, which does esentially the same thing
+-/
+
 -- def sliding_window  (size : { n : Nat // 0 < n}) (s : String) : List String :=
 --   if s.length = 0 ∨ s.length < size then 
 --     []
