@@ -42,22 +42,60 @@ def InvalidIdx := { n : Nat // both_halfs_same n }
 def unfold_range (r : Range) : List Nat := 
   List.range (r.high - r.low + 1) |>.map (fun x => x + r.low) 
 
-def filter_for_a (ranges : List Range) : List InvalidIdx :=
+def filter_for_day2 (predicate : Nat → Bool) (ranges : List Range) : List { n : Nat // predicate n } :=
   let unfolded := ranges.flatMap unfold_range
   unfolded.filterMap fun r => 
-    if h : both_halfs_same r then
+    if h : predicate r then
       .some ⟨r, h⟩
     else
       .none
 
+def filter_for_a (ranges : List Range) : List InvalidIdx :=
+  filter_for_day2 both_halfs_same ranges
+
+-- def sliding_window  (size : { n : Nat // 0 < n}) (s : String) : List String :=
+--   if s.length = 0 ∨ s.length < size then 
+--     []
+--   else if s.length = size then
+--     [s]
+--   else
+--     let rest := s.drop size
+--     (s.take size) :: sliding_window size rest
+--   termination_by s.length
+
+def any_same_parts (n : Nat) : Bool := 
+  let s := toString n
+  let half := s.length/2
+  let rec check (k : Nat) : Bool :=
+    if k = 0 then
+      false
+    else 
+      let pattern := s.take k 
+      let repeated := List.replicate (s.length / k) pattern |> String.join
+      if repeated = s then
+        true
+      else
+        check (k - 1)
+  check half
+
+def InvalidIdxForB := { n : Nat // any_same_parts n }
+
+def filter_for_b (ranges : List Range) : List InvalidIdxForB :=
+  filter_for_day2 any_same_parts ranges
+
 def solve_a (ranges : List Range) : Nat :=
   let invalids := filter_for_a ranges
+  invalids.foldr (fun idx acc => acc + idx.val) 0
+
+def solve_b (ranges : List Range) : Nat :=
+  let invalids := filter_for_b ranges
   invalids.foldr (fun idx acc => acc + idx.val) 0
 
 def main : IO Unit := do
   let ranges <- get_input (.some "../input/day2.txt")
   -- let ranges <- get_input .none
   IO.println ("Part A: " ++ toString (solve_a ranges))
+  IO.println ("Part B: " ++ toString (solve_b ranges))
 
 end Day02
 
