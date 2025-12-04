@@ -9,7 +9,7 @@ Isn't it the most wonderful and joyful time of the year?
 | 1   | L∃∀N      | [Click me](https://github.com/0xmycf/Advent-of-code/blob/main/2025/day01/Day01.lean) | I hate this kind of math. Dependent types don't save me from thinking wrong. |
 | 2   | L∃∀N      | [Click me](https://github.com/0xmycf/Advent-of-code/blob/main/2025/day02/Day02.lean) |   This is gonna be a hard year... Sometimes proving some type, condition or termination seems almost impossible; Strings are the worst to work with for me so far... |
 | 3   | L∃∀N      | [Click me](https://github.com/0xmycf/Advent-of-code/blob/main/2025/day03/Day03.lean) | Mutable State, Variables and For Loops. No Proofs or dependend types today. |
-| 4   | L∃∀N      | None yet |            |
+| 4   | L∃∀N      | [Click me](https://github.com/0xmycf/Advent-of-code/blob/main/2025/day04/Day04.lean | Because I need to proof subtypes all the time (which makes sense), I feel like its almost impossible (for me) to use the dependend types in lean. For example: I could model the return type of the neighbours functions very easily, but the proof that my function actually returns these Points is quite tediuos / hard, even though the conditions are easy enough. |
 | 5   | L∃∀N      | None yet |            |
 | 6   | L∃∀N      | None yet |            |
 | 7   | L∃∀N      | None yet |            |
